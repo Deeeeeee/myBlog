@@ -1,0 +1,14 @@
+extends layout
+
+block content
+	h1 登录
+	p 
+		|用户名
+		input(type="text" id="username")
+	p 
+		|密码
+		input(type="password" id="password")
+
+	a#submit(href="javascript:;") 登录
+block scripts
+	script(src="/js/page/login.js")

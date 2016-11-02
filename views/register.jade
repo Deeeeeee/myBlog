@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    h1 注册
+    p
+        | 用户名
+        input(type="text" id="username")
+    p
+        | 密码
+        input(type="password" id="password")
+    p
+        | 重复密码
+        input(type="password" id="rePassword")
+    p
+        | 邮箱
+        input(type="text" id="email" value="dee@gmail.com")
+
+    a#submit(href="javascript:;") 注册
+
+block scripts
+    script(src="/js/page/register.js")

@@ -1,0 +1,20 @@
+extends layout
+
+block content
+    h1 首页
+    //input(type="text" value={user})
+    if (user)
+        a#logout(href="javascript:;") 登出
+        br
+        a(href="/publish") 发布
+    else
+        a(href="/login") 登录
+        br
+        a(href="/register") 注册
+    each item in articles
+        h5 #{item.title}
+        p #{item.time.minute}
+        p #{item.username}
+        p #{item.content}
+block scripts
+    script(src="/js/page/index.js")

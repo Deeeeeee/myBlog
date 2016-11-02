@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    h1 发布
+    h3 标题
+    p
+        input(type="text" id="title")
+    h3 正文
+    p
+        textarea(id="content")
+
+    a#submit(href="javascript:;") 发布
+
+block scripts
+    script(src="/js/page/publish.js")
