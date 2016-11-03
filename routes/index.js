@@ -110,10 +110,23 @@ module.exports = function(app) {
      * 发布
      */
     app.get('/publish', function (req, res) {
-        res.render('publish', {
-            title: '发布文章',
-            user: req.session.user
-        });
+        if(req.query.articleId){
+            Article.get(req.query.articleId, function (err, articles) {
+                console.log(err);
+                console.log(err);
+                if(err) articles = [];
+                res.render('publish', {
+                    title: '修改文章',
+                    user: req.session.user,
+                    article: articles[0]
+                });
+            })
+        }else{
+            res.render('publish', {
+                title: '发布文章',
+                user: req.session.user,
+            });
+        }
     });
     app.post('/publish', function (req, res) {
         var currentUser = req.session.user,

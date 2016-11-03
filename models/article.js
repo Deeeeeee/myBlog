@@ -1,4 +1,5 @@
 var mongodb = require('./db');
+var ObjectId = require('mongodb').ObjectID;
 
 function Article(username, title, content) {
     this.username = username;
@@ -53,7 +54,7 @@ Article.prototype.save = function (callback) {
 };
 
 //读取文章及其相关信息
-Article.get = function (name, callback) {
+Article.get = function (id, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
         if (err) {
@@ -66,13 +67,13 @@ Article.get = function (name, callback) {
                 return callback(err);
             }
             var query = {};
-            if (name) {
-                query.name = name;
+            if (id) {
+                query._id = new ObjectId(id);
             }
             //根据 query 对象查询文章
             collection.find(query).sort({
                 time: -1
-            }).toArray(function (err, docs) {
+            }).skip(0).limit(2).toArray(function (err, docs) {
                 mongodb.close();
                 if (err) {
                     return callback(err);//失败！返回 err
