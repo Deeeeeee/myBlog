@@ -1,4 +1,3 @@
-
 define(["jquery"], function ($) {
     $("body").on("click", function () {
         console.log(1);

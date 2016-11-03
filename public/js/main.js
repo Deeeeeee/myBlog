@@ -1,12 +1,15 @@
 requirejs.config({
     baseUrl: '/js',
-    urlArgs: "version=" + new Date().getTime(),
+    // urlArgs: "version=" + new Date().getTime(),
     paths: {
-        common: 'vendor/common',
+        common: 'common',
         jquery: 'vendor/jquery.min'
     },
     shim: {
 
     }
 });
+// define(["jquery"], function () {
+//
+// });
 
