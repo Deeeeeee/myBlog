@@ -141,7 +141,7 @@ module.exports = function(app) {
                 }
             })
         }else{
-            res.json({"code": 2, "text": "未登录！" + currentUser})
+            res.json({"code": 2, "text": "未登录！"})
         }
     })
 };

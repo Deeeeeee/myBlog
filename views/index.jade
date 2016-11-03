@@ -15,8 +15,11 @@ block content
         a(href="/register") 注册
     each item in articles
         h5 #{item.title}
-        p #{item.time.minute}
-        p #{item.username}
+        p #{item.username} || #{item.time.minute} ||
+            a(href="javascript:;") 详情
+            if(user && user.username == item.username)
+                |  ||
+                a(href="/publish?articleId=#{item._id}") 编辑
         p #{item.content}
 block scripts
     script.
