@@ -17,4 +17,7 @@ block content
         p #{item.username}
         p #{item.content}
 block scripts
-    script(src="/js/page/index.js")
+    script.
+        require(['common'], function () {
+            require(['page/index']);
+        });

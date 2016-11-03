@@ -18,4 +18,7 @@ block content
     a#submit(href="javascript:;") 注册
 
 block scripts
-    script(src="/js/page/register.js")
+    script.
+        require(['common'], function () {
+            require(['page/register']);
+        });

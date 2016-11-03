@@ -12,4 +12,7 @@ block content
     a#submit(href="javascript:;") 发布
 
 block scripts
-    script(src="/js/page/publish.js")
+    script.
+        require(['common'], function () {
+            require(['page/publish']);
+        });
