@@ -126,4 +126,22 @@ module.exports = function(app) {
             res.json({"code":0,"text":"发布成功"})
         });
     });
+
+    /**
+     * 检查登陆状态
+     */
+    app.post('/checkLogin', function (req, res) {
+        var currentUser = req.session.user;
+        if(currentUser){
+            User.get(currentUser.username, function (err, user) {
+                if(user){
+                    res.json({"code": 0, "text": "已登录，用户存在！"});
+                }else{
+                    res.json({"code": 1, "text": "用户不存在！"});
+                }
+            })
+        }else{
+            res.json({"code": 2, "text": "未登录！" + currentUser})
+        }
+    })
 };
