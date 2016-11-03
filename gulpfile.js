@@ -5,8 +5,8 @@ var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 
 var path = {
-	sass:["static/sass/**/*.scss"],
-	css:['static/css/**/*']
+	sass:["public/sass/**/*.scss"],
+	css:['public/css/**/*']
 };
 
 
