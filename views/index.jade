@@ -2,25 +2,17 @@ extends layout
 block stylesheets
     link(rel="stylesheet", href="/css/index.min.css")
 block content
-
-    h1 首页
-    //input(type="text" value={user})
-    if (user)
-        a#logout(href="javascript:;") 登出
-        br
-        a(href="/publish") 发布
-    else
-        a(href="/login") 登录
-        br
-        a(href="/register") 注册
-    each item in articles
-        h5 #{item.title}
-        p #{item.username} || #{item.time.minute} ||
-            a(href="javascript:;") 详情
-            if(user && user.username == item.username)
-                |  ||
-                a(href="/publish?articleId=#{item._id}") 编辑
-        p #{item.content}
+    .pure-g
+        include includes/sidebar
+        div.main.pure-u-3-4
+            each item in articles
+                h5 #{item.title}
+                p #{item.username} || #{item.time.minute} ||
+                    a(href="javascript:;") 详情
+                    if(user && user.username == item.username)
+                        |  ||
+                        a(href="/publish?articleId=#{item._id}") 编辑
+                p #{item.content}
 block scripts
     script.
         require(['main'], function () {

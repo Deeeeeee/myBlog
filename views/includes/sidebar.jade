@@ -1,0 +1,10 @@
+.sidebar.pure-u-1-4
+    if (user)
+        h5 #{user.username}
+        a#logout(href="javascript:;") 登出
+        br
+        a(href="/publish") 发布
+    else
+        a(href="/login") 登录
+        br
+        a(href="/register") 注册
