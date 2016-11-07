@@ -1,5 +1,16 @@
-@import "sidebar";
+@import
+"../base/_mixin",
+"../base/_variables",
+"../base/base",
+"../base/pure",
+"../base/pure-responsive",
+"sidebar";
+@media (min-width: 48em){
+    .main{
+        margin-left: 25%;
+        padding: 2em 3em;
+    }
+}
 .main{
-    margin-left: 25%;
-    padding: 2em 3em;
+    padding: 1em 2em;
 }

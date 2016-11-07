@@ -4,7 +4,7 @@ block stylesheets
 block content
     .pure-g
         include includes/sidebar
-        div.main.pure-u-3-4
+        div.main.pure-u-1.pure-u-md-3-4
             ul.article-list
                 each item in articles
                     li
@@ -14,6 +14,8 @@ block content
                             if(user && user.username == item.username)
                                 |  ||
                                 a(href="/publish?articleId=#{item._id}") 编辑
+                                |  ||
+                                a(href="javascript:;" ) 删除
                         p #{item.content}
 block scripts
     script.

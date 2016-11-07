@@ -53,6 +53,44 @@ Article.prototype.save = function (callback) {
     });
 };
 
+// 修改文章
+Article.prototype.update = function (callback) {
+    var date = new Date();
+
+    //要更新到数据库的文档
+    var article = {
+        _id: this._id,
+        title: this.title,
+        content: this.content
+    };
+    //打开数据库
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);
+        }
+        //读取 articles 集合
+        db.collection('articles', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            }
+            //将文档插入 articles 集合
+            collection.update({'_id':article._id}, {
+                $set: {
+                    "title": article.title,
+                    "content": article.content
+                }
+            }, function (err) {
+                mongodb.close();
+                if (err) {
+                    return callback(err);//失败！返回 err
+                }
+                callback(null);//返回 err 为 null
+            });
+        });
+    });
+};
+
 //读取文章及其相关信息
 Article.get = function (id, callback) {
     //打开数据库
