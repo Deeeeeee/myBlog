@@ -73,7 +73,7 @@ Article.get = function (id, callback) {
             //根据 query 对象查询文章
             collection.find(query).sort({
                 time: -1
-            }).skip(0).limit(2).toArray(function (err, docs) {
+            }).skip(0).limit(10).toArray(function (err, docs) {
                 mongodb.close();
                 if (err) {
                     return callback(err);//失败！返回 err
