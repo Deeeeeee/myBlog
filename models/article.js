@@ -54,12 +54,9 @@ Article.prototype.save = function (callback) {
 };
 
 // 修改文章
-Article.prototype.update = function (callback) {
-    var date = new Date();
-
+Article.prototype.update = function (id, callback) {
     //要更新到数据库的文档
     var article = {
-        _id: this._id,
         title: this.title,
         content: this.content
     };
@@ -74,8 +71,9 @@ Article.prototype.update = function (callback) {
                 mongodb.close();
                 return callback(err);
             }
-            //将文档插入 articles 集合
-            collection.update({'_id':article._id}, {
+            //将文档更新到 articles 集合
+            var _id = new ObjectId(id);
+            collection.update({'_id': _id}, {
                 $set: {
                     "title": article.title,
                     "content": article.content

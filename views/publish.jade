@@ -16,7 +16,10 @@ block content
         else
             textarea(id="content")
 
-    a#submit(href="javascript:;") 发布
+    if(article)
+        a#update(href="javascript:;" data-id="#{ article._id }") 修改
+    else
+        a#submit(href="javascript:;") 发布
 
 block scripts
     script.

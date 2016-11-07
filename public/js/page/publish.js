@@ -30,17 +30,25 @@ define(["jquery"], function ($) {
         },
         onSubmit: function () {
             $("#submit").on("click",function(){
+                submitArticle("/publish")
+            });
+            $("#update").on("click",function(){
+                submitArticle("/updateArticle")
+            });
+
+            function submitArticle(url) {
                 var data = {
+                    _id: $("#update").attr("data-id") || "",
                     title: $("#title").val().trim(),
                     content: $("#content").val().trim()
                 };
                 $.ajax({
                     type: 'post',
                     data: data,
-                    url: '/publish',
+                    url: url,
                     success: function (data) {
                         if(data.code === 0){
-                            alert("发布成功");
+                            alert("文章修改成功");
                             window.location.href="/";
                         }else{
                             console.log("code:"+ data.code + " error:" + data.text);
@@ -52,7 +60,7 @@ define(["jquery"], function ($) {
                         console.log(err);
                     }
                 })
-            });
+            }
         }
     };
     page.init();
