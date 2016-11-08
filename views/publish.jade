@@ -1,25 +1,28 @@
 extends layout
 block stylesheets
-    link(rel="stylesheet", href="/css/index.min.css")
+    link(rel="stylesheet", href="/css/publish.min.css")
 block content
-    h1 发布
-    h3 标题
-    p
-        if(article)
-            input(type="text" id="title" value="#{article.title}")
-        else
-            input(type="text" id="title" )
-    h3 正文
-    p
-        if(article)
-            textarea(id="content") #{article.content}
-        else
-            textarea(id="content")
+    .pure-g
+        include includes/sidebar
+        .main.pure-u-1.pure-u-md-3-4
+            h1 发布
+            h3 标题
+            p
+                if(article)
+                    input(type="text" id="title" value="#{article.title}")
+                else
+                    input(type="text" id="title" )
+            h3 正文
+            p
+                if(article)
+                    textarea(id="content") #{article.content}
+                else
+                    textarea(id="content")
 
-    if(article)
-        a#update(href="javascript:;" data-id="#{ article._id }") 修改
-    else
-        a#submit(href="javascript:;") 发布
+            if(article)
+                a#update(href="javascript:;" data-id="#{ article._id }") 修改
+            else
+                a#submit(href="javascript:;") 发布
 
 block scripts
     script.

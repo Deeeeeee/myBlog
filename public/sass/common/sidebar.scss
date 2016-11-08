@@ -1,10 +1,22 @@
 .sidebar{
-    background-color: #333333;
+    background: url(../../images/banner.jpg) bottom no-repeat;
+    background-size: cover;
+    padding: 50px 0;
+    color: #fff;
+    text-align: center;
+    h3{
+        font-size: 24px;
+        margin-bottom: 20px;
+        a{
+
+        }
+    }
 }
 @media (min-width: 48em){
     .sidebar {
         position: fixed;
         top: 0;
         bottom: 0;
+        padding: 100px 0;
     }
 }

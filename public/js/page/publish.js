@@ -48,7 +48,7 @@ define(["jquery"], function ($) {
                     url: url,
                     success: function (data) {
                         if(data.code === 0){
-                            alert("文章修改成功");
+                            alert("成功");
                             window.location.href="/";
                         }else{
                             console.log("code:"+ data.code + " error:" + data.text);

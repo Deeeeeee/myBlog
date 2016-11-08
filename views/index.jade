@@ -10,7 +10,7 @@ block content
                     li
                         h5
                             a(href="/article?articleId=#{item._id}") #{item.title}
-                        p #{item.username} || #{item.time.minute} ||
+                        p #{item.username} || #{item.time.minute}
                             if(user && user.username == item.username)
                                 |  ||
                                 a(href="/publish?articleId=#{item._id}") 编辑
