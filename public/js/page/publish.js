@@ -1,17 +1,18 @@
 
-define(["jquery"], function ($) {
+define(["jquery","wangEditor"], function ($) {
     var page = {
         init: function() {
             this.render();
             this.bindEvents();
         },
         render: function(){
-            this.renderCheckLogin();
+            this.initCheckLogin();
+            this.initEditor();
         },
         bindEvents: function () {
             this.onSubmit();
         },
-        renderCheckLogin: function () {
+        initCheckLogin: function () {
             $.ajax({
                 type: 'post',
                 data: "",
@@ -28,6 +29,12 @@ define(["jquery"], function ($) {
                 }
             })
         },
+
+        initEditor: function () {
+            var editor = new wangEditor("content");
+            editor.create();
+        },
+
         onSubmit: function () {
             $("#submit").on("click",function(){
                 submitArticle("/publish")

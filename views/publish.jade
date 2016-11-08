@@ -13,11 +13,7 @@ block content
                 else
                     input(type="text" id="title" )
             h3 正文
-            p
-                if(article)
-                    textarea(id="content") #{article.content}
-                else
-                    textarea(id="content")
+                div#content  #{artice && article.content}
 
             if(article)
                 a#update(href="javascript:;" data-id="#{ article._id }") 修改
