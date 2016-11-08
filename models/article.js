@@ -30,9 +30,7 @@ Article.prototype.save = function (callback) {
     };
     //打开数据库
     mongodb.open(function (err, db) {
-        if (err) {
-            return callback(err);
-        }
+        if (err) return callback(err);
         //读取 articles 集合
         db.collection('articles', function (err, collection) {
             if (err) {
@@ -62,9 +60,7 @@ Article.prototype.update = function (id, callback) {
     };
     //打开数据库
     mongodb.open(function (err, db) {
-        if (err) {
-            return callback(err);
-        }
+        if (err) return callback(err);
         //读取 articles 集合
         db.collection('articles', function (err, collection) {
             if (err) {
@@ -89,13 +85,33 @@ Article.prototype.update = function (id, callback) {
     });
 };
 
+// 删除文章
+Article.prototype.remove = function (id, callback) {
+    mongodb.open(function (err, db) {
+        if (err)  return callback(err);
+        db.collection('articles', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            }
+            //将文档更新到 articles 集合
+            var _id = new ObjectId(id);
+            collection.remove({'_id': _id}, function (err) {
+                mongodb.close();
+                if (err) {
+                    return callback(err);//失败！返回 err
+                }
+                callback(null);//返回 err 为 null
+            });
+        });
+    });
+};
+
 //读取文章及其相关信息
 Article.get = function (id, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
-        if (err) {
-            return callback(err);
-        }
+        if (err) return callback(err);
         //读取 articles 集合
         db.collection('articles', function (err, collection) {
             if (err) {

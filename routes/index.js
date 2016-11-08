@@ -164,7 +164,6 @@ module.exports = function (app) {
      */
     app.post('/updateArticle', function (req, res) {
         var id = req.body._id;
-        console.log(req.body)
         var curUser = req.session.user;
         var article = new Article(curUser.username, req.body.title, req.body.content);
         article.update(id, function (err) {
@@ -173,6 +172,22 @@ module.exports = function (app) {
                 return;
             }
             res.json({"code": 0, "text": "文章更新成功"})
+        })
+    });
+
+    /**
+     * 删除文章
+     */
+    app.post('/removeArticle',function (req, res) {
+        var id = req.body._id;
+        var article = new Article();
+        console.log(req.body);
+        article.remove(id, function (err) {
+            if (err) {
+                res.json(err);
+            }else{
+                res.json({"code": 0, "text": "文章删除成功"})
+            }
         })
     })
 

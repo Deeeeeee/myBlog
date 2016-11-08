@@ -8,14 +8,14 @@ block content
             ul.article-list
                 each item in articles
                     li
-                        h5 #{item.title}
+                        h5
+                            a(href="/article?articleId=#{item._id}") #{item.title}
                         p #{item.username} || #{item.time.minute} ||
-                            a(href="javascript:;") 详情
                             if(user && user.username == item.username)
                                 |  ||
                                 a(href="/publish?articleId=#{item._id}") 编辑
                                 |  ||
-                                a(href="javascript:;" ) 删除
+                                a.J_delArticle(href="javascript:;" data-id="#{item._id}" ) 删除
                         p #{item.content}
 block scripts
     script.
