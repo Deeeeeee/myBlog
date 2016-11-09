@@ -11,12 +11,15 @@ block content
                         h4
                             a(href="/article/#{item._id}") #{item.title}
                         h5
-                            | #{item.username} || #{item.time.minute} || #{item.type}
                             if(user && user.username == item.username)
-                                |  ||
-                                a(href="/publish?articleId=#{item._id}") 编辑
-                                |  ||
-                                a.J_delArticle(href="javascript:;" data-id="#{item._id}" ) 删除
+                                span.mine #{item.username}
+                            else
+                                span #{item.username}
+                            | ||
+                            span #{item.time.minute}
+                            | ||
+                            span #{item.type}
+
                         p #{item.info}
             if(articles.length = 2)
                 button#loadMore.pure-button.pure-button-primary 点击加载更多

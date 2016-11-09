@@ -199,7 +199,7 @@ module.exports = function (app) {
      */
     app.get('/article/:id', function (req, res) {
         var id = req.params.id;
-        Article.get(id, null, null, function (err, articles) {
+        Article.get(id, 0, 1, function (err, articles) {
             if (err) articles = [];
             res.render('article', {
                 title: '文章详情',

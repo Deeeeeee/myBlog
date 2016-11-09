@@ -1,6 +1,7 @@
 define(["jquery"], function ($) {
 
     $("#logout").on("click",function(){
+        console.log(1)
         $.ajax({
             type: 'post',
             data: "",
@@ -69,7 +70,11 @@ define(["jquery"], function ($) {
                     $.each(articles, function (i, v) {
                         html += "<li>" +
                             "<h4><a href='/article/"+v._id+"'>"+v.title+"</a></h4>" +
-                            "<h5>"+v.username+" || "+ v.time.minute +" || "+v.type+"</h5>" +
+                            "<h5>"+
+                            "<span>"+ v.username+ "</span> || "+
+                            "<span>"+v.time.minute+"</span> || "+
+                            "<span>"+v.type+"</span>"+
+                            "</h5>" +
                             "<p>"+v.info+"</p></li>"
                     });
                     $(".article-list").append(html);
