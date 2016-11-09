@@ -6,8 +6,8 @@ define(["jquery","wangEditor"], function ($) {
             this.bindEvents();
         },
         render: function(){
-            this.initCheckLogin();
             this.initEditor();
+            this.initCheckLogin();
         },
         bindEvents: function () {
             this.onSubmit();
@@ -32,7 +32,18 @@ define(["jquery","wangEditor"], function ($) {
 
         initEditor: function () {
             var editor = new wangEditor("content");
+            // 仅仅想移除某几个菜单，例如想移除『插入代码』和『全屏』菜单：
+            // 其中的 wangEditor.config.menus 可获取默认情况下的菜单配置
+            editor.config.menus = $.map(wangEditor.config.menus, function(item, key) {
+                if (item === 'emotion') return null;
+                if (item === 'video') return null;
+                if (item === 'location') return null;
+                return item;
+            });
             editor.create();
+            console.log(wangEditor.config.menus)
+
+
         },
 
         onSubmit: function () {
@@ -47,7 +58,7 @@ define(["jquery","wangEditor"], function ($) {
                 var data = {
                     _id: $("#update").attr("data-id") || "",
                     title: $("#title").val().trim(),
-                    content: $("#content").val().trim()
+                    content: $("#content").html()
                 };
                 $.ajax({
                     type: 'post',

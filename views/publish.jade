@@ -6,19 +6,22 @@ block content
         include includes/sidebar
         .main.pure-u-1.pure-u-md-3-4
             h1 发布
-            h3 标题
-            p
-                if(article)
-                    input(type="text" id="title" value="#{article.title}")
-                else
-                    input(type="text" id="title" )
-            h3 正文
-                div#content  #{artice && article.content}
+            form.pure-form.pure-form-stacked
+                label(for="title") 标题
+                input#title(type="text" placeholder="title" value="#{article ? article.title : ''}")
 
-            if(article)
-                a#update(href="javascript:;" data-id="#{ article._id }") 修改
-            else
-                a#submit(href="javascript:;") 发布
+                label(for="type") 分类
+                select#type
+                    option html
+                    option css
+                    option js
+                label 正文
+                div#content  #{article ? article.content : ''}
+
+                if(article)
+                    a#update(href="javascript:;" data-id="#{ article._id }") 修改
+                else
+                    a#submit(href="javascript:;") 发布
 
 block scripts
     script.
