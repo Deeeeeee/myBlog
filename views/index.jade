@@ -18,6 +18,8 @@ block content
                                 |  ||
                                 a.J_delArticle(href="javascript:;" data-id="#{item._id}" ) 删除
                         p #{item.info}
+            if(articles.length = 2)
+                button#loadMore.pure-button.pure-button-primary 点击加载更多
 block scripts
     script.
         require(['main'], function () {

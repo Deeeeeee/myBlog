@@ -5,8 +5,11 @@ var Article = require('../models/article.js');
 
 module.exports = function (app) {
 
+    /**
+     * 首页
+     */
     app.get('/', function (req, res) {
-        Article.get(null, function (err, articles) {
+        Article.get(null, 0, 2, function (err, articles) {
             if (err) articles = [];
             res.render('index', {
                 title: '首页',
@@ -191,13 +194,12 @@ module.exports = function (app) {
         })
     });
 
-
     /**
      * 文章详情
      */
     app.get('/article/:id', function (req, res) {
         var id = req.params.id;
-        Article.get(id, function (err, articles) {
+        Article.get(id, null, null, function (err, articles) {
             if (err) articles = [];
             res.render('article', {
                 title: '文章详情',
@@ -205,6 +207,21 @@ module.exports = function (app) {
                 user: req.session.user
             });
         })
-    })
+    });
+    app.post('/article', function (req, res) {
+        var start = parseInt(req.body.start);
+        var limit = parseInt(req.body.limit);
+        Article.get(null, start, limit, function (err, articles) {
+            if (err) {
+                res.json(err)
+            }else{
+                res.json({
+                    code: 0,
+                    message: "获取成功",
+                    body: articles
+                });
+            };
+        })
+    });
 
 };

@@ -122,7 +122,14 @@ Article.prototype.remove = function (id, callback) {
 };
 
 //读取文章及其相关信息
-Article.get = function (id, callback) {
+/**
+ *
+ * @param id
+ * @param start
+ * @param limit
+ * @param callback
+ */
+Article.get = function (id, start, limit, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
         if (err) return callback(err);
@@ -139,7 +146,7 @@ Article.get = function (id, callback) {
             //根据 query 对象查询文章
             collection.find(query).sort({
                 time: -1
-            }).skip(0).limit(10).toArray(function (err, docs) {
+            }).skip(start).limit(limit).toArray(function (err, docs) {
                 mongodb.close();
                 if (err) {
                     return callback(err);//失败！返回 err
