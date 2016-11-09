@@ -149,7 +149,7 @@ module.exports = function (app) {
     });
     app.post('/publish', function (req, res) {
         var currentUser = req.session.user,
-            article = new Article(currentUser.username, req.body.title, req.body.content);
+            article = new Article(currentUser.username, req.body.title, req.body.type, req.body.content, req.body.info);
         article.save(function (err) {
             if (err) {
                 res.json(err);
@@ -188,6 +188,22 @@ module.exports = function (app) {
             }else{
                 res.json({"code": 0, "text": "文章删除成功"})
             }
+        })
+    });
+
+
+    /**
+     * 文章详情
+     */
+    app.get('/article/:id', function (req, res) {
+        var id = req.params.id;
+        Article.get(id, function (err, articles) {
+            if (err) articles = [];
+            res.render('article', {
+                title: '文章详情',
+                articles: articles,
+                user: req.session.user
+            });
         })
     })
 

@@ -5,6 +5,9 @@
 "../base/pure",
 "../base/pure-responsive",
 "sidebar";
+body{
+    min-width: 320px;
+}
 @media (min-width: 48em){
     .main{
         margin-left: 25%;

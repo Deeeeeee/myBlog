@@ -12,9 +12,9 @@ block content
 
                 label(for="type") 分类
                 select#type
-                    option html
-                    option css
-                    option js
+                    option(value="HTML") HTML
+                    option(value="CSS") CSS
+                    option(value="JS") JS
                 label 正文
                 div#content  #{article ? article.content : ''}
 

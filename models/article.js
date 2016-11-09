@@ -1,10 +1,21 @@
 var mongodb = require('./db');
 var ObjectId = require('mongodb').ObjectID;
 
-function Article(username, title, content) {
+/**
+ *
+ * @param username 用户名
+ * @param title {String} 文章标题
+ * @param type {String} 类型
+ * @param content {String} 内容
+ * @param info {String} 简介
+ * @constructor
+ */
+function Article(username, title, type, content, info) {
     this.username = username;
     this.title = title;
+    this.type = type;
     this.content = content;
+    this.info = info;
 }
 
 module.exports = Article;
@@ -26,7 +37,10 @@ Article.prototype.save = function (callback) {
         username: this.username,
         time: time,
         title: this.title,
-        content: this.content
+        type: this.type,
+        content: this.content,
+        info: this.info
+
     };
     //打开数据库
     mongodb.open(function (err, db) {
