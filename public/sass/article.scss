@@ -4,21 +4,19 @@
 // article list
 ul.article-list{
     li{
-        h4{
+        h4.title{
             margin-top: 30px;
             font-size: 20px;
             color: $mainTitle;
-            a{
-                display: block;
-                @include singleline-ellipsis()
-            }
         }
-        h5{
+        h5.sub-title{
             font-size: 14px;
             margin: 10px 0 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid $borderColor;
         }
         p{
-            margin-bottom: 30px;
+
         }
     }
 }

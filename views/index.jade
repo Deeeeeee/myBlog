@@ -8,9 +8,10 @@ block content
             ul.article-list
                 each item in articles
                     li
-                        h5
+                        h4
                             a(href="/article/#{item._id}") #{item.title}
-                        p #{item.username} || #{item.time.minute}
+                        h5
+                            | #{item.username} || #{item.time.minute} || #{item.type}
                             if(user && user.username == item.username)
                                 |  ||
                                 a(href="/publish?articleId=#{item._id}") 编辑

@@ -1,6 +1,6 @@
 extends layout
 block stylesheets
-    link(rel="stylesheet", href="/css/index.min.css")
+    link(rel="stylesheet", href="/css/article.min.css")
 block content
     .pure-g
         include includes/sidebar
@@ -8,9 +8,9 @@ block content
             ul.article-list
                 each item in articles
                     li
-                        h5
+                        h4.title
                             a(href="/article?articleId=#{item._id}") #{item.title}
-                        p #{item.username} || #{item.time.minute}
+                        h5.sub-title #{item.username} || #{item.time.minute}
                             if(user && user.username == item.username)
                                 |  ||
                                 a(href="/publish?articleId=#{item._id}") 编辑

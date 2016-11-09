@@ -16,12 +16,12 @@ block content
                     option(value="CSS") CSS
                     option(value="JS") JS
                 label 正文
-                div#content  #{article ? article.content : ''}
+                div#content #{article ? article.content : ''}
 
                 if(article)
-                    a#update(href="javascript:;" data-id="#{ article._id }") 修改
+                    a#update.pure-button.pure-button-primary(href="javascript:;" data-id="#{ article._id }") 修改
                 else
-                    a#submit(href="javascript:;") 发布
+                    a#submit.pure-button.pure-button-primary(href="javascript:;") 发布
 
 block scripts
     script.
