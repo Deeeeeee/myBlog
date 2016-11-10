@@ -7,9 +7,9 @@ block content
         div.main.pure-u-1.pure-u-md-3-4
             ul.article-list
                 each item in articles
-                    li
+                    li.animated.fadeIn
                         h4
-                            a(href="/article/#{item._id}") #{item.title}
+                            a(href="/article/#{item._id}" target="_blank") #{item.title}
                         h5
                             em By
                             if(user && user.username == item.username)
@@ -23,7 +23,7 @@ block content
 
                         p #{item.info}
             if(articles.length = 2)
-                div.tc.mt50
+                div.tc.mt20.mb20
                     button#loadMore.pure-button.pure-button-primary 点击加载更多
 block scripts
     script.
