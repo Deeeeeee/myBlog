@@ -1,7 +1,7 @@
 var crypto = require('crypto');
 //引入数据库模块
-var UserModel = require('../models/user.js');
-// var Article = require('./article.js');
+var User = require('./user.js');
+var Article = require('./article.js');
 
 module.exports = function (app) {
 
@@ -26,33 +26,14 @@ module.exports = function (app) {
             title: '注册'
         });
     });
-    app.post('/register', function (req, res, next) {
+    app.post('/register', function (req, res) {
         var username = req.body.username,
             password = req.body.password,
             rePassword = req.body.rePassword;
-        // 校验参数
-        try {
-            if (!(username.length >= 1 && username.length <= 10)) {
-                throw new Error('名字请限制在 1-10 个字符');
-            }
-            // if (['m', 'f', 'x'].indexOf(gender) === -1) {
-            //     throw new Error('性别只能是 m、f 或 x');
-            // }
-            // if (!(bio.length >= 1 && bio.length <= 30)) {
-            //     throw new Error('个人简介请限制在 1-30 个字符');
-            // }
-            // if (!req.files.avatar.name) {
-            //     throw new Error('缺少头像');
-            // }
-            if (password < 6) {
-                throw new Error('密码至少 6 个字符');
-            }
-            if (password !== rePassword) {
-                throw new Error('两次输入密码不一致');
-            }
-        } catch (e) {
-            req.json(e);
-            return
+        //检验用户两次输入的密码是否一致
+        if (rePassword != password) {
+            res.json({"code": 2, "message": "两次输入的密码不一致"});
+            return;
         }
         //生成密码的 md5 值
         var md5 = crypto.createHash('md5'),
@@ -63,23 +44,26 @@ module.exports = function (app) {
             email: req.body.email
         });
         //检查用户名是否已经存在
-        UserModel.create(newUser)
-            .then(function (result) {
-                // 此 user 是插入 mongodb 后的值，包含 _id
-                user = result.ops[0];
-                // 将用户信息存入 session
-                delete user.password;
-                req.session.user = user;
-                // 发送成功信息
-                req.json({'code': 0, 'message':'注册成功'});
-            })
-            .catch(function (e) {
-                if (e.message.match('E11000 duplicate key')) {
-                    req.json({'code': 1, 'message':'用户名已被占用'});
-                    return
+        User.get(newUser.username, function (err, user) {
+            if (err) {
+                res.json(err);
+                return;
+                // return res.redirect('/');
+            }
+            if (user) {
+                res.json({"code": 1, "text": "用户已存在"});
+                return;
+            }
+            //如果不存在则新增用户
+            newUser.save(function (err, user) {
+                if (err) {
+                    res.json(err);
                 }
-                next(e);
-            })
+                req.session.user = newUser;//用户信息存入 session
+                res.json({"code": 0, "text": "注册成功"});//注册成功后返回主页
+                // return res.redirect('/login');
+            });
+        });
     });
 
     /**
