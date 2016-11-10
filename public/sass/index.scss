@@ -4,26 +4,54 @@
 // article list
 ul.article-list{
     li{
+        padding: 20px 0;
+        border-bottom: 1px solid $borderColor;
+        transition: .2s;
+        &:hover{
+            //background-color: #fefefe;
+        }
         h4{
-            margin-top: 30px;
             font-size: 20px;
-            color: $mainTitle;
+            font-weight: 700;
             a{
                 display: block;
-                @include singleline-ellipsis()
+                @include singleline-ellipsis();
+                color: $subTitle;
+                &:hover{
+                    color: $mainTitle;
+                }
             }
         }
         h5{
             font-size: 14px;
-            margin: 10px 0 20px;
-            .mine{
-                color: #ee4133;
-                font-weight: 700;
+            margin: 10px 0;
+            span{
+                margin: 0 10px;
+            }
+            em{
+                color: $minTitle;
+            }
+            .other{
 
+            }
+            .mine{
+                color: lightcoral;
+                font-weight: 700;
+            }
+            .type{
+                padding: 1px 5px;
+                color: #fff;
+                border-radius: 2px;
+                background-color: skyblue;
+                font-size: 12px;
+            }
+            .time{
+                //float: right;
+                //font-size: 12px;
             }
         }
         p{
-            margin-bottom: 30px;
+
         }
     }
 }

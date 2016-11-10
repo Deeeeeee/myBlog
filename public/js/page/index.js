@@ -48,6 +48,10 @@ define(["jquery"], function ($) {
 
     var pageCount = 0;
     $("#loadMore").on("click", function () {
+        var $this =$(this);
+        if ($this.hasClass("pure-button-disabled")) return;
+
+        $this.addClass("pure-button-disabled");
         pageCount ++;
         var limit = 2;
         var start = pageCount * limit;
@@ -66,18 +70,23 @@ define(["jquery"], function ($) {
                     console.log(data.body);
                     var articles = data.body;
                     var html = "";
-                    var username = $("#user").data();
+                    var username = $("#user").data("username");
                     $.each(articles, function (i, v) {
+                        var userClass = username == v.username ? 'mine' : 'other';
                         html += "<li>" +
                             "<h4><a href='/article/"+v._id+"'>"+v.title+"</a></h4>" +
                             "<h5>"+
-                            "<span>"+ v.username+ "</span> || "+
-                            "<span>"+v.time.minute+"</span> || "+
-                            "<span>"+v.type+"</span>"+
+                            "<em>By</em>"+
+                            "<span class='"+ userClass +"'>"+ v.username+ "</span>"+
+                            "<em>Under</em>"+
+                            "<span class='type'>"+v.type+"</span>"+
+                            "<em>On</em>"+
+                            "<span class='time'>"+v.time.minute+"</span>"+
                             "</h5>" +
                             "<p>"+v.info+"</p></li>"
                     });
                     $(".article-list").append(html);
+                    $this.removeClass("pure-button-disabled");
                 }else{
                     console.log(data.message)
                 }

@@ -4,7 +4,7 @@
         a(href="/") Blog
 
     if (user)
-        h5#user(data-id="#{user._id}") #{user.username}
+        h5#user(data-username="#{user.username}") #{user.username}
         a#logout(href="javascript:;") 登出
         | |
         a(href="/publish") 发布

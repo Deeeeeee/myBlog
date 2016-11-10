@@ -11,18 +11,20 @@ block content
                         h4
                             a(href="/article/#{item._id}") #{item.title}
                         h5
+                            em By
                             if(user && user.username == item.username)
                                 span.mine #{item.username}
                             else
-                                span #{item.username}
-                            | ||
-                            span #{item.time.minute}
-                            | ||
-                            span #{item.type}
+                                span.other #{item.username}
+                            em Under
+                            span.type #{item.type}
+                            em At
+                            span.time #{item.time.minute}
 
                         p #{item.info}
             if(articles.length = 2)
-                button#loadMore.pure-button.pure-button-primary 点击加载更多
+                div.tc.mt50
+                    button#loadMore.pure-button.pure-button-primary 点击加载更多
 block scripts
     script.
         require(['main'], function () {

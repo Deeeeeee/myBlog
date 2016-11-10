@@ -17,7 +17,6 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
  */
 
 html {
-    font-family: sans-serif; /* 1 */
     -ms-text-size-adjust: 100%; /* 2 */
     -webkit-text-size-adjust: 100%; /* 2 */
 }
@@ -489,7 +488,6 @@ th {
 
     * Helvetica, Arial, sans-serif: Common font stack on OS X and Windows.
     */
-    font-family: FreeSans, Arimo, "Droid Sans", Helvetica, Arial, sans-serif;
 
     /*
     Use flexbox when possible to avoid `letter-spacing` side-effects.
@@ -535,7 +533,6 @@ Resets the font family back to the OS/browser's default sans-serif font,
 this the same font stack that Normalize.css sets for the `body`.
 */
 .pure-g [class *= "pure-u"] {
-    font-family: sans-serif;
 }
 
 .pure-u-1,
@@ -777,7 +774,6 @@ this the same font stack that Normalize.css sets for the `body`.
 /*csslint outline-none:false*/
 
 .pure-button {
-    font-family: inherit;
     font-size: 100%;
     padding: 0.5em 1em;
     color: #444; /* rgba not supported (IE 8) */
