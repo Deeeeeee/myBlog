@@ -44,7 +44,7 @@ define(["jquery"], function ($) {
                             alert("注册成功");
                             window.location.href="/";
                         }else{
-                            console.log("code:"+ data.code + " error:" + data.text)
+                            console.log("code:"+ data.code + " error:" + data.message)
                         }
                     },
                     error: function (err) {

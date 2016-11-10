@@ -33,6 +33,20 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));            // 设置public文件夹为存放静态文件的目录。
 
+
+// 设置模板全局常量
+app.locals.blog = {
+    title: "Blog",
+    description: "Blog project v1.0"
+};
+
+// 添加模板必需的三个变量
+app.use(function (req, res, next) {
+    res.locals.user = req.session.user;
+    // res.locals.success = req.flash('success').toString();
+    // res.locals.error = req.flash('error').toString();
+    next();
+});
 // app.use('/', routes);                                                // 路由控制器。
 routes(app);
 

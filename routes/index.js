@@ -13,8 +13,7 @@ module.exports = function (app) {
             if (err) articles = [];
             res.render('index', {
                 title: '首页',
-                articles: articles,
-                user: req.session.user
+                articles: articles
             });
         })
     });
@@ -24,8 +23,7 @@ module.exports = function (app) {
      */
     app.get('/register', function (req, res) {
         res.render('register', {
-            title: '注册',
-            user: req.session.user
+            title: '注册'
         });
     });
     app.post('/register', function (req, res) {
@@ -34,7 +32,7 @@ module.exports = function (app) {
             rePassword = req.body.rePassword;
         //检验用户两次输入的密码是否一致
         if (rePassword != password) {
-            res.json({"code": 2, "text": "两次输入的密码不一致"});
+            res.json({"code": 2, "message": "两次输入的密码不一致"});
             return;
         }
         //生成密码的 md5 值
@@ -73,8 +71,7 @@ module.exports = function (app) {
      */
     app.get('/login', function (req, res) {
         res.render('login', {
-            title: '登录',
-            user: req.session.user
+            title: '登录'
         });
     });
     app.post('/login', function (req, res) {
@@ -117,7 +114,7 @@ module.exports = function (app) {
         } else {
             res.json({"code": 2, "text": "未登录！"})
         }
-    })
+    });
 
     /**
      * 登出
@@ -138,15 +135,13 @@ module.exports = function (app) {
                 res.render('publish', {
                     title: '修改文章',
                     pubType: "1",
-                    user: req.session.user,
                     article: articles[0]
                 });
             })
         } else {
             res.render('publish', {
                 title: '发布文章',
-                pubType: "0",
-                user: req.session.user,
+                pubType: "0"
             });
         }
     });
@@ -203,8 +198,7 @@ module.exports = function (app) {
             if (err) articles = [];
             res.render('article', {
                 title: '文章详情',
-                articles: articles,
-                user: req.session.user
+                articles: articles
             });
         })
     });
