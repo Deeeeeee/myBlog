@@ -1,7 +1,7 @@
 var crypto = require('crypto');
 //引入数据库模块
 var UserModel = require('../models/user.js');
-// var Article = require('./article.js');
+var Article = require('../models2/article.js');
 
 module.exports = function (app) {
 
@@ -32,9 +32,9 @@ module.exports = function (app) {
             rePassword = req.body.rePassword;
         // 校验参数
         try {
-            if (!(username.length >= 1 && username.length <= 10)) {
-                throw new Error('名字请限制在 1-10 个字符');
-            }
+            // if (!(username.length >= 1 && username.length <= 10)) {
+            //     throw new Error('名字请限制在 1-10 个字符');
+            // }
             // if (['m', 'f', 'x'].indexOf(gender) === -1) {
             //     throw new Error('性别只能是 m、f 或 x');
             // }
@@ -44,26 +44,26 @@ module.exports = function (app) {
             // if (!req.files.avatar.name) {
             //     throw new Error('缺少头像');
             // }
-            if (password < 6) {
-                throw new Error('密码至少 6 个字符');
-            }
+            // if (password < 6) {
+            //     throw new Error('密码至少 6 个字符');
+            // }
             if (password !== rePassword) {
                 throw new Error('两次输入密码不一致');
             }
         } catch (e) {
-            req.json(e);
+            res.json(e);
             return
         }
         //生成密码的 md5 值
         var md5 = crypto.createHash('md5'),
             password = md5.update(req.body.password).digest('hex');
-        var newUser = new User({
+        var user={
             username: username,
             password: password,
             email: req.body.email
-        });
+        };
         //检查用户名是否已经存在
-        UserModel.create(newUser)
+        UserModel.create(user)
             .then(function (result) {
                 // 此 user 是插入 mongodb 后的值，包含 _id
                 user = result.ops[0];
@@ -71,11 +71,11 @@ module.exports = function (app) {
                 delete user.password;
                 req.session.user = user;
                 // 发送成功信息
-                req.json({'code': 0, 'message':'注册成功'});
+                res.json({'code': 0, 'message':'注册成功'});
             })
             .catch(function (e) {
                 if (e.message.match('E11000 duplicate key')) {
-                    req.json({'code': 1, 'message':'用户名已被占用'});
+                    res.json({'code': 1, 'message':'用户名已被占用'});
                     return
                 }
                 next(e);
