@@ -31,7 +31,9 @@ app.use(session({
     },
     store: new MongoStore({// 将 session 存储到 mongodb
         url: config.mongodb// mongodb 地址
-    })
+    }),
+    resave: true,
+    saveUninitialized: true
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));            // 设置public文件夹为存放静态文件的目录。

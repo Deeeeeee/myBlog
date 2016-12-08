@@ -32,9 +32,9 @@ module.exports = function (app) {
             rePassword = req.body.rePassword;
         // 校验参数
         try {
-            // if (!(username.length >= 1 && username.length <= 10)) {
-            //     throw new Error('名字请限制在 1-10 个字符');
-            // }
+            if (!(username.length >= 3 && username.length <= 10)) {
+                throw new Error('名字请限制在 3-10 个字符');
+            }
             // if (['m', 'f', 'x'].indexOf(gender) === -1) {
             //     throw new Error('性别只能是 m、f 或 x');
             // }
@@ -44,22 +44,23 @@ module.exports = function (app) {
             // if (!req.files.avatar.name) {
             //     throw new Error('缺少头像');
             // }
-            // if (password < 6) {
-            //     throw new Error('密码至少 6 个字符');
-            // }
+            if (password.length < 6) {
+                throw new Error('密码至少 6 个字符');
+            }
             if (password !== rePassword) {
                 throw new Error('两次输入密码不一致');
             }
         } catch (e) {
-            res.json(e);
+            res.json({code: 1,message:e.message});
             return
         }
         //生成密码的 md5 值
         var md5 = crypto.createHash('md5'),
-            password = md5.update(req.body.password).digest('hex');
+            nPassword = md5.update(req.body.password).digest('hex');
+        // 待写入数据库的用户信息
         var user={
             username: username,
-            password: password,
+            password: nPassword,
             email: req.body.email
         };
         //检查用户名是否已经存在
@@ -71,11 +72,11 @@ module.exports = function (app) {
                 delete user.password;
                 req.session.user = user;
                 // 发送成功信息
-                res.json({'code': 0, 'message':'注册成功'});
+                res.json({code: 0, message:'注册成功'});
             })
             .catch(function (e) {
                 if (e.message.match('E11000 duplicate key')) {
-                    res.json({'code': 1, 'message':'用户名已被占用'});
+                    res.json({code: 2, message: '用户名已被占用'});
                     return
                 }
                 next(e);
@@ -90,28 +91,31 @@ module.exports = function (app) {
             title: '登录'
         });
     });
-    app.post('/login', function (req, res) {
+    app.post('/login', function (req, res,next) {
         var username = req.body.username,
             password = req.body.password;
 
         //生成密码的 md5 值
         var md5 = crypto.createHash('md5'),
-            password = md5.update(password).digest('hex');
-        User.get(username, function (err, user) {
-            //检查用户名是否存在
-            if (!user) {
-                res.json({"code": 1, "text": "用户不存在"});
-                return;
-            }
-            //检查密码是否正确
-            if (user.password != password) {
-                res.json({"code": 2, "text": "密码错误"});
-                return;
-            }
-            //用户名密码都匹配后，将用户信息存入 session
-            req.session.user = user;
-            res.json({"code": 0, "text": "登录成功"});
-        });
+            nPassword = md5.update(password).digest('hex');
+        UserModel.getUserByName(username)
+            .then(function (user) {
+                console.log(username)
+                if (!user) {
+                    res.json({code:1, message: '用户不存在'});
+                    return;
+                }
+                // 检查密码是否匹配
+                if (nPassword !== user.password) {
+                    res.json({code:2, message: '用户名或密码错误'});
+                    return;
+                }
+                res.json({code:0, message: '登录成功'});
+                // 用户信息写入 session
+                delete user.password;
+                req.session.user = user;
+            })
+            .catch(next);
     });
 
     /**
@@ -122,13 +126,13 @@ module.exports = function (app) {
         if (currentUser) {
             User.get(currentUser.username, function (err, user) {
                 if (user) {
-                    res.json({"code": 0, "text": "已登录，用户存在！"});
+                    res.json({code: 0, message: "已登录，用户存在！"});
                 } else {
-                    res.json({"code": 1, "text": "用户不存在！"});
+                    res.json({code: 1, message: "用户不存在！"});
                 }
             })
         } else {
-            res.json({"code": 2, "text": "未登录！"})
+            res.json({code: 2, message: "未登录！"})
         }
     });
 
@@ -137,7 +141,7 @@ module.exports = function (app) {
      */
     app.post('/logout', function (req, res) {
         req.session.user = null;
-        res.json({"code": 0, "text": "登录成功"});
+        res.json({code: 0, message: "登录成功"});
     });
 
 
@@ -169,7 +173,7 @@ module.exports = function (app) {
                 res.json(err);
                 return;
             }
-            res.json({"code": 0, "text": "发布成功"})
+            res.json({code: 0, message: "发布成功"})
         });
     });
 
@@ -185,7 +189,7 @@ module.exports = function (app) {
                 res.json(err);
                 return;
             }
-            res.json({"code": 0, "text": "文章更新成功"})
+            res.json({code: 0, message: "文章更新成功"})
         })
     });
 
@@ -200,7 +204,7 @@ module.exports = function (app) {
             if (err) {
                 res.json(err);
             }else{
-                res.json({"code": 0, "text": "文章删除成功"})
+                res.json({code: 0, message: "文章删除成功"})
             }
         })
     });

@@ -41,8 +41,8 @@ define(["jquery"], function ($) {
                             alert("登录成功");
                             window.location.href="/";
                         }else{
-                            console.log("code:"+ data.code + " error:" + data.text);
-                            alert(data.text);
+                            console.log("code:"+ data.code + " error:" + data.message);
+                            alert(data.message);
                         }
                     },
                     error: function (err) {

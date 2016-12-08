@@ -31,9 +31,11 @@ define(["jquery"], function ($) {
             $("#submit").on("click",function(){
                 var data = {
                     username: $("#username").val().trim(),
+                    // nickname: $("#nickname").val().trim(),
+                    // gender: $(""),
                     password: $("#password").val().trim(),
                     rePassword: $("#rePassword").val().trim(),
-                    email: $("#email").val().trim()
+                    email: $("#email").val().trim(),
                 };
                 $.ajax({
                     type: 'post',
@@ -44,7 +46,9 @@ define(["jquery"], function ($) {
                             alert("注册成功");
                             window.location.href="/";
                         }else{
+                            console.error(data);
                             alert("code:"+ data.code + " error:" + data.message)
+
                         }
                     },
                     error: function (err) {
