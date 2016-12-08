@@ -16,6 +16,7 @@
     "express-winston": "^2.0.0",
     "forwarded": "^0.1.0",
     "jade": "~1.11.0",
+    "marked": "^0.3.6",
     "moment": "^2.16.0",
     "mongodb": "2.0.42",
     "mongolass": "^2.3.2",

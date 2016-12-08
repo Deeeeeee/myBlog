@@ -1,7 +1,9 @@
 var crypto = require('crypto');
+var marked = require('marked');
 //引入数据库模块
 var UserModel = require('../models/user.js');
-var Article = require('../models2/article.js');
+var ArticleModel = require('../models/article.js');
+var checkLogin = require('../middlewares/check').checkLogin;
 
 module.exports = function (app) {
 
@@ -100,7 +102,6 @@ module.exports = function (app) {
             nPassword = md5.update(password).digest('hex');
         UserModel.getUserByName(username)
             .then(function (user) {
-                console.log(username)
                 if (!user) {
                     res.json({code:1, message: '用户不存在'});
                     return;
@@ -110,10 +111,10 @@ module.exports = function (app) {
                     res.json({code:2, message: '用户名或密码错误'});
                     return;
                 }
-                res.json({code:0, message: '登录成功'});
                 // 用户信息写入 session
                 delete user.password;
                 req.session.user = user;
+                res.json({code:0, message: '登录成功'});
             })
             .catch(next);
     });
@@ -123,17 +124,7 @@ module.exports = function (app) {
      */
     app.post('/checkLogin', function (req, res) {
         var currentUser = req.session.user;
-        if (currentUser) {
-            User.get(currentUser.username, function (err, user) {
-                if (user) {
-                    res.json({code: 0, message: "已登录，用户存在！"});
-                } else {
-                    res.json({code: 1, message: "用户不存在！"});
-                }
-            })
-        } else {
-            res.json({code: 2, message: "未登录！"})
-        }
+        !currentUser && res.json({code: 2, message: "未登录！"})
     });
 
     /**
@@ -149,32 +140,57 @@ module.exports = function (app) {
      * 发布
      */
     app.get('/publish', function (req, res) {
-        if (req.query.articleId) {
-            Article.get(req.query.articleId, function (err, articles) {
-                if (err) articles = [];
-                res.render('publish', {
-                    title: '修改文章',
-                    pubType: "1",
-                    article: articles[0]
-                });
-            })
-        } else {
+        // if (req.query.articleId) {
+        //     Article.get(req.query.articleId, function (err, articles) {
+        //         if (err) articles = [];
+        //         res.render('publish', {
+        //             title: '修改文章',
+        //             pubType: "1",
+        //             article: articles[0]
+        //         });
+        //     })
+        // } else {
             res.render('publish', {
                 title: '发布文章',
                 pubType: "0"
             });
-        }
+        // }
     });
-    app.post('/publish', function (req, res) {
-        var currentUser = req.session.user,
-            article = new Article(currentUser.username, req.body.title, req.body.type, req.body.content, req.body.info);
-        article.save(function (err) {
-            if (err) {
-                res.json(err);
-                return;
+    app.post('/publish', checkLogin, function (req, res, next) {
+        var author = req.session.user._id;
+        var title = req.body.title;
+        var content = req.body.content;
+        var type = req.body.type;
+        // 校验参数
+        try {
+            if (!title.length) {
+                throw new Error('请填写标题');
             }
-            res.json({code: 0, message: "发布成功"})
-        });
+            if (!content.length) {
+                throw new Error('请填写内容');
+            }
+        } catch (e) {
+            res.json({code:1, message:e.message});
+            return;
+        }
+
+        var postData={
+            author: author,
+            title: title,
+            type: type,
+            content: content,
+            pv: 0
+        };
+
+        ArticleModel.create(postData)
+            .then(function (result) {
+                // 此 post 是插入 mongodb 后的值，包含 _id
+                post = result.ops[0];
+                res.json({code: 0, message: '发表成功'});
+                // 发表成功后跳转到该文章页
+                // res.redirect(`/posts/${post._id}`);
+            })
+            .catch(next);
     });
 
     /**

@@ -7,28 +7,28 @@ define(["jquery","wangEditor"], function ($) {
         },
         render: function(){
             this.initEditor();
-            this.initCheckLogin();
+            // this.initCheckLogin();
         },
         bindEvents: function () {
             this.onSubmit();
         },
-        initCheckLogin: function () {
-            $.ajax({
-                type: 'post',
-                data: "",
-                url: '/checkLogin',
-                success: function (data) {
-                    if(data.code === 0){
-                        // alert(data.text);
-                    }else{
-                        alert(data.text);
-                    }
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            })
-        },
+        // initCheckLogin: function () {
+        //     $.ajax({
+        //         type: 'post',
+        //         data: "",
+        //         url: '/checkLogin',
+        //         success: function (data) {
+        //             if(data.code === 0){
+        //                 // alert(data.text);
+        //             }else{
+        //                 alert(data.message);
+        //             }
+        //         },
+        //         error: function (err) {
+        //             console.log(err);
+        //         }
+        //     })
+        // },
 
         initEditor: function () {
             var editor = new wangEditor("content");
@@ -71,8 +71,7 @@ define(["jquery","wangEditor"], function ($) {
                             alert("成功");
                             window.location.href="/";
                         }else{
-                            console.log("code:"+ data.code + " error:" + data.text);
-                            alert(data.text);
+                            alert(data.message);
                             console.log(data);
                         }
                     },
