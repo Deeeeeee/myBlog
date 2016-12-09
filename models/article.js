@@ -74,7 +74,7 @@ module.exports = {
     },
 
     // 通过用户 id 和文章 id 删除一篇文章
-    delArticle: function (articleId, author) {
-        return Article.remove({author: author, _id: articleId}).exec();
+    delArticle: function (articleId, authorId) {
+        return Article.remove({authorId: authorId, _id: articleId}).exec();
     }
 };

@@ -9,7 +9,7 @@ block content
                 each item in articles
                     li.animated.fadeIn
                         h4
-                            a(href="/article/#{item._id}" target="_blank") #{item.title}
+                            a(href="/article/#{item._id}") #{item.title}
                         h5
                             em By
                             if(user && user.username == item.author)

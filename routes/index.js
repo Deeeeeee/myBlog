@@ -217,16 +217,16 @@ module.exports = function (app) {
      * 删除文章
      */
     app.post('/removeArticle', checkLogin, function (req, res) {
-        var id = req.body._id;
-        var article = new Article();
-        console.log(req.body);
-        article.remove(id, function (err) {
-            if (err) {
-                res.json(err);
-            } else {
-                res.json({code: 0, message: "文章删除成功"})
-            }
-        })
+        var articleId = req.body.articleId;
+        var authorId = req.body.authorId;
+        var user = req.session.user;
+        if(authorId !== user._id){
+            res.json({code: 1, message: "无权限删除此文章"});
+            return
+        }
+        ArticleModel.delArticle(articleId, user._id).then( function (result) {
+            res.json({code: 0, message: "删除成功"});
+        });
     });
 
     /**

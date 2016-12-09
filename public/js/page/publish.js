@@ -24,13 +24,13 @@ define(["jquery"], function ($) {
 
             function submitArticle(url) {
                 var articleId = $("#update").attr("data-id") || "";
-                var authorId = $(".sub-title").data("authorId") || "";
+                var authorId = $(".sub-title").attr("data-authorId") || "";
                 var data = {
                     articleId: articleId,
                     authorId: authorId,
                     title: $("#title").val().trim(),
                     type: $("#type").val(),
-                    content: $("#content").val(),
+                    content: $("#content").val()
                     // info: cutStr($("#content").text(),200)
                 };
                 $.ajax({
