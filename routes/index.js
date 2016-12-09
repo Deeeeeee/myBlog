@@ -231,13 +231,13 @@ module.exports = function (app) {
      */
     app.get('/article/:id', function (req, res) {
         var id = req.params.id;
-        Article.get(id, 0, 1, function (err, articles) {
-            if (err) articles = [];
-            res.render('article', {
-                title: '文章详情',
-                articles: articles
-            });
-        })
+        ArticleModel.getArticleById(id)
+            .then(function (result) {
+                res.render('article', {
+                    title: '文章详情',
+                    article: result
+                });
+            })
     });
     app.post('/article', function (req, res) {
         var start = parseInt(req.body.start);

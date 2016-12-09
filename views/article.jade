@@ -4,20 +4,18 @@ block stylesheets
 block content
     .pure-g
         include includes/sidebar
-        div.main.pure-u-1.pure-u-md-3-4
-            ul.article-list
-                each item in articles
-                    li
-                        h4.title
-                            a(href="/article?articleId=#{item._id}") #{item.title}
-                        h5.sub-title #{item.username} || #{item.time.minute}
-                            if(user && user.username == item.username)
-                                |  ||
-                                a(href="/publish?articleId=#{item._id}") 编辑
-                                |  ||
-                                a.J_delArticle(href="javascript:;" data-id="#{item._id}" ) 删除
-                        p
-                            !{item.content}
+        .main.pure-u-1.pure-u-md-3-4
+            .article-box
+                - var art = article;
+                h4.title
+                    a(href="/article?articleId=#{ art._id}") #{art.title}
+                h5.sub-title #{art.author} || #{art.createTime}
+                    if(user && user.username == art.author)
+                        |  ||
+                        a(href="/publish?articleId=#{art._id}") 编辑
+                        |  ||
+                        a.J_delArticle(href="javascript:;" data-id="#{art._id}" ) 删除
+                p !{art.content}
 block scripts
     script.
         require(['main'], function () {
