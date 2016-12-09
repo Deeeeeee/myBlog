@@ -1,20 +1,57 @@
-@import
-"common/common";
-.article-box{
+@import "common/common";
+
+.article-layout {
     margin: 0 auto;
     max-width: 700px;
-    h4.title{
-        margin-top: 30px;
-        font-size: 20px;
-        color: $mainTitle;
-    }
-    h5.sub-title{
-        font-size: 14px;
-        margin: 10px 0 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid $borderColor;
-    }
-    p{
 
+    .article-box {
+
+        h4.title {
+            margin-top: 30px;
+            font-size: 20px;
+            color: $mainTitle;
+        }
+        h5.sub-title {
+            font-size: 14px;
+            margin: 10px 0 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid $borderColor;
+        }
+        p {
+
+        }
+
+    }
+    .comment-box {
+        margin-top: 30px;
+        border-left: 4px solid #ccc;
+        li {
+            padding: 20px;
+            border-bottom: 1px dashed #ccc;
+            &:last-child {
+                border: none;
+            }
+            .head {
+                p {
+                    span {
+                        margin-right: 5px;
+                    }
+                    em {
+                        margin-left: 10px;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+
+    }
+    .comment-input {
+        margin-top: 20px;
+        #comment {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+            height: 150px;
+        }
     }
 }

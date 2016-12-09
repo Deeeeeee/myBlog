@@ -1,5 +1,6 @@
 var Article = require('../lib/mongo').Article;
 var marked = require('marked');
+var CommentModel = require('./comment');
 
 // 将 article 的 content 从 markdown 转换成 html
 Article.plugin('contentToHtml', {
@@ -16,6 +17,28 @@ Article.plugin('contentToHtml', {
         return article;
     }
 });
+
+// 给 article 添加留言数 commentsCount
+Article.plugin('addCommentsCount', {
+    afterFind: function (articles) {
+        return Promise.all(articles.map(function (article) {
+            return CommentModel.getCommentsCount(article._id).then(function (commentsCount) {
+                article.commentsCount = commentsCount;
+                return article;
+            });
+        }));
+    },
+    afterFindOne: function (article) {
+        if (article) {
+            return CommentModel.getCommentsCount(article._id).then(function (count) {
+                article.commentsCount = count;
+                return article;
+            });
+        }
+        return article;
+    }
+});
+
 module.exports = {
     // 创建一篇文章
     create: function (article) {
@@ -28,6 +51,7 @@ module.exports = {
             .findOne({_id: articleId})
             .populate({path: 'author', model: 'User'})
             .addCreatedAt()
+            .addCommentsCount()
             .contentToHtml()
             .exec();
     },
@@ -45,6 +69,7 @@ module.exports = {
             .populate({path: 'author', model: 'User'})
             .sort({_id: -1})
             .addCreatedAt()
+            .addCommentsCount()
             .contentToHtml()
             .exec();
     },

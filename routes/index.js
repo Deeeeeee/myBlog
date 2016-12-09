@@ -3,6 +3,7 @@ var marked = require('marked');
 //引入数据库模块
 var UserModel = require('../models/user.js');
 var ArticleModel = require('../models/article.js');
+var CommentModel = require('../models/comment.js');
 var checkLogin = require('../middlewares/check').checkLogin;
 
 module.exports = function (app) {
@@ -138,7 +139,7 @@ module.exports = function (app) {
 
 
     /**
-     * 发布
+     * 发布文章
      */
     app.get('/publish',checkLogin, function (req, res) {
         var articleId = req.query.articleId;
@@ -232,15 +233,29 @@ module.exports = function (app) {
     /**
      * 文章详情
      */
-    app.get('/article/:id', function (req, res) {
+    app.get('/article/:id', function (req, res, next) {
         var id = req.params.id;
-        ArticleModel.getArticleById(id)
-            .then(function (result) {
+        Promise.all([
+            ArticleModel.getArticleById(id),    // 获取文章信息
+            CommentModel.getComments(id),       // 获取该文章所有留言
+            ArticleModel.incPv(id)              // pv 加 1
+        ]).then(function (result) {
+                var article = result[0];
+                var comments = result[1];
+
+                console.log(article.title);
+                console.log(comments);
+
+                if (!article) {
+                    throw new Error('该文章不存在');
+                }
                 res.render('article', {
                     title: '文章详情',
-                    article: result
+                    article: article,
+                    comments: comments
                 });
             })
+            .catch(next);
     });
     app.post('/article', function (req, res) {
         var start = parseInt(req.body.start);
@@ -254,5 +269,23 @@ module.exports = function (app) {
                 });
             })
     });
+
+    /**
+     * 发布评论
+     */
+    app.post('/comment', function (req, res) {
+        var start = parseInt(req.body.start);
+        var limit = parseInt(req.body.limit);
+        ArticleModel.getArticles(null, start, limit)
+            .then(function (result) {
+                res.json({
+                    code: 0,
+                    message: "获取成功",
+                    body: result
+                });
+            })
+    });
+
+
 
 };

@@ -10,6 +10,7 @@ define(["jquery"], function ($) {
         },
         bindEvents: function () {
             this.onDel();
+            this.onComment();
         },
         onDel: function () {
             $(".J_delArticle").on("click", function () {
@@ -37,6 +38,9 @@ define(["jquery"], function ($) {
                     }
                 })
             });
+        },
+        onComment: function () {
+
         }
     };
     page.init();
