@@ -16,7 +16,9 @@ block content
                     option(value="CSS") CSS
                     option(value="JS") JS
                 label 正文
-                div#content #{article ? article.content : ''}
+                //div#content #{article ? article.content : ''}
+                textarea#content #{article ? article.content : ''}
+
 
                 if(article)
                     a#update.pure-button.pure-button-primary(href="javascript:;" data-id="#{ article._id }") 修改

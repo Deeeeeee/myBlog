@@ -6,7 +6,7 @@ define(["jquery","wangEditor"], function ($) {
             this.bindEvents();
         },
         render: function(){
-            this.initEditor();
+            // this.initEditor();
             // this.initCheckLogin();
         },
         bindEvents: function () {
@@ -59,8 +59,8 @@ define(["jquery","wangEditor"], function ($) {
                     _id: $("#update").attr("data-id") || "",
                     title: $("#title").val().trim(),
                     type: $("#type").val(),
-                    content: $("#content").html(),
-                    info: cutStr($("#content").text(),200)
+                    content: $("#content").val(),
+                    // info: cutStr($("#content").text(),200)
                 };
                 $.ajax({
                     type: 'post',

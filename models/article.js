@@ -23,8 +23,8 @@ module.exports = {
     },
 
     // 通过文章 id 获取一篇文章
-    getAeticleById: function getAeticleById(articleId) {
-        return Aeticle
+    getArticleById: function getArticleById(articleId) {
+        return Article
             .findOne({ _id: articleId })
             .populate({ path: 'author', model: 'User' })
             .addCreatedAt()
@@ -33,13 +33,15 @@ module.exports = {
     },
 
     // 按创建时间降序获取所有用户文章或者某个特定用户的所有文章
-    getAeticles: function getAeticles(author) {
+    getArticles: function getArticles(author,start,limit) {
         var query = {};
         if (author) {
             query.author = author;
         }
-        return Aeticle
+        return Article
             .find(query)
+            .skip(start)
+            .limit(limit)
             .populate({ path: 'author', model: 'User' })
             .sort({ _id: -1 })
             .addCreatedAt()
@@ -49,7 +51,7 @@ module.exports = {
 
     // 通过文章 id 给 pv 加 1
     incPv: function incPv(articleId) {
-        return Aeticle
+        return Article
             .update({ _id: articleId }, { $inc: { pv: 1 } })
             .exec();
     }

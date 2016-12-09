@@ -12,16 +12,16 @@ block content
                             a(href="/article/#{item._id}" target="_blank") #{item.title}
                         h5
                             em By
-                            if(user && user.username == item.username)
-                                span.mine #{item.username}
+                            if(user && user.username == item.author)
+                                span.mine #{item.author}
                             else
-                                span.other #{item.username}
+                                span.other #{item.author}
                             em Under
                             span.type #{item.type}
                             em At
-                            span.time #{item.time.minute}
+                            span.time #{item.createTime}
 
-                        p #{item.info}
+                        //p !{item.content}
             if(articles.length = 2)
                 div.tc.mt20.mb20
                     button#loadMore.pure-button.pure-button-primary 点击加载更多

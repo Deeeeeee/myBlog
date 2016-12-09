@@ -75,18 +75,19 @@ define(["jquery"], function ($) {
                         /**
                          * TODO 通过用户ID判断
                          */
-                        var userClass = username == v.username ? 'mine' : 'other';
+                        var userClass = username == v.author ? 'mine' : 'other';
                         html += "<li class='animated fadeIn'>" +
                             "<h4><a href='/article/" + v._id + "' target='_blank'>" + v.title + "</a></h4>" +
                             "<h5>" +
                             "<em>By</em>" +
-                            "<span class='" + userClass + "'>" + v.username + "</span>" +
+                            "<span class='" + userClass + "'>" + v.author + "</span>" +
                             "<em>Under</em>" +
                             "<span class='type'>" + v.type + "</span>" +
                             "<em>On</em>" +
-                            "<span class='time'>" + v.time.minute + "</span>" +
-                            "</h5>" +
-                            "<p>" + v.info + "</p></li>"
+                            "<span class='time'>" + v.createTime + "</span>" +
+                            "</h5>";
+                            // +
+                            // "<p>" + v.content + "</p></li>"
                     });
                     $(".article-list").append(html);
                     $this.removeClass("pure-button-disabled");

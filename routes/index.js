@@ -11,13 +11,14 @@ module.exports = function (app) {
      * 首页
      */
     app.get('/', function (req, res) {
-        Article.get(null, 0, 2, function (err, articles) {
-            if (err) articles = [];
-            res.render('index', {
-                title: '首页',
-                articles: articles
-            });
-        })
+        ArticleModel.getArticles(null, 0, 5)
+            .then(function (result) {
+                res.render('index', {
+                    title: '首页',
+                    articles: result
+                });
+            })
+            .catch()
     });
 
     /**
@@ -53,14 +54,14 @@ module.exports = function (app) {
                 throw new Error('两次输入密码不一致');
             }
         } catch (e) {
-            res.json({code: 1,message:e.message});
+            res.json({code: 1, message: e.message});
             return
         }
         //生成密码的 md5 值
         var md5 = crypto.createHash('md5'),
             nPassword = md5.update(req.body.password).digest('hex');
         // 待写入数据库的用户信息
-        var user={
+        var user = {
             username: username,
             password: nPassword,
             email: req.body.email
@@ -74,7 +75,7 @@ module.exports = function (app) {
                 delete user.password;
                 req.session.user = user;
                 // 发送成功信息
-                res.json({code: 0, message:'注册成功'});
+                res.json({code: 0, message: '注册成功'});
             })
             .catch(function (e) {
                 if (e.message.match('E11000 duplicate key')) {
@@ -93,7 +94,7 @@ module.exports = function (app) {
             title: '登录'
         });
     });
-    app.post('/login', function (req, res,next) {
+    app.post('/login', function (req, res, next) {
         var username = req.body.username,
             password = req.body.password;
 
@@ -103,18 +104,18 @@ module.exports = function (app) {
         UserModel.getUserByName(username)
             .then(function (user) {
                 if (!user) {
-                    res.json({code:1, message: '用户不存在'});
+                    res.json({code: 1, message: '用户不存在'});
                     return;
                 }
                 // 检查密码是否匹配
                 if (nPassword !== user.password) {
-                    res.json({code:2, message: '用户名或密码错误'});
+                    res.json({code: 2, message: '用户名或密码错误'});
                     return;
                 }
                 // 用户信息写入 session
                 delete user.password;
                 req.session.user = user;
-                res.json({code:0, message: '登录成功'});
+                res.json({code: 0, message: '登录成功'});
             })
             .catch(next);
     });
@@ -150,14 +151,15 @@ module.exports = function (app) {
         //         });
         //     })
         // } else {
-            res.render('publish', {
-                title: '发布文章',
-                pubType: "0"
-            });
+        res.render('publish', {
+            title: '发布文章',
+            pubType: "0"
+        });
         // }
     });
     app.post('/publish', checkLogin, function (req, res, next) {
-        var author = req.session.user._id;
+        var authorId = req.session.user._id;
+        var author = req.session.user.username;
         var title = req.body.title;
         var content = req.body.content;
         var type = req.body.type;
@@ -170,11 +172,12 @@ module.exports = function (app) {
                 throw new Error('请填写内容');
             }
         } catch (e) {
-            res.json({code:1, message:e.message});
+            res.json({code: 1, message: e.message});
             return;
         }
 
-        var postData={
+        var postData = {
+            authorId: authorId,
             author: author,
             title: title,
             type: type,
@@ -187,8 +190,6 @@ module.exports = function (app) {
                 // 此 post 是插入 mongodb 后的值，包含 _id
                 post = result.ops[0];
                 res.json({code: 0, message: '发表成功'});
-                // 发表成功后跳转到该文章页
-                // res.redirect(`/posts/${post._id}`);
             })
             .catch(next);
     });
@@ -212,14 +213,14 @@ module.exports = function (app) {
     /**
      * 删除文章
      */
-    app.post('/removeArticle',function (req, res) {
+    app.post('/removeArticle', function (req, res) {
         var id = req.body._id;
         var article = new Article();
         console.log(req.body);
         article.remove(id, function (err) {
             if (err) {
                 res.json(err);
-            }else{
+            } else {
                 res.json({code: 0, message: "文章删除成功"})
             }
         })
@@ -241,17 +242,14 @@ module.exports = function (app) {
     app.post('/article', function (req, res) {
         var start = parseInt(req.body.start);
         var limit = parseInt(req.body.limit);
-        Article.get(null, start, limit, function (err, articles) {
-            if (err) {
-                res.json(err)
-            }else{
+        ArticleModel.getArticles(null, start, limit)
+            .then(function (result) {
                 res.json({
                     code: 0,
                     message: "获取成功",
-                    body: articles
+                    body: result
                 });
-            };
-        })
+            })
     });
 
 };
