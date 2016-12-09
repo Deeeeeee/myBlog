@@ -8,8 +8,9 @@ block content
             .article-box
                 - var art = article;
                 h4.title
-                    a(href="/article?articleId=#{ art._id}") #{art.title}
-                h5.sub-title #{art.author} || #{art.createTime}
+                    a #{art.title}
+                h5.sub-title(data-authorId="#{art.authorId}")
+                    | #{art.author} || #{art.createTime}
                     if(user && user.username == art.author)
                         |  ||
                         a(href="/publish?articleId=#{art._id}") 编辑

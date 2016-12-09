@@ -2,7 +2,7 @@ module.exports = {
     checkLogin: function checkLogin(req, res, next) {
         if (!req.session.user) {
             res.json({code: 0, message: '未登录'});
-            // return res.redirect('/signin');
+            // return res.redirect('/index');
         }
         next();
     },

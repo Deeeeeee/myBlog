@@ -140,22 +140,20 @@ module.exports = function (app) {
     /**
      * 发布
      */
-    app.get('/publish', function (req, res) {
-        // if (req.query.articleId) {
-        //     Article.get(req.query.articleId, function (err, articles) {
-        //         if (err) articles = [];
-        //         res.render('publish', {
-        //             title: '修改文章',
-        //             pubType: "1",
-        //             article: articles[0]
-        //         });
-        //     })
-        // } else {
-        res.render('publish', {
-            title: '发布文章',
-            pubType: "0"
-        });
-        // }
+    app.get('/publish',checkLogin, function (req, res) {
+        var articleId = req.query.articleId;
+        if (articleId) {
+            ArticleModel.getRawArticle(articleId).then( function (result) {
+                res.render('publish', {
+                    title: '修改文章',
+                    article: result
+                });
+            })
+        } else {
+            res.render('publish', {
+                title: '发布文章'
+            });
+        }
     });
     app.post('/publish', checkLogin, function (req, res, next) {
         var authorId = req.session.user._id;
@@ -197,23 +195,28 @@ module.exports = function (app) {
     /**
      * 更新文章
      */
-    app.post('/updateArticle', function (req, res) {
-        var id = req.body._id;
-        var curUser = req.session.user;
-        var article = new Article(curUser.username, req.body.title, req.body.content);
-        article.update(id, function (err) {
-            if (err) {
-                res.json(err);
-                return;
-            }
-            res.json({code: 0, message: "文章更新成功"})
+    app.post('/updateArticle', checkLogin, function (req, res) {
+        var articleId = req.body.articleId;
+        var authorId = req.body.authorId;
+        var user = req.session.user;
+        if(authorId !== user._id){
+            res.json({code: 1, message: "无权限修改此文章"});
+            return
+        }
+        var data = {
+            title: req.body.title,
+            type: req.body.type,
+            content: req.body.content
+        };
+        ArticleModel.updateArticle(articleId, user._id, data).then( function (result) {
+            res.json({code: 0, message: "文章更新成功"});
         })
     });
 
     /**
      * 删除文章
      */
-    app.post('/removeArticle', function (req, res) {
+    app.post('/removeArticle', checkLogin, function (req, res) {
         var id = req.body._id;
         var article = new Article();
         console.log(req.body);

@@ -1,5 +1,5 @@
 
-define(["jquery","wangEditor"], function ($) {
+define(["jquery"], function ($) {
     var page = {
         init: function() {
             this.render();
@@ -12,39 +12,7 @@ define(["jquery","wangEditor"], function ($) {
         bindEvents: function () {
             this.onSubmit();
         },
-        // initCheckLogin: function () {
-        //     $.ajax({
-        //         type: 'post',
-        //         data: "",
-        //         url: '/checkLogin',
-        //         success: function (data) {
-        //             if(data.code === 0){
-        //                 // alert(data.text);
-        //             }else{
-        //                 alert(data.message);
-        //             }
-        //         },
-        //         error: function (err) {
-        //             console.log(err);
-        //         }
-        //     })
-        // },
 
-        initEditor: function () {
-            var editor = new wangEditor("content");
-            // 仅仅想移除某几个菜单，例如想移除『插入代码』和『全屏』菜单：
-            // 其中的 wangEditor.config.menus 可获取默认情况下的菜单配置
-            editor.config.menus = $.map(wangEditor.config.menus, function(item, key) {
-                if (item === 'emotion') return null;
-                if (item === 'video') return null;
-                if (item === 'location') return null;
-                return item;
-            });
-            editor.create();
-            console.log(wangEditor.config.menus)
-
-
-        },
 
         onSubmit: function () {
             $("#submit").on("click",function(){
@@ -55,8 +23,11 @@ define(["jquery","wangEditor"], function ($) {
             });
 
             function submitArticle(url) {
+                var articleId = $("#update").attr("data-id") || "";
+                var authorId = $(".sub-title").data("authorId") || "";
                 var data = {
-                    _id: $("#update").attr("data-id") || "",
+                    articleId: articleId,
+                    authorId: authorId,
                     title: $("#title").val().trim(),
                     type: $("#type").val(),
                     content: $("#content").val(),
@@ -68,8 +39,8 @@ define(["jquery","wangEditor"], function ($) {
                     url: url,
                     success: function (data) {
                         if(data.code === 0){
-                            alert("成功");
-                            window.location.href="/";
+                            alert(data.message);
+                            window.location.href = articleId ? ("/article/" + articleId) : "/";
                         }else{
                             alert(data.message);
                             console.log(data);
