@@ -8,43 +8,33 @@ block content
             .article-layout
                 .article-box
                     - var art = article;
-                    h4.title
+                    h4.title( data-articleId="#{art._id}" data-authorId="#{art.authorId}" )
                         a #{art.title}
-                    h5.sub-title(data-authorId="#{art.authorId}")
+                    h5.sub-title
                         | #{art.author} || #{art.createTime}
                         if(user && user.username == art.author)
                             |  ||
                             a(href="/publish?articleId=#{art._id}") 编辑
                             |  ||
-                            a.J_delArticle(href="javascript:;" data-articleId="#{art._id}" ) 删除
+                            a.J_delArticle(href="javascript:;" ) 删除
                     p !{art.content}
                 ul.comment-box
-                    li
-                        .head
-                            p
-                                a 用户名
-                            p
-                                span 1
-                                | 楼
-                                em 2016-12-29 10:10:22
-                        .body 评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容
-                        .like 喜欢
-                            | 2
-                    li
-                        .head
-                            p
-                                a 用户名
-                            p
-                                span 2
-                                | 楼
-                                em 2016-12-29 10:10:22
-                        .body 评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容
-                        .like 喜欢
-                            | 2
+                    each item in comments
+                        li
+                            .head
+                                p
+                                    a #{ item.author }
+                                p
+                                    span 1
+                                    | 楼
+                                    em #{}
+                            .body #{ item.content }
+                            .like 喜欢
+                                | 2
                 .comment-input
                     if(user)
                         textarea#comment
-                        a.pure-button.pure-button-primary 发表评论
+                        a.J_comment.pure-button.pure-button-primary 发表评论
                     else
                         div
                             a(href='/login') 登录

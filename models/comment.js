@@ -12,9 +12,9 @@ module.exports = {
     },
 
     // 通过文章 id 获取该文章下所有留言，按留言创建时间升序
-    getComments: function getComments(postId) {
+    getComments: function getComments(articleId) {
         return Comment
-            .find({ postId: postId })
+            .find({ articleId: articleId })
             .populate({ path: 'author', model: 'User' })
             .sort({ _id: 1 })
             .addCreatedAt()
@@ -22,7 +22,7 @@ module.exports = {
     },
 
     // 通过文章 id 获取该文章下留言数
-    getCommentsCount: function getCommentsCount(postId) {
-        return Comment.count({ postId: postId }).exec();
+    getCommentsCount: function getCommentsCount(articleId) {
+        return Comment.count({ articleId: articleId }).exec();
     }
 };

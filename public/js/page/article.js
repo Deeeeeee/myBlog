@@ -14,8 +14,9 @@ define(["jquery"], function ($) {
         },
         onDel: function () {
             $(".J_delArticle").on("click", function () {
-                var articleId = $(this).attr("data-articleId");
-                var authorId = $(".sub-title").attr("data-authorId");
+                var title = $(".title");
+                var articleId = title.attr("data-articleId");
+                var authorId = title.attr("data-authorId");
                 var data = {
                     articleId: articleId,
                     authorId: authorId
@@ -40,7 +41,31 @@ define(["jquery"], function ($) {
             });
         },
         onComment: function () {
-
+            $(".J_comment").on("click", function () {
+                var title = $(".title");
+                var articleId = title.attr("data-articleId");
+                var content = $("#comment").val();
+                var data = {
+                    articleId: articleId,
+                    content: content
+                };
+                $.ajax({
+                    type: 'post',
+                    data: data,
+                    url: '/pubComment',
+                    success: function (data) {
+                        if (data.code === 0) {
+                            alert(data.message);
+                        } else {
+                            console.log(data);
+                            alert(data.message);
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            });
         }
     };
     page.init();

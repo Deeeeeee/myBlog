@@ -175,7 +175,7 @@ module.exports = function (app) {
             return;
         }
 
-        var postData = {
+        var data = {
             authorId: authorId,
             author: author,
             title: title,
@@ -184,7 +184,7 @@ module.exports = function (app) {
             pv: 0
         };
 
-        ArticleModel.create(postData)
+        ArticleModel.create(data)
             .then(function (result) {
                 // 此 post 是插入 mongodb 后的值，包含 _id
                 post = result.ops[0];
@@ -273,7 +273,45 @@ module.exports = function (app) {
     /**
      * 发布评论
      */
-    app.post('/comment', function (req, res) {
+    app.post('/pubComment', function (req, res) {
+        var author = req.session.user._id,
+            articleId = req.body.articleId,
+            content = req.body.content;
+            console.log(author);
+        try {
+            if (!author) {
+                throw new Error('未登录');
+            }
+            if (!articleId) {
+                throw new Error('文章不存在');
+            }
+            if (!content.length) {
+                throw new Error('请填写内容');
+            }
+        } catch (e) {
+            res.json({code: 1, message: e.message});
+            return;
+        }
+
+        var data = {
+            author: author,
+            articleId: articleId,
+            content: content
+        };
+        CommentModel.create(data)
+            .then(function (result) {
+                res.json({
+                    code: 0,
+                    message: "发布成功",
+                    body: result
+                });
+            })
+    });
+
+    /**
+     * 发布回复
+     */
+    app.post('/reply', function (req, res) {
         var start = parseInt(req.body.start);
         var limit = parseInt(req.body.limit);
         ArticleModel.getArticles(null, start, limit)
