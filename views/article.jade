@@ -19,18 +19,17 @@ block content
                             a.J_delArticle(href="javascript:;" ) 删除
                     p !{art.content}
                 ul.comment-box
-                    each item in comments
+                    each item,i in comments
                         li
                             .head
                                 p
-                                    a #{ item.author }
+                                    a #{item.author.username}
                                 p
-                                    span 1
+                                    span #{ i + 1}
                                     | 楼
-                                    em #{}
-                            .body #{ item.content }
-                            .like 喜欢
-                                | 2
+                                    em
+                            .body #{ item.content}
+                            .like 喜欢 2
                 .comment-input
                     if(user)
                         textarea#comment
