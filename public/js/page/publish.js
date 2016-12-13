@@ -23,8 +23,9 @@ define(["jquery"], function ($) {
             });
 
             function submitArticle(url) {
-                var articleId = $("#update").attr("data-id") || "";
-                var authorId = $(".sub-title").attr("data-authorId") || "";
+                var btn = $("#update");
+                var articleId = btn.attr("data-id") || "";
+                var authorId = btn.attr("data-authorId") || "";
                 var data = {
                     articleId: articleId,
                     authorId: authorId,

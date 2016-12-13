@@ -243,7 +243,7 @@ module.exports = function (app) {
                 var article = result[0];
                 var comments = result[1];
 
-                console.log(article.title);
+                console.log(article);
                 console.log(comments);
 
                 if (!article) {

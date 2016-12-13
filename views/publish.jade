@@ -9,7 +9,7 @@ block content
             - var art = article
             form.pure-form.pure-form-stacked
                 label(for="title") 标题
-                input#title(type="text" placeholder="title" value="#{article ? article.title : ''}")
+                input#title(type="text"  placeholder="title" value="#{article ? article.title : ''}")
 
                 label(for="type") 分类
                 select#type
@@ -22,7 +22,7 @@ block content
 
 
                 if(art)
-                    a#update.pure-button.pure-button-primary(href="javascript:;" data-id="#{ art._id }") 提交修改
+                    a#update.pure-button.pure-button-primary(href="javascript:;" data-id="#{ art._id }" data-authorId="#{art.authorId}") 提交修改
                 else
                     a#submit.pure-button.pure-button-primary(href="javascript:;") 发布
 
