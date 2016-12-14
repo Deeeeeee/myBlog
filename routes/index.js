@@ -312,7 +312,7 @@ module.exports = function (app) {
      * 删除评论
      */
     app.post('/delComment', function (req, res) {
-        var author = req.session.user._id,
+        var userId = req.session.user._id,
             articleId = req.body.articleId,
             content = req.body.content;
             console.log(author);
@@ -332,7 +332,7 @@ module.exports = function (app) {
         }
 
         var data = {
-            author: author,
+            userId: userId,
             articleId: articleId,
             content: content
         };

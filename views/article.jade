@@ -17,7 +17,8 @@ block content
                             a(href="/publish?articleId=#{art._id}") 编辑
                             |  ||
                             a.J_delArticle(href="javascript:;" ) 删除
-                    p !{art.content}
+                    .markdown
+                        p !{art.content}
                 ul.comment-box
                     each item,i in comments
                         li
