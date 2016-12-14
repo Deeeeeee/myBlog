@@ -18,7 +18,7 @@ app.set('views', path.join(__dirname, 'views'));                    // 设置 vi
 app.set('view engine', 'jade');                                     // 设置视图模板引擎为 jade
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));  // 设置/public/favicon.ico为favicon图标。
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));  // 设置/public/favicon.ico为favicon图标。
 app.use(bodyParser.json());                                         // 加载解析json的中间件。
 app.use(bodyParser.urlencoded({extended: false}));                  // 加载解析urlencoded请求体的中间件。
 app.use(cookieParser());                                            // 加载解析cookie的中间件。
@@ -99,5 +99,11 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-
-module.exports = app;
+if( module.parent ) {
+    module.exports = app;
+}else{
+    const port = process.env.PORT || config.port
+    app.listen(port, function () {
+        console.log("DeeBlog listening on port "+ config.port)
+    })
+}
