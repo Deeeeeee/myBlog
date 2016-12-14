@@ -104,6 +104,6 @@ if( module.parent ) {
 }else{
     const port = process.env.PORT || config.port
     app.listen(port, function () {
-        console.log("DeeBlog listening on port "+ config.port)
+        console.log("DeeBlog listening on port "+ port)
     })
 }
