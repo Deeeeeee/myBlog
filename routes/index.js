@@ -340,7 +340,7 @@ module.exports = function (app) {
             .then(function (result) {
                 res.json({
                     code: 0,
-                    message: "发布成功",
+                    message: "删除成功",
                     body: result
                 });
             })

@@ -1,22 +1,24 @@
 extends layout
 block stylesheets
-    link(rel="stylesheet", href="/css/index.min.css")
+    link(rel="stylesheet", href="/css/register.min.css")
 block content
-    h1 注册
-    p
-        | 用户名
-        input(type="text" id="username")
-    p
-        | 密码
-        input(type="password" id="password")
-    p
-        | 重复密码
-        input(type="password" id="rePassword")
-    p
-        | 邮箱
-        input(type="text" id="email" value="dee@gmail.com")
+    .container
+        h1 注册
+        form.pure-form.pure-form-stacked
+            .pure-g
+                label.pure-u-1 用户名
+                input.pure-u-1(type="text" id="username")
 
-    a#submit(href="javascript:;") 注册
+                label.pure-u-1 密码
+                input.pure-u-1(type="password" id="password")
+
+                label.pure-u-1 重复密码
+                input.pure-u-1(type="password" id="rePassword")
+
+                label.pure-u-1 邮箱
+                input.pure-u-1(type="text" id="email" value="dee@gmail.com")
+
+                a#submit.pure-u-1.pure-button.pure-button-primary(href="javascript:;") 注册
 
 block scripts
     script.

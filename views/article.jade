@@ -30,7 +30,8 @@ block content
                                     | 楼
                                     em
                             .body #{ item.content}
-                            .like 喜欢 2
+                            if( (user && user._id == item.author._id) || (user && user._id == art.authorId) )
+                                .J_del.del 删除
                 .comment-input
                     if(user)
                         textarea#comment

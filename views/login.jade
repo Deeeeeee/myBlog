@@ -1,18 +1,20 @@
 extends layout
 block stylesheets
-	link(rel="stylesheet", href="/css/index.min.css")
+    link(rel="stylesheet", href="/css/login.min.css")
 block content
-	h1 登录
-	p 
-		|用户名
-		input(type="text" id="username")
-	p 
-		|密码
-		input(type="password" id="password")
+    .container
+        h1 登录
+        form.pure-form.pure-form-stacked
+            .pure-g
+                label.pure-u-1(for="username") 用户名
+                input.pure-u-1(type="text" id="username")
 
-	a#submit(href="javascript:;") 登录
+                label.pure-u-1(for="password") 密码
+                input.pure-u-1(type="password" id="password")
+
+                a.pure-u-1.pure-button.pure-button-primary#submit(href="javascript:;") 登录
 block scripts
-	script.
-		require(['main'], function () {
-			require(['page/login']);
-		});
+    script.
+        require(['main'], function () {
+            require(['page/login']);
+        });
