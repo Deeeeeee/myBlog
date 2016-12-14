@@ -12,7 +12,7 @@ module.exports = function (app) {
      * 首页
      */
     app.get('/', function (req, res) {
-        ArticleModel.getArticles(null, 0, 5)
+        ArticleModel.getArticles(null, 0, 20)
             .then(function (result) {
                 res.render('index', {
                     title: '首页',
@@ -307,6 +307,46 @@ module.exports = function (app) {
                 });
             })
     });
+
+    /**
+     * 删除评论
+     */
+    app.post('/delComment', function (req, res) {
+        var author = req.session.user._id,
+            articleId = req.body.articleId,
+            content = req.body.content;
+            console.log(author);
+        try {
+            if (!author) {
+                throw new Error('未登录');
+            }
+            if (!articleId) {
+                throw new Error('文章不存在');
+            }
+            if (!content.length) {
+                throw new Error('请填写内容');
+            }
+        } catch (e) {
+            res.json({code: 1, message: e.message});
+            return;
+        }
+
+        var data = {
+            author: author,
+            articleId: articleId,
+            content: content
+        };
+        CommentModel.create(data)
+            .then(function (result) {
+                res.json({
+                    code: 0,
+                    message: "发布成功",
+                    body: result
+                });
+            })
+    });
+
+
 
     /**
      * 发布回复

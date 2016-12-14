@@ -29,7 +29,7 @@ define(["jquery"], function ($) {
 
         $this.addClass("pure-button-disabled");
         pageCount++;
-        var limit = 2;
+        var limit = 20;
         var start = pageCount * limit;
         var data = {
             limit: limit,
@@ -66,7 +66,10 @@ define(["jquery"], function ($) {
                             // "<p>" + v.content + "</p></li>"
                     });
                     $(".article-list").append(html);
+
                     $this.removeClass("pure-button-disabled");
+
+                    articles.length < limit ? $this.hide() : ""
                 } else {
                     console.log(data.message)
                 }
