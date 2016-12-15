@@ -220,12 +220,12 @@ module.exports = function (app) {
     app.post('/removeArticle', checkLogin, function (req, res) {
         var articleId = req.body.articleId;
         var authorId = req.body.authorId;
-        var user = req.session.user;
-        if(authorId !== user._id){
+        var userId = req.session.user._id;
+        if(authorId !== userId){
             res.json({code: 1, message: "无权限删除此文章"});
             return
         }
-        ArticleModel.delArticle(articleId, user._id).then( function (result) {
+        ArticleModel.delArticle(articleId, userId).then( function (result) {
             res.json({code: 0, message: "删除成功"});
         });
     });
@@ -312,38 +312,17 @@ module.exports = function (app) {
      * 删除评论
      */
     app.post('/delComment', function (req, res) {
-        var userId = req.session.user._id,
-            articleId = req.body.articleId,
-            content = req.body.content;
-            console.log(author);
-        try {
-            if (!author) {
-                throw new Error('未登录');
-            }
-            if (!articleId) {
-                throw new Error('文章不存在');
-            }
-            if (!content.length) {
-                throw new Error('请填写内容');
-            }
-        } catch (e) {
-            res.json({code: 1, message: e.message});
-            return;
+        var commentId = req.body.commentId;
+        var authorId = req.body.authorId;
+        var articleAuthorId = req.body.articleAuthorId;
+        var userId = req.session.user._id;
+        if((userId != authorId) || (userId != articleAuthorId)){
+            res.json({code: 1, message: "无权限删除此文章"});
+            return
         }
-
-        var data = {
-            userId: userId,
-            articleId: articleId,
-            content: content
-        };
-        CommentModel.create(data)
-            .then(function (result) {
-                res.json({
-                    code: 0,
-                    message: "删除成功",
-                    body: result
-                });
-            })
+        CommentModel.delCommentById(commentId, userId).then( function (result) {
+            res.json({code: 0, message: "删除成功"});
+        });
     });
 
 

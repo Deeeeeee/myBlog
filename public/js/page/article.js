@@ -9,10 +9,12 @@ define(["jquery"], function ($) {
 
         },
         bindEvents: function () {
-            this.onDel();
+            this.onDelArticle();
             this.onComment();
+            this.onDelComment();
+
         },
-        onDel: function () {
+        onDelArticle: function () {
             $(".J_delArticle").on("click", function () {
                 var title = $(".title");
                 var articleId = title.attr("data-articleId");
@@ -53,6 +55,35 @@ define(["jquery"], function ($) {
                     type: 'post',
                     data: data,
                     url: '/pubComment',
+                    success: function (data) {
+                        if (data.code === 0) {
+                            alert(data.message);
+                        } else {
+                            console.log(data);
+                            alert(data.message);
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            });
+        },
+        onDelComment: function () {
+            $(".J_delComment").on("click", function () {
+                var target = $(this).parents("li");
+                var commentId = target.attr("data-commentId");
+                var authorId = target.attr("data-authorId");
+                var articleAuthorId = $(".title").attr("data-authorId");
+                var data = {
+                    commentId: commentId,
+                    authorId: authorId,
+                    articleAuthorId: articleAuthorId
+                };
+                $.ajax({
+                    type: 'post',
+                    data: data,
+                    url: '/delComment',
                     success: function (data) {
                         if (data.code === 0) {
                             alert(data.message);

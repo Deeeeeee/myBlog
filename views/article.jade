@@ -21,7 +21,7 @@ block content
                         p !{art.content}
                 ul.comment-box
                     each item,i in comments
-                        li
+                        li(data-commentId="#{item._id}" data-authorId="#{item.author._id}")
                             .head
                                 p
                                     a #{item.author.username}
@@ -31,7 +31,7 @@ block content
                                     em
                             .body #{ item.content}
                             if( (user && user._id == item.author._id) || (user && user._id == art.authorId) )
-                                .J_del.del 删除
+                                a(href="javascript:;").J_delComment.del-comment 删除
                 .comment-input
                     if(user)
                         textarea#comment
