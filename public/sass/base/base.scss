@@ -1,3 +1,4 @@
+@import "_variables";
 *{
     margin: 0;
     padding: 0;
@@ -41,7 +42,7 @@ a{
     outline: none;
     /*设置的tap  A标签的时候出现的黑色高亮*/
     -webkit-tap-highlight-color: transparent;
-    color: #00B7FF;
+    color: $baseBlue;
 }
 a:active{
     outline: 0;
