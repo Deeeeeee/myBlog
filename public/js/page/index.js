@@ -69,7 +69,7 @@ define(["jquery"], function ($) {
 
                     $this.removeClass("pure-button-disabled");
 
-                    articles.length < limit ? $this.hide() : ""
+                    articles.length < limit ? $this.hide().parent().text("没有更多了...") : ""
                 } else {
                     console.log(data.message)
                 }

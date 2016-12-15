@@ -25,6 +25,8 @@ block content
             if(articles.length >= 20)
                 div.tc.mt20.mb20
                     button#loadMore.pure-button.pure-button-primary 点击加载更多
+            else
+                .tc.mt20 没有更多了...
 block scripts
     script.
         require(['main'], function () {
