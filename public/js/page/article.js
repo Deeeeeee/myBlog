@@ -53,9 +53,9 @@ define(["jquery"], function ($) {
         onComment: function () {
             $(".J_comment").on("click", function () {
                 var articleId = $(".title").attr("data-articleId");
-                var nickname = $(".nickname").val();
-                var blog = $(".blogAddress").val();
-                var content = $(".commentValue").val();
+                var nickname = $(".nickname").val().trim();
+                var blog = $(".blogAddress").val().trim();
+                var content = $(".commentValue").val().trim();
                 var data = {
                     articleId: articleId,
                     nickname: nickname,

@@ -2,6 +2,7 @@
 .sidebar{
     //background: url(../../images/banner.jpg) bottom no-repeat;
     //background-size: cover;
+    position: relative;
     background-color: $sideBgColor;
     padding: 50px 0;
     color: #fff;
@@ -25,5 +26,27 @@
         top: 0;
         bottom: 0;
         padding: 100px 0;
+    }
+}
+
+
+.bg{
+    position: absolute;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    -webkit-filter: blur(10px); /* Chrome, Opera */
+    -moz-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+    ul{
+        li{
+            margin: 10px;
+            float: left;
+            height: 80px;
+            background: pink;
+        }
     }
 }
