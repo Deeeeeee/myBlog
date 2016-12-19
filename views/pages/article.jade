@@ -21,25 +21,18 @@ block content
                         p !{art.content}
                 ul.comment-box
                     each item,i in comments
-                        li(data-commentId="#{item._id}" data-authorId="#{item.author._id}")
+                        li(data-commentId="#{item._id}")
                             .head
                                 p
-                                    a #{item.author.username}
+                                    a #{item.nickname}
                                 p
                                     span #{ i + 1}
                                     | 楼
                                     em
                             .body #{ item.content}
-                            if( (user && user._id == item.author._id) || (user && user._id == art.authorId) )
+                            if( user && user._id == art.authorId )
                                 a(href="javascript:;").J_delComment.del-comment 删除
-                .comment-input
-                    if(user)
-                        textarea#comment
-                        a.J_comment.pure-button.pure-button-primary 发表评论
-                    else
-                        div
-                            a(href='/login') 登录
-                            | 后可以发布评论
+                include ../includes/comment
 block scripts
     script.
         require(['main'], function () {

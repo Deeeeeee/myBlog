@@ -8,7 +8,7 @@ module.exports = {
 
     // 通过用户 id 和留言 id 删除一个留言
     delCommentById: function delCommentById(commentId, author) {
-        return Comment.remove({ author: author, _id: commentId }).exec();
+        return Comment.remove({ _id: commentId }).exec();
     },
 
     // 通过文章 id 删除该文章下所有留言

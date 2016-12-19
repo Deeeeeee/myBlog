@@ -44,11 +44,14 @@ define(["jquery"], function ($) {
         },
         onComment: function () {
             $(".J_comment").on("click", function () {
-                var title = $(".title");
-                var articleId = title.attr("data-articleId");
+                var articleId = $(".title").attr("data-articleId");
+                var nickname = $("#nickname").val();
+                var blog = $("#blogAddress").val();
                 var content = $("#comment").val();
                 var data = {
                     articleId: articleId,
+                    nickname: nickname,
+                    blog: blog,
                     content: content
                 };
                 $.ajax({

@@ -286,13 +286,14 @@ module.exports = function (app) {
      * 发布评论
      */
     app.post('/pubComment', function (req, res) {
-        var author = req.session.user._id,
+        var nickname = req.body.nickname,
+            blog = req.body.blog,
             articleId = req.body.articleId,
             content = req.body.content;
-            console.log(author);
+
         try {
-            if (!author) {
-                throw new Error('未登录');
+            if (!nickname.length) {
+                throw new Error('请填写昵称');
             }
             if (!articleId) {
                 throw new Error('文章不存在');
@@ -306,8 +307,9 @@ module.exports = function (app) {
         }
 
         var data = {
-            author: author,
             articleId: articleId,
+            nickname: nickname,
+            blog: blog,
             content: content
         };
         CommentModel.create(data)
@@ -325,10 +327,9 @@ module.exports = function (app) {
      */
     app.post('/delComment', function (req, res) {
         var commentId = req.body.commentId;
-        var authorId = req.body.authorId;
         var articleAuthorId = req.body.articleAuthorId;
         var userId = req.session.user._id;
-        if((userId != authorId) || (userId != articleAuthorId)){
+        if(userId != articleAuthorId){
             res.json({code: 1, message: "无权限删除此文章"});
             return
         }
