@@ -1,9 +1,9 @@
-extends layout
+extends ../layout
 block stylesheets
     link(rel="stylesheet", href="/css/index.min.css")
 block content
     .pure-g
-        include includes/sidebar
+        include ../includes/sidebar
         div.main.pure-u-1.pure-u-md-3-4
             ul.article-list
                 each item in articles
@@ -11,14 +11,14 @@ block content
                         h4
                             a(href="/article/#{item._id}") #{item.title}
                         h5
-                            em By
+                            em 作者:
                             if(user && user.username == item.author)
                                 span.mine #{item.author}
                             else
                                 span.other #{item.author}
-                            em Under
+                            em 标签:
                             span.type #{item.type}
-                            em At
+                            em 日期:
                             span.time #{item.createTime}
 
                         //p !{item.content}

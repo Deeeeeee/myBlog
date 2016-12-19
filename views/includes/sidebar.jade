@@ -4,11 +4,10 @@
         a(href="/") Blog
 
     if (user)
-        h5#user(data-username="#{user.username}") #{user.username}
-        a#logout(href="javascript:;") 登出
-        | |
-        a(href="/publish") 发布
+        p
+            a#user(href="#{'/userCenter/' + user._id}" data-username="#{user.username}") #{user.username}
+        a#logout(href="javascript:;") 退出
+        a(href="/publish") 发布文章
     else
         a(href="/login") 登录
-        | |
         a(href="/register") 注册

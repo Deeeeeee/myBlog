@@ -9,12 +9,14 @@
     h3{
         font-size: 24px;
         margin-bottom: 20px;
-        a{
-
-        }
     }
-    h5{
+    #user{
+        display: block;
+        font-size: 14px;
         margin-bottom: 10px;
+    }
+    a{
+        margin: 0 10px;
     }
 }
 @media (min-width: 48em){

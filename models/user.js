@@ -14,5 +14,12 @@ module.exports = {
             .findOne({ username: name })
             .addCreatedAt()
             .exec();
+    },
+
+    // 通过用户 id 更新用户
+    update: function (userId,  data) {
+        return User
+            .update({ _id: userId }, { $set: data })
+            .exec();
     }
 };

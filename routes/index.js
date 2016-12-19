@@ -1,9 +1,12 @@
 var crypto = require('crypto');
 var marked = require('marked');
+
 //引入数据库模块
 var UserModel = require('../models/user.js');
 var ArticleModel = require('../models/article.js');
 var CommentModel = require('../models/comment.js');
+
+// 加载自定义中间件
 var checkLogin = require('../middlewares/check').checkLogin;
 
 module.exports = function (app) {
@@ -14,7 +17,7 @@ module.exports = function (app) {
     app.get('/', function (req, res) {
         ArticleModel.getArticles(null, 0, 20)
             .then(function (result) {
-                res.render('index', {
+                res.render('pages/index', {
                     title: '首页',
                     articles: result
                 });
@@ -26,7 +29,7 @@ module.exports = function (app) {
      * 注册
      */
     app.get('/register', function (req, res) {
-        res.render('register', {
+        res.render('pages/register', {
             title: '注册'
         });
     });
@@ -91,7 +94,7 @@ module.exports = function (app) {
      * 登录
      */
     app.get('/login', function (req, res) {
-        res.render('login', {
+        res.render('pages/login', {
             title: '登录'
         });
     });
@@ -137,6 +140,15 @@ module.exports = function (app) {
         res.json({code: 0, message: "登录成功"});
     });
 
+    /**
+     * 个人中心
+     */
+    app.get('/userCenter/:id', function (req, res, next) {
+        res.render('pages/userCenter', {
+            title: '个人中心'
+
+        });
+    });
 
     /**
      * 发布文章
@@ -145,13 +157,13 @@ module.exports = function (app) {
         var articleId = req.query.articleId;
         if (articleId) {
             ArticleModel.getRawArticle(articleId).then( function (result) {
-                res.render('publish', {
+                res.render('pages/publish', {
                     title: '修改文章',
                     article: result
                 });
             })
         } else {
-            res.render('publish', {
+            res.render('pages/publish', {
                 title: '发布文章'
             });
         }
@@ -249,7 +261,7 @@ module.exports = function (app) {
                 if (!article) {
                     throw new Error('该文章不存在');
                 }
-                res.render('article', {
+                res.render('pages/article', {
                     title: '文章详情',
                     article: article,
                     comments: comments

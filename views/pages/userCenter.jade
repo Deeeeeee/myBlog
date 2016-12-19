@@ -1,0 +1,16 @@
+extends ../layout
+block stylesheets
+    link(rel="stylesheet", href="/css/userCenter.min.css")
+block content
+    .pure-g
+        include ../includes/sidebar
+        .main.pure-u-1.pure-u-md-3-4
+            .tabs-group
+                a(href="") 文章
+                a(href="") 动态
+
+block scripts
+    script.
+        require(['main'], function () {
+            require(['page/register']);
+        });
