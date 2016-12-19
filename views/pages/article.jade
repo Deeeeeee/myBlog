@@ -24,11 +24,12 @@ block content
                         li(data-commentId="#{item._id}")
                             .head
                                 p
-                                    a #{item.nickname}
+                                    a(href="#{item.blog}") #{item.nickname}
                                 p
                                     span #{ i + 1}
                                     | 楼
                                     em
+                                    span #{item.createTime}
                             .body #{ item.content}
                             if( user && user._id == art.authorId )
                                 a(href="javascript:;").J_delComment.del-comment 删除

@@ -6,13 +6,21 @@ define(["jquery"], function ($) {
             this.bindEvents();
         },
         render: function(){
-
+            this.initUserInfo()
         },
         bindEvents: function () {
             this.onDelArticle();
             this.onComment();
             this.onDelComment();
 
+        },
+        initUserInfo: function () {
+            var nickname = localStorage.getItem('commentNickname');
+            var blog = localStorage.getItem('commentBlog');
+            if(nickname || blog){
+                $(".nickname").val(nickname);
+                $(".blogAddress").val(blog);
+            }
         },
         onDelArticle: function () {
             $(".J_delArticle").on("click", function () {
@@ -45,15 +53,19 @@ define(["jquery"], function ($) {
         onComment: function () {
             $(".J_comment").on("click", function () {
                 var articleId = $(".title").attr("data-articleId");
-                var nickname = $("#nickname").val();
-                var blog = $("#blogAddress").val();
-                var content = $("#comment").val();
+                var nickname = $(".nickname").val();
+                var blog = $(".blogAddress").val();
+                var content = $(".commentValue").val();
                 var data = {
                     articleId: articleId,
                     nickname: nickname,
                     blog: blog,
                     content: content
                 };
+                if(!localStorage.getItem('commentNickname') || (!localStorage.getItem('commentBlog') && blog) ){
+                    localStorage.setItem('commentNickname', nickname);
+                    localStorage.setItem('commentBlog', blog);
+                }
                 $.ajax({
                     type: 'post',
                     data: data,
@@ -61,6 +73,7 @@ define(["jquery"], function ($) {
                     success: function (data) {
                         if (data.code === 0) {
                             alert(data.message);
+
                         } else {
                             console.log(data);
                             alert(data.message);
