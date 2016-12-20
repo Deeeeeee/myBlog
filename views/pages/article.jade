@@ -24,16 +24,18 @@ block content
                         li(data-commentId="#{item._id}")
                             .head
                                 p
-                                    a(href="#{item.blog}") #{item.nickname}
-
+                                    if(art.author == item.nickname)
+                                        a.master(href="#{item.blog}") #{item.nickname}
+                                    else
+                                        a(href="#{item.blog}") #{item.nickname}
                                 p
-                                    span #{ i + 1}
-                                    | 楼
-                                    em
-                                    span #{item.createTime}
+                                    span.floor #{ i + 1} 楼
+                                    span.time #{item.createTime}
                             .body #{ item.content}
-                            if( user && user._id == art.authorId )
-                                a(href="javascript:;").J_delComment.del-comment 删除
+                            .footer
+                                a.J_replay(href="javascript:;") 回复
+                                if( user && user._id == art.authorId )
+                                    a.J_delComment.del(href="javascript:;") 删除
                 include ../includes/comment
 block scripts
     script.

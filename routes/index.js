@@ -289,9 +289,14 @@ module.exports = function (app) {
         var nickname = req.body.nickname,
             blog = req.body.blog,
             articleId = req.body.articleId,
-            content = req.body.content;
+            content = req.body.content,
+            user = req.session.user;
 
         try {
+            //TODO 昵称验证
+            if ( !user && nickname == "dee") {
+                throw new Error('此昵称不可用');
+            }
             if (!nickname.length) {
                 throw new Error('请填写昵称');
             }

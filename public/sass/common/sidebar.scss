@@ -30,23 +30,3 @@
 }
 
 
-.bg{
-    position: absolute;
-    top:0;
-    left:0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    -webkit-filter: blur(10px); /* Chrome, Opera */
-    -moz-filter: blur(10px);
-    -ms-filter: blur(10px);
-    filter: blur(10px);
-    ul{
-        li{
-            margin: 10px;
-            float: left;
-            height: 80px;
-            background: pink;
-        }
-    }
-}
