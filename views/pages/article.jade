@@ -11,7 +11,7 @@ block content
                     h4.title( data-articleId="#{art._id}" data-authorId="#{art.authorId}" )
                         a #{art.title}
                     h5.sub-title
-                        | #{art.author} || #{art.createTime}
+                        | #{art.createTime}
                         if(user && user.username == art.author)
                             |  ||
                             a(href="/publish?articleId=#{art._id}") 编辑
@@ -25,6 +25,7 @@ block content
                             .head
                                 p
                                     a(href="#{item.blog}") #{item.nickname}
+
                                 p
                                     span #{ i + 1}
                                     | 楼
