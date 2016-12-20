@@ -1,5 +1,5 @@
 
-define(["jquery"], function ($) {
+define(["jquery","notie"], function ($,notie) {
     var page = {
         init: function() {
             this.render();

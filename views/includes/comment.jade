@@ -1,17 +1,19 @@
-.pub-comment
-    form.pure-form.pure-form-stacked
-        .pure-g
-            if (user)
-                label.pure-u-1 昵称
-                input.pure-u-1.nickname(type="text" value="#{user.username}" readonly)
-            else
-                label.pure-u-1 昵称
-                input.pure-u-1.nickname(type="text")
+.layer(data-layer="comment")
+    .layer-container
+        .pub-comment
+            form.pure-form.pure-form-stacked
+                .pure-g
+                    if (user)
+                        label.pure-u-1 昵称
+                        input.pure-u-1.nickname(type="text" value="#{user.username}" readonly)
+                    else
+                        label.pure-u-1 昵称
+                        input.pure-u-1.nickname(type="text")
 
-                label.pure-u-1 博客地址
-                input.pure-u-1.blogAddress(type="text" value="http://")
+                        label.pure-u-1 博客地址
+                        input.pure-u-1.blogAddress(type="text" value="http://")
 
-            label.pure-u-1 评论内容
-            textarea.pure-u-1.commentValue
+                    label.pure-u-1 评论内容
+                    textarea.pure-u-1.commentValue
 
-            a.J_comment.pure-u-1.pure-button.pure-button-primary 发表评论
+                    a.J_comment.pure-u-1.pure-button.pure-button-primary 发表评论

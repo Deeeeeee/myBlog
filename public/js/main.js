@@ -4,7 +4,7 @@ requirejs.config({
     paths: {
         common: 'common',
         jquery: 'vendor/jquery',
-        wangEditor: 'vendor/wangEditor.min'
+        notie: 'vendor/notie'
     },
     shim: {
 
