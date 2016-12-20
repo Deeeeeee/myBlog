@@ -31,11 +31,12 @@ block content
                                 p
                                     span.floor #{ i + 1} 楼
                                     span.time #{item.createTime}
-                            .body #{ item.content}
+                            .body #{ item.status==0 ? item.content : '*该评论已被屏蔽*'}
                             .footer
                                 a.J_replay(href="javascript:;") 回复
                                 if( user && user._id == art.authorId )
-                                    a.J_delComment.del(href="javascript:;") 删除
+                                    //a.J_delComment.del(href="javascript:;") 删除
+                                    a.J_hideComment.del(href="javascript:;") 屏蔽
                 include ../includes/comment
 block scripts
     script.

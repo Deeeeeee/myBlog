@@ -5,6 +5,7 @@ var marked = require('marked');
 var UserModel = require('../models/user.js');
 var ArticleModel = require('../models/article.js');
 var CommentModel = require('../models/comment.js');
+var ReplayModel = require('../models/replay.js');
 
 // 加载自定义中间件
 var checkLogin = require('../middlewares/check').checkLogin;
@@ -314,7 +315,8 @@ module.exports = function (app) {
             articleId: articleId,
             nickname: nickname,
             blog: blog,
-            content: content
+            content: content,
+            status: 0
         };
         CommentModel.create(data)
             .then(function (result) {
@@ -334,11 +336,27 @@ module.exports = function (app) {
         var articleAuthorId = req.body.articleAuthorId;
         var userId = req.session.user._id;
         if(userId != articleAuthorId){
-            res.json({code: 1, message: "无权限删除此文章"});
+            res.json({code: 1, message: "无权限删除此评论"});
             return
         }
         CommentModel.delCommentById(commentId, userId).then( function (result) {
             res.json({code: 0, message: "删除成功"});
+        });
+    });
+
+    /**
+     * 屏蔽评论
+     */
+    app.post('/hideComment', function (req, res) {
+        var commentId = req.body.commentId;
+        var articleAuthorId = req.body.articleAuthorId;
+        var userId = req.session.user._id;
+        if(userId != articleAuthorId){
+            res.json({code: 1, message: "无权限屏蔽此评论"});
+            return
+        }
+        CommentModel.hideCommentById(commentId, {status: 1}).then( function (result) {
+            res.json({code: 0, message: "屏蔽成功"});
         });
     });
 
@@ -347,14 +365,42 @@ module.exports = function (app) {
     /**
      * 发布回复
      */
-    app.post('/reply', function (req, res) {
-        var start = parseInt(req.body.start);
-        var limit = parseInt(req.body.limit);
-        ArticleModel.getArticles(null, start, limit)
+    app.post('/pubReply', function (req, res) {
+        var nickname = req.body.nickname,
+            blog = req.body.blog,
+            CommentId = req.body.CommentId,
+            content = req.body.content,
+            user = req.session.user;
+        try {
+            //TODO 昵称验证
+            if ( !user && nickname == "dee") {
+                throw new Error('此昵称不可用');
+            }
+            if (!nickname.length) {
+                throw new Error('请填写昵称');
+            }
+            if (!CommentId) {
+                throw new Error('文章不存在');
+            }
+            if (!content.length) {
+                throw new Error('请填写内容');
+            }
+        } catch (e) {
+            res.json({code: 1, message: e.message});
+            return;
+        }
+        var data = {
+            CommentId: CommentId,
+            nickname: nickname,
+            blog: blog,
+            content: content,
+            status: 0
+        };
+        ReplayModel.create(data)
             .then(function (result) {
                 res.json({
                     code: 0,
-                    message: "获取成功",
+                    message: "发布成功",
                     body: result
                 });
             })

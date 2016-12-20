@@ -91,10 +91,7 @@ module.exports = {
 
     // 通过用户 id 和文章 id 更新一篇文章
     updateArticle: function (articleId, authorId, data) {
-        return Article
-            .update({
-                authorId: authorId,
-                _id: articleId}, {$set: data})
+        return Article.update({authorId: authorId,_id: articleId}, {$set: data})
             .exec();
     },
 

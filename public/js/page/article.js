@@ -12,7 +12,7 @@ define(["jquery","notie"], function ($,notie) {
             this.onDelArticle();
             this.onComment();
             this.onDelComment();
-
+            this.onHideComment();
         },
         initUserInfo: function () {
             var nickname = localStorage.getItem('commentNickname');
@@ -50,6 +50,7 @@ define(["jquery","notie"], function ($,notie) {
                 })
             });
         },
+
         onComment: function () {
             $(".J_comment").on("click", function () {
                 var articleId = $(".title").attr("data-articleId");
@@ -90,17 +91,42 @@ define(["jquery","notie"], function ($,notie) {
             $(".J_delComment").on("click", function () {
                 var target = $(this).parents("li");
                 var commentId = target.attr("data-commentId");
-                var authorId = target.attr("data-authorId");
                 var articleAuthorId = $(".title").attr("data-authorId");
                 var data = {
                     commentId: commentId,
-                    authorId: authorId,
                     articleAuthorId: articleAuthorId
                 };
                 $.ajax({
                     type: 'post',
                     data: data,
                     url: '/delComment',
+                    success: function (data) {
+                        if (data.code === 0) {
+                            alert(data.message);
+                        } else {
+                            console.log(data);
+                            alert(data.message);
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            });
+        },
+        onHideComment: function () {
+            $(".J_hideComment").on("click", function () {
+                var target = $(this).parents("li");
+                var commentId = target.attr("data-commentId");
+                var articleAuthorId = $(".title").attr("data-authorId");
+                var data = {
+                    commentId: commentId,
+                    articleAuthorId: articleAuthorId
+                };
+                $.ajax({
+                    type: 'post',
+                    data: data,
+                    url: '/hideComment',
                     success: function (data) {
                         if (data.code === 0) {
                             alert(data.message);
