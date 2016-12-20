@@ -305,7 +305,6 @@ module.exports = function (app) {
             res.json({code: 1, message: e.message});
             return;
         }
-
         var data = {
             articleId: articleId,
             nickname: nickname,

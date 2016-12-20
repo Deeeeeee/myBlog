@@ -11,16 +11,11 @@ block content
                         h4
                             a(href="/article/#{item._id}") #{item.title}
                         h5
-                            em 作者:
-                            if(user && user.username == item.author)
-                                span.mine #{item.author}
-                            else
-                                span.other #{item.author}
                             em 标签:
                             span.type #{item.type}
                             em 日期:
                             span.time #{item.createTime}
-
+                        p 流量数(#{item.pv}) 评论数(#{item.commentsCount})
                         //p !{item.content}
             if(articles.length >= 20)
                 div.tc.mt20.mb20
