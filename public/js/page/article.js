@@ -13,7 +13,10 @@ define(["jquery","notie"], function ($,notie) {
             this.onComment();
             this.onDelComment();
             this.onHideComment();
+            this.onReplay();
+
         },
+
         initUserInfo: function () {
             var nickname = localStorage.getItem('commentNickname');
             var blog = localStorage.getItem('commentBlog');
@@ -53,6 +56,7 @@ define(["jquery","notie"], function ($,notie) {
 
         onComment: function () {
             $(".J_comment").on("click", function () {
+                var _this = $(this);
                 var articleId = $(".title").attr("data-articleId");
                 var nickname = $(".nickname").val();
                 var blog = $(".blogAddress").val() || "";
@@ -139,6 +143,22 @@ define(["jquery","notie"], function ($,notie) {
                         console.log(err);
                     }
                 })
+            });
+        },
+
+        onReplay: function () {
+            var html = $(".pub-comment").html();
+            $(".J_replay").on("click", function () {
+                var _this = $(this);
+                var oLi = _this.parents('li.comment-item');
+                var target = oLi.find('.nickname');
+                if(oLi.find('.pub-replay').length == 0){
+                    oLi.append('<div class="pub-replay">' + html + '</div>');
+                    _this.text('取消回复');
+                }else{
+                    oLi.find('.pub-replay').remove();
+                    _this.text('回复');
+                }
             });
         }
     };
