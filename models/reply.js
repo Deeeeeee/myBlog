@@ -1,11 +1,11 @@
 var Replay = require('../lib/mongo').Replay;
 module.exports = {
     /*add new replay*/
-    createComment: function create(replay) {
+    createReplay: function (replay) {
         return Replay.create(replay).exec();
     },
     /*delete a replay  set status =1*/
-    deleteComment: function updateReplayId(replayId) {
+    deleteReplay: function (replayId) {
         return Replay.update({ _id: replayId },{$set: 1}).exec();
     },
     /*getReplay infomation By commentId*/

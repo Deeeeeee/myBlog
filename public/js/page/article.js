@@ -55,23 +55,24 @@ define(["jquery","notie"], function ($,notie) {
         },
 
         onComment: function () {
-            $(".J_comment").on("click", function () {
+            $("body").on("click", ".J_comment", function () {
                 var _this = $(this);
+                if(_this.parents('.pub-comment').length){
+
+                }else if(_this.parents('.pub-replay').length){
+
+                }
+                var parent = _this.parents('form');
                 var articleId = $(".title").attr("data-articleId");
-                var nickname = $(".nickname").val();
-                var blog = $(".blogAddress").val() || "";
-                var content = $(".commentValue").val();
+                var nickname = parent.find(".nickname").val();
+                var blog = parent.find(".blogAddress").val() || "";
+                var content = parent.find(".commentValue").val();
                 var data = {
                     articleId: articleId,
                     nickname: nickname.trim(),
                     blog: blog.trim(),
                     content: content.trim()
                 };
-
-                if(!localStorage.getItem('commentNickname') || (!localStorage.getItem('commentBlog') && blog) ){
-                    localStorage.setItem('commentNickname', nickname);
-                    localStorage.setItem('commentBlog', blog);
-                }
                 $.ajax({
                     type: 'post',
                     data: data,
@@ -88,7 +89,12 @@ define(["jquery","notie"], function ($,notie) {
                     error: function (err) {
                         console.log(err);
                     }
-                })
+                });
+
+                if(!localStorage.getItem('commentNickname') || (!localStorage.getItem('commentBlog') && blog) ){
+                    localStorage.setItem('commentNickname', nickname);
+                    localStorage.setItem('commentBlog', blog);
+                }
             });
         },
         onDelComment: function () {
