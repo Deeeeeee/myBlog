@@ -52,7 +52,7 @@ block content
                                                             a.nickname.master(href="#{child.blog}") #{child.nickname}
                                                         else
                                                             a.nickname(href="#{child.blog}") #{child.nickname}
-                                                        | :#{ child.status == 0 ? (' @' + child.target + ' ' + child.content) : '*该评论已被屏蔽*'}
+                                                        | :#{ child.status == 0 ? ((child.target ? ' @' + child.target : "") + ' ' + child.content) : '*该评论已被屏蔽*'}
                                                     .footer
                                                         a.J_replay(href="javascript:;") 回复
                                                         if( user && user._id == art.authorId )
