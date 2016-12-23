@@ -50,6 +50,16 @@
                     margin-left: 10px;
                 }
             }
+            ul.replay{
+                border-left: 4px solid $borderColor;
+                padding-left: 10px;
+                li{
+                    border-bottom: 1px dashed $borderColor;
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
         }
     }
 

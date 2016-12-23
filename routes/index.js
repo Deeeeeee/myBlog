@@ -365,7 +365,7 @@ module.exports = function (app) {
     /**
      * 发布回复
      */
-    app.post('/pubReply', function (req, res) {
+    app.post('/Reply', function (req, res) {
         var nickname = req.body.nickname,
             blog = req.body.blog,
             CommentId = req.body.CommentId,
@@ -405,14 +405,14 @@ module.exports = function (app) {
                 });
             })
     });
-    app.get('/replay', function (req, res) {
+    app.post('/pubReplay', function (req, res) {
         var nickname = req.body.nickname,//回复人
             blog = req.body.blog,//回复人博客地址
-            CommentId = req.body.CommentId,//回复地址ID
+            commentId = req.body.commentId,//回复地址ID
             content = req.body.content;//回复内容
         try {
             //TODO 昵称验证
-            if ( !CommentId ) {
+            if ( !commentId ) {
                 throw new Error('no CommentId');
             }
 
@@ -420,15 +420,14 @@ module.exports = function (app) {
             res.json({code: 1, message: e.message});
             return;
         }
-        var replaydata = {
+        var data = {
             "nickname":nickname,
             "blog": blog,
             "content": content,
             "status": 0
         };
-        CommentModel.addReplay(CommentId,{replay: replaydata})
+        CommentModel.addReplay(commentId,{replay: data})
             .then(function (result){
-
                 res.json({
                     code: 0,
                     message: "发布成功",

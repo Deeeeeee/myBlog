@@ -37,6 +37,27 @@ block content
                                 if( user && user._id == art.authorId )
                                     //a.J_delComment.del(href="javascript:;") 删除
                                     a.J_hideComment.del(href="javascript:;") 屏蔽
+                            if item.replay && item.replay.length
+                                ul.replay
+                                    each child,i in item.replay
+                                        li
+                                            .head
+                                                p
+                                                    if(art.author == child.nickname)
+                                                        a.nickname.master(href="#{child.blog}") #{child.nickname}
+                                                    else
+                                                        a.nickname(href="#{child.blog}") #{child.nickname}
+                                                p
+                                                    //span.floor #{ i + 1} 楼
+                                                    //span.time #{item.createTime}
+                                            .body #{ child.status == 0 ? child.content : '*该评论已被屏蔽*'}
+                                            .footer
+                                                a.J_replay(href="javascript:;") 回复
+                                                if( user && user._id == art.authorId )
+                                                    //a.J_delComment.del(href="javascript:;") 删除
+                                                    a.J_hideComment.del(href="javascript:;") 屏蔽
+
+
                 include ../includes/comment
 block scripts
     script.

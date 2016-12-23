@@ -34,6 +34,7 @@ module.exports = {
     getCommentsCount: function getCommentsCount(articleId) {
         return Comment.count({ articleId: articleId }).exec();
     },
+
     addReplay: function (commentId,replay){
         console.log(commentId);
         console.log(replay);
