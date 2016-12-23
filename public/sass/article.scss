@@ -1,5 +1,8 @@
 @import "common/common", "vendor/markdown", "vendor/notie";
-
+.master{
+    color: lightcoral;
+    font-weight: 700;
+}
 .article-layout {
     margin: 0 auto;
     max-width: 700px;
@@ -19,44 +22,51 @@
 
         }
     }
-    ul.comment-box {
-        margin-top: 30px;
-        &>li {
-            padding: 10px 0;
-            border-top: 1px solid $borderColor;
-            &:last-child {
-                border-bottom: 1px solid $borderColor;
-            }
-            .head {
-                p {
-                    span {
-                        margin-right: 5px;
-                    }
-                    .time{
-                        color: $minTitle;
-                        font-size: 12px;
-                    }
-                    .master{
-                        color: lightcoral;
-                        font-weight: 700;
+
+    .comment-box {
+        .comment-title{
+            margin-top: 30px;
+            font-size:18px;
+            font-weight:700;
+            color: $mainTitle;
+        }
+        &>ul{
+            margin-top: 10px;
+            &>li {
+                padding: 10px 0;
+                border-top: 1px solid $borderColor;
+                &:last-child {
+                    border-bottom: 1px solid $borderColor;
+                }
+                .head {
+                    p {
+                        span {
+                            margin-right: 5px;
+                        }
+                        .time{
+                            color: $minTitle;
+                            font-size: 12px;
+                        }
+
                     }
                 }
-            }
-            .footer {
-                overflow: hidden;
-                zoom: 1;
-                a{
-                    float: right;
-                    margin-left: 10px;
+                .footer {
+                    overflow: hidden;
+                    zoom: 1;
+                    a{
+                        float: right;
+                        margin-left: 10px;
+                    }
                 }
-            }
-            ul.replay{
-                border-left: 4px solid $borderColor;
-                padding-left: 10px;
-                li{
-                    border-bottom: 1px dashed $borderColor;
-                    &:last-child {
-                        border-bottom: none;
+                ul.replay{
+                    border-left: 4px solid $borderColor;
+                    padding-left: 10px;
+                    li{
+                        border-bottom: 1px dashed $borderColor;
+                        padding-top: 20px;
+                        &:last-child {
+                            border-bottom: none;
+                        }
                     }
                 }
             }
@@ -73,6 +83,9 @@
         width: 100%;
         height: 150px;
     }
+}
+.pub-replay{
+    padding: 0 10px;
 }
 
 //.layer{

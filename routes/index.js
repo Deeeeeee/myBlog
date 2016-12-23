@@ -406,7 +406,8 @@ module.exports = function (app) {
             })
     });
     app.post('/pubReplay', function (req, res) {
-        var nickname = req.body.nickname,//回复人
+        var target = req.body.target,//回复人
+            nickname = req.body.nickname,//回复人
             blog = req.body.blog,//回复人博客地址
             commentId = req.body.commentId,//回复地址ID
             content = req.body.content;//回复内容
@@ -421,10 +422,11 @@ module.exports = function (app) {
             return;
         }
         var data = {
-            "nickname":nickname,
-            "blog": blog,
-            "content": content,
-            "status": 0
+            target: target,
+            nickname:nickname,
+            blog: blog,
+            content: content,
+            status: 0
         };
         CommentModel.addReplay(commentId,{replay: data})
             .then(function (result){

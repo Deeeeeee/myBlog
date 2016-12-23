@@ -19,43 +19,45 @@ block content
                             a.J_delArticle(href="javascript:;" ) 删除
                     .markdown
                         p !{art.content}
-                ul.comment-box
-                    each item,i in comments
-                        li.comment-item(data-commentId="#{item._id}")
-                            .head
-                                p
-                                    if(art.author == item.nickname)
-                                        a.nickname.master(href="#{item.blog}") #{item.nickname}
-                                    else
-                                        a.nickname(href="#{item.blog}") #{item.nickname}
-                                p
-                                    span.floor #{ i + 1} 楼
-                                    span.time #{item.createTime}
-                            .body #{ item.status==0 ? item.content : '*该评论已被屏蔽*'}
-                            .footer
-                                a.J_replay(href="javascript:;") 回复
-                                if( user && user._id == art.authorId )
-                                    //a.J_delComment.del(href="javascript:;") 删除
-                                    a.J_hideComment.del(href="javascript:;") 屏蔽
-                            if item.replay && item.replay.length
-                                ul.replay
-                                    each child,i in item.replay
-                                        li
-                                            .head
-                                                p
-                                                    if(art.author == child.nickname)
-                                                        a.nickname.master(href="#{child.blog}") #{child.nickname}
-                                                    else
-                                                        a.nickname(href="#{child.blog}") #{child.nickname}
-                                                p
-                                                    //span.floor #{ i + 1} 楼
-                                                    //span.time #{item.createTime}
-                                            .body #{ child.status == 0 ? child.content : '*该评论已被屏蔽*'}
-                                            .footer
-                                                a.J_replay(href="javascript:;") 回复
-                                                if( user && user._id == art.authorId )
-                                                    //a.J_delComment.del(href="javascript:;") 删除
-                                                    a.J_hideComment.del(href="javascript:;") 屏蔽
+                if(comments && comments.length)
+                    .comment-box
+                        h5.comment-title 评论区
+                        ul
+                            each item,i in comments
+                                li.comment-item(data-commentId="#{item._id}")
+                                    .head
+                                        p
+                                            if(art.author == item.nickname)
+                                                a.nickname.master(href="#{item.blog}") #{item.nickname}
+                                            else
+                                                a.nickname(href="#{item.blog}") #{item.nickname}
+                                        p
+                                            span.floor #{ i + 1} 楼
+                                            span.time #{item.createTime}
+                                    .body #{ item.status == 0 ? item.content : '*该评论已被屏蔽*'}
+                                    .footer
+                                        a.J_replay(href="javascript:;") 回复
+                                        if( user && user._id == art.authorId )
+                                            //a.J_delComment.del(href="javascript:;") 删除
+                                            a.J_hideComment.del(href="javascript:;") 屏蔽
+                                    if item.replay && item.replay.length
+                                        ul.replay
+                                            each child,i in item.replay
+                                                li
+                                                    .head
+                                                        p
+                                                            //span.time #{item.createTime}
+                                                    .body
+                                                        if(art.author == child.nickname)
+                                                            a.nickname.master(href="#{child.blog}") #{child.nickname}
+                                                        else
+                                                            a.nickname(href="#{child.blog}") #{child.nickname}
+                                                        | :#{ child.status == 0 ? (' @' + child.target + ' ' + child.content) : '*该评论已被屏蔽*'}
+                                                    .footer
+                                                        a.J_replay(href="javascript:;") 回复
+                                                        if( user && user._id == art.authorId )
+                                                            //a.J_delComment.del(href="javascript:;") 删除
+                                                            a.J_hideComment.del(href="javascript:;") 屏蔽
 
 
                 include ../includes/comment

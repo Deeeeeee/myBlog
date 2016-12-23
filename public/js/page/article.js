@@ -1,11 +1,10 @@
-
-define(["jquery","notie"], function ($,notie) {
+define(["jquery", "notie"], function ($, notie) {
     var page = {
-        init: function() {
+        init: function () {
             this.render();
             this.bindEvents();
         },
-        render: function(){
+        render: function () {
             this.initUserInfo()
         },
         bindEvents: function () {
@@ -20,7 +19,7 @@ define(["jquery","notie"], function ($,notie) {
         initUserInfo: function () {
             var nickname = localStorage.getItem('commentNickname');
             var blog = localStorage.getItem('commentBlog');
-            if(nickname || blog){
+            if (nickname || blog) {
                 $(".nickname").val(nickname);
                 $(".blogAddress").val(blog);
             }
@@ -55,9 +54,30 @@ define(["jquery","notie"], function ($,notie) {
         },
 
         onComment: function () {
+            var html = $(".pub-comment").html();
+            $(".J_replay").on("click", function () {
+                var _this = $(this);
+                var oFooter = _this.parent();
+                if (oFooter.find('.pub-replay').length == 0) {
+                    _this.text('取消回复');
+                    if (_this.parents('.replay').length) {
+                        var target = _this.parent().parent().find('.nickname').text();
+                        console.log(target);
+                        oFooter.append('<div class="pub-replay" data-target="' + target + '">' + html + '</div>');
+                    } else {
+                        oFooter.append('<div class="pub-replay" >' + html + '</div>');
+                    }
+                } else {
+                    oFooter.find('.pub-replay').remove();
+                    _this.text('回复');
+                }
+            });
+
+
             $("body").on("click", ".J_comment", function () {
                 var _this = $(this);
                 var parent = _this.parents('form');
+
 
                 var nickname = parent.find(".nickname").val();
                 var blog = parent.find(".blogAddress").val() || "";
@@ -65,22 +85,23 @@ define(["jquery","notie"], function ($,notie) {
                 var targetId;
                 var url;
                 var data = {
+                    target: $('.pub-replay').attr('data-target') || "",
                     nickname: nickname.trim(),
                     blog: blog.trim(),
                     content: content.trim()
                 };
 
-                if(_this.parents('.pub-comment').length){
+                if (_this.parents('.pub-comment').length) {
                     targetId = $(".title").attr("data-articleId");
                     data.articleId = targetId;
                     url = '/pubComment';
-                }else if( _this.parents('.pub-replay').length){
+                } else if (_this.parents('.pub-replay').length) {
                     targetId = _this.parents('.comment-item').attr("data-commentId");
                     data.commentId = targetId;
                     url = '/pubReplay'
                 }
 
-                if(!localStorage.getItem('commentNickname') || (!localStorage.getItem('commentBlog') && blog) ){
+                if (!localStorage.getItem('commentNickname') || (!localStorage.getItem('commentBlog') && blog)) {
                     localStorage.setItem('commentNickname', nickname);
                     localStorage.setItem('commentBlog', blog);
                 }
@@ -91,7 +112,7 @@ define(["jquery","notie"], function ($,notie) {
                     success: function (data) {
                         if (data.code === 0) {
                             alert(data.message);
-
+                            window.location.reload()
                         } else {
                             console.log(data);
                             alert(data.message);
@@ -159,19 +180,7 @@ define(["jquery","notie"], function ($,notie) {
         },
 
         onReplay: function () {
-            var html = $(".pub-comment").html();
-            $(".J_replay").on("click", function () {
-                var _this = $(this);
-                var oLi = _this.parents('li.comment-item');
-                var target = oLi.find('.nickname');
-                if(oLi.find('.pub-replay').length == 0){
-                    oLi.append('<div class="pub-replay">' + html + '</div>');
-                    _this.text('取消回复');
-                }else{
-                    oLi.find('.pub-replay').remove();
-                    _this.text('回复');
-                }
-            });
+
         }
     };
     page.init();
