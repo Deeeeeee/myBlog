@@ -20,7 +20,6 @@ module.exports = {
     delCommentsByArticleId: function (articleId) {
         return Comment.remove({ articleId: articleId }).exec();
     },
-
     // 通过文章 id 获取该文章下所有评论，按评论创建时间升序
     getComments: function (articleId) {
         return Comment
@@ -36,9 +35,11 @@ module.exports = {
         return Comment.count({ articleId: articleId }).exec();
     },
     addReplay: function (commentId,replay){
+        console.log(commentId);
+        console.log(replay);
         return Comment
-            .update({commentId:commentId},{$push,replay})
+            .update({ _id:commentId},{$push:replay})
             .exec();
-        
+
     }
 };

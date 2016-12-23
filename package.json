@@ -4,8 +4,8 @@
   "main": "app.js",
   "private": true,
   "scripts": {
-    "test": "NODE_ENV=production nodemon ./bin/www",
-    "start": "NODE_ENV=production pm2 start app.js --name 'deeBlog' "
+    "test": "NODE_ENV=default nodemon ./bin/www",
+    "start": "NODE_ENV=default pm2 start app.js --name 'deeBlog' "
   },
   "dependencies": {
     "body-parser": "~1.15.2",

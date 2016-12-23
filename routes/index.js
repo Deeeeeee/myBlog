@@ -251,7 +251,7 @@ module.exports = function (app) {
         Promise.all([
             ArticleModel.getArticleById(id),    // 获取文章信息
             CommentModel.getComments(id),       // 获取该文章所有留言
-            ArticleModel.incPv(id)              // pv 加 1
+            ArticleModel.incPv(id),              // pv 加 1
         ]).then(function (result) {
                 var article = result[0];
                 var comments = result[1];
@@ -405,7 +405,37 @@ module.exports = function (app) {
                 });
             })
     });
+    app.get('/replay', function (req, res) {
+        var nickname = req.body.nickname,//回复人
+            blog = req.body.blog,//回复人博客地址
+            CommentId = req.body.CommentId,//回复地址ID
+            content = req.body.content;//回复内容
+        try {
+            //TODO 昵称验证
+            if ( !CommentId ) {
+                throw new Error('no CommentId');
+            }
 
+        } catch (e) {
+            res.json({code: 1, message: e.message});
+            return;
+        }
+        var replaydata = {
+            "nickname":nickname,
+            "blog": blog,
+            "content": content,
+            "status": 0
+        };
+        CommentModel.addReplay(CommentId,{replay: replaydata})
+            .then(function (result){
+
+                res.json({
+                    code: 0,
+                    message: "发布成功",
+                    body: result
+                });
+            })
+    });
 
 
 };
