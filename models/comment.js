@@ -34,5 +34,11 @@ module.exports = {
     // 通过文章 id 获取该文章下评论数
     getCommentsCount: function getCommentsCount(articleId) {
         return Comment.count({ articleId: articleId }).exec();
+    },
+    addReplay: function (commentId,replay){
+        return Comment
+            .update({commentId:commentId},{$push,replay})
+            .exec();
+        
     }
 };
