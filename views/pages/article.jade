@@ -12,8 +12,10 @@ block content
                         a #{art.title}
                     h5.sub-title
                         | #{art.createTime}
+                        p 作者:
+                            span.author #{art.author}
                         if(user && user.username == art.author)
-                            p
+
                             a(href="/publish?articleId=#{art._id}") 编辑
                             |  ||
                             a.J_delArticle(href="javascript:;" ) 删除

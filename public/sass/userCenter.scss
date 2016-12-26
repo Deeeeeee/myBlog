@@ -1,14 +1,18 @@
 @import
 "common/common";
 
-.container{
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 40%;
-    min-width: 300px;
-    margin: 50px auto;
-    padding: 30px;
-    #submit{
-        margin-top: 20px;
+.main{
+    .comment-list{
+        li{
+            margin: 10px 0;
+            .nickname{
+                color: #00B7FF;
+            }
+            .time{
+                float: right;
+                color: $minTitle;
+                font-size: 12px;
+            }
+        }
     }
 }

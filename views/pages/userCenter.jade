@@ -5,10 +5,20 @@ block content
     .pure-g
         include ../includes/sidebar
         .main.pure-u-1.pure-u-md-3-4
-            .tabs-group
+            .tabs-head
                 a(href="") 文章
-                a(href="") 动态
-
+                a(href="")  动态
+            .tabs-body
+                .tabs-item
+                    ul.comment-list
+                        if(comments && comments.length)
+                            each item in comments
+                                li
+                                    span.nickname #{item.nickname}
+                                    span.time #{item.createTime}
+                                    p #{item.content}
+                        else
+                            li 木有新评论...
 block scripts
     script.
         require(['main'], function () {

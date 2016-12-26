@@ -85,6 +85,7 @@ define(["jquery", "notie"], function ($, notie) {
                 var targetId;
                 var url;
                 var data = {
+                    articleAuthor: $(".article-box .author").text(),
                     target: $('.pub-replay').attr('data-target') || "",
                     nickname: nickname.trim(),
                     blog: blog.trim(),
@@ -101,10 +102,7 @@ define(["jquery", "notie"], function ($, notie) {
                     url = '/pubReplay'
                 }
 
-                if (!localStorage.getItem('commentNickname') || (!localStorage.getItem('commentBlog') && blog)) {
-                    localStorage.setItem('commentNickname', nickname);
-                    localStorage.setItem('commentBlog', blog);
-                }
+
                 $.ajax({
                     type: 'post',
                     data: data,
@@ -112,6 +110,8 @@ define(["jquery", "notie"], function ($, notie) {
                     success: function (data) {
                         if (data.code === 0) {
                             alert(data.message);
+
+                            setUser();
                             window.location.reload()
                         } else {
                             console.log(data);
@@ -121,7 +121,19 @@ define(["jquery", "notie"], function ($, notie) {
                     error: function (err) {
                         console.log(err);
                     }
-                })
+                });
+                function setUser() {
+                    var localNickname = localStorage.getItem('commentNickname');
+                    var localBlog = localStorage.getItem('commentBlog');
+
+                    if (!localNickname || (!localBlog)) {
+                        localStorage.setItem('commentNickname', nickname);
+                        localStorage.setItem('commentBlog', blog);
+                    }else if((localNickname != nickname) || (localBlog != blog)){
+                        localStorage.setItem('commentNickname', nickname);
+                        localStorage.setItem('commentBlog', blog);
+                    }
+                }
             });
         },
         onDelComment: function () {

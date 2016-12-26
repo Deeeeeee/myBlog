@@ -145,19 +145,23 @@ module.exports = function (app) {
      * 个人中心
      */
     app.get('/userCenter/:id', function (req, res, next) {
-        res.render('pages/userCenter', {
-            title: '个人中心'
-
+        CommentModel.getComments().then(function (result) {
+            console.log(result);
+            res.render('pages/userCenter', {
+                title: '个人中心',
+                comments: result
+            });
         });
+
     });
 
     /**
      * 发布文章
      */
-    app.get('/publish',checkLogin, function (req, res) {
+    app.get('/publish', checkLogin, function (req, res) {
         var articleId = req.query.articleId;
         if (articleId) {
-            ArticleModel.getRawArticle(articleId).then( function (result) {
+            ArticleModel.getRawArticle(articleId).then(function (result) {
                 res.render('pages/publish', {
                     title: '修改文章',
                     article: result
@@ -213,7 +217,7 @@ module.exports = function (app) {
         var articleId = req.body.articleId;
         var authorId = req.body.authorId;
         var user = req.session.user;
-        if(authorId !== user._id){
+        if (authorId !== user._id) {
             res.json({code: 1, message: "无权限修改此文章"});
             return
         }
@@ -222,7 +226,7 @@ module.exports = function (app) {
             type: req.body.type,
             content: req.body.content
         };
-        ArticleModel.updateArticle(articleId, user._id, data).then( function (result) {
+        ArticleModel.updateArticle(articleId, user._id, data).then(function (result) {
             res.json({code: 0, message: "文章更新成功"});
         })
     });
@@ -234,11 +238,11 @@ module.exports = function (app) {
         var articleId = req.body.articleId;
         var authorId = req.body.authorId;
         var userId = req.session.user._id;
-        if(authorId !== userId){
+        if (authorId !== userId) {
             res.json({code: 1, message: "无权限删除此文章"});
             return
         }
-        ArticleModel.delArticle(articleId, userId).then( function (result) {
+        ArticleModel.delArticle(articleId, userId).then(function (result) {
             res.json({code: 0, message: "删除成功"});
         });
     });
@@ -250,24 +254,24 @@ module.exports = function (app) {
         var id = req.params.id;
         Promise.all([
             ArticleModel.getArticleById(id),    // 获取文章信息
-            CommentModel.getComments(id),       // 获取该文章所有留言
+            CommentModel.getCommentsByArticleId(id),       // 获取该文章所有留言
             ArticleModel.incPv(id),              // pv 加 1
         ]).then(function (result) {
-                var article = result[0];
-                var comments = result[1];
+            var article = result[0];
+            var comments = result[1];
 
-                console.log(article);
-                console.log(comments);
+            console.log(article);
+            console.log(comments);
 
-                if (!article) {
-                    throw new Error('该文章不存在');
-                }
-                res.render('pages/article', {
-                    title: '文章详情',
-                    article: article,
-                    comments: comments
-                });
-            })
+            if (!article) {
+                throw new Error('该文章不存在');
+            }
+            res.render('pages/article', {
+                title: '文章详情',
+                article: article,
+                comments: comments
+            });
+        })
             .catch(next);
     });
     app.post('/article', function (req, res) {
@@ -288,6 +292,7 @@ module.exports = function (app) {
      */
     app.post('/pubComment', function (req, res) {
         var nickname = req.body.nickname,
+            articleAuthorId = req.body.articleAuthorId,
             blog = req.body.blog,
             articleId = req.body.articleId,
             content = req.body.content,
@@ -295,7 +300,7 @@ module.exports = function (app) {
 
         try {
             //TODO 昵称验证
-            if ( !user && nickname == "dee") {
+            if (!user && nickname == articleAuthorId) {
                 throw new Error('此昵称不可用');
             }
             if (!nickname.length) {
@@ -335,11 +340,11 @@ module.exports = function (app) {
         var commentId = req.body.commentId;
         var articleAuthorId = req.body.articleAuthorId;
         var userId = req.session.user._id;
-        if(userId != articleAuthorId){
+        if (userId != articleAuthorId) {
             res.json({code: 1, message: "无权限删除此评论"});
             return
         }
-        CommentModel.delCommentById(commentId, userId).then( function (result) {
+        CommentModel.delCommentById(commentId, userId).then(function (result) {
             res.json({code: 0, message: "删除成功"});
         });
     });
@@ -351,70 +356,40 @@ module.exports = function (app) {
         var commentId = req.body.commentId;
         var articleAuthorId = req.body.articleAuthorId;
         var userId = req.session.user._id;
-        if(userId != articleAuthorId){
+        if (userId != articleAuthorId) {
             res.json({code: 1, message: "无权限屏蔽此评论"});
             return
         }
-        CommentModel.hideCommentById(commentId, {status: 1}).then( function (result) {
+        CommentModel.hideCommentById(commentId, {status: 1}).then(function (result) {
             res.json({code: 0, message: "屏蔽成功"});
         });
     });
 
 
-
     /**
      * 发布回复
      */
-    app.post('/Reply', function (req, res) {
-        var nickname = req.body.nickname,
-            blog = req.body.blog,
-            CommentId = req.body.CommentId,
-            content = req.body.content,
-            user = req.session.user;
+    app.post('/pubReplay', function (req, res) {
+        var target = req.body.target,//回复目标
+            articleAuthor = req.body.articleAuthor,//文章作者
+            nickname = req.body.nickname,//回复人
+            blog = req.body.blog,//回复人博客地址
+            commentId = req.body.commentId,//回复地址ID
+            user = req.session.user,
+            content = req.body.content;//，回复内容
         try {
             //TODO 昵称验证
-            if ( !user && nickname == "dee") {
+            if (!user && nickname == articleAuthor) {
                 throw new Error('此昵称不可用');
             }
             if (!nickname.length) {
                 throw new Error('请填写昵称');
             }
-            if (!CommentId) {
-                throw new Error('文章不存在');
+            if (!commentId) {
+                throw new Error('评论不存在');
             }
             if (!content.length) {
                 throw new Error('请填写内容');
-            }
-        } catch (e) {
-            res.json({code: 1, message: e.message});
-            return;
-        }
-        var data = {
-            CommentId: CommentId,
-            nickname: nickname,
-            blog: blog,
-            content: content,
-            status: 0
-        };
-        ReplayModel.create(data)
-            .then(function (result) {
-                res.json({
-                    code: 0,
-                    message: "发布成功",
-                    body: result
-                });
-            })
-    });
-    app.post('/pubReplay', function (req, res) {
-        var target = req.body.target,//回复人
-            nickname = req.body.nickname,//回复人
-            blog = req.body.blog,//回复人博客地址
-            commentId = req.body.commentId,//回复地址ID
-            content = req.body.content;//回复内容
-        try {
-            //TODO 昵称验证
-            if ( !commentId ) {
-                throw new Error('no CommentId');
             }
 
         } catch (e) {
@@ -423,13 +398,13 @@ module.exports = function (app) {
         }
         var data = {
             target: target,
-            nickname:nickname,
+            nickname: nickname,
             blog: blog,
             content: content,
             status: 0
         };
-        CommentModel.addReplay(commentId,{replay: data})
-            .then(function (result){
+        CommentModel.addReplay(commentId, {replay: data})
+            .then(function (result) {
                 res.json({
                     code: 0,
                     message: "发布成功",
