@@ -20,8 +20,18 @@ module.exports = {
     delCommentsByArticleId: function (articleId) {
         return Comment.remove({ articleId: articleId }).exec();
     },
+
+    getComments: function () {
+        return Comment
+            .find()
+            .populate({ path: 'author', model: 'User' })
+            .sort({ _id: -1 })
+            .addCreatedAt()
+            .exec();
+    },
+
     // 通过文章 id 获取该文章下所有评论，按评论创建时间升序
-    getComments: function (articleId) {
+    getCommentsByArticleId: function (articleId) {
         return Comment
             .find({ articleId: articleId })
             .populate({ path: 'author', model: 'User' })
