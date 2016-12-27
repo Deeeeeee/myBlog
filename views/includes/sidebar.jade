@@ -1,14 +1,13 @@
-.sidebar.pure-u-1.pure-u-md-1-4
+.sidebar.pure-u-1.pure-u-md-1-4.clearfix
 
     h3
         a(href="/") Blog
 
-    if (user)
-        p
+    .control
+        if (user)
             a#user(href="#{'/userCenter/' + user._id}" data-username="#{user.username}") #{user.username}
-        a#logout(href="javascript:;") 退出
-        a(href="/publish") 发布文章
-
-    else
-        a(href="/login") 登录
-        a(href="/register") 注册
+            a#logout(href="javascript:;") 退出
+            a(href="/publish") 发布文章
+        else
+            a(href="/login") 登录
+            a(href="/register") 注册
