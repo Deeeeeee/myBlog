@@ -7,9 +7,6 @@ module.exports = {
     upload : function (localFile,remoteFileName){
         var BUCKET = storgeConf.bucket,
             Domain = storgeConf.domian;
-        //
-        var result = {};
-        var remoteFileUri;
         qiniu.conf.ACCESS_KEY = storgeConf.ACCESS_KEY;
         qiniu.conf.SECRET_KEY = storgeConf.SECRET_KEY;
         var uptoken = this.uploadtoken(BUCKET,remoteFileName)
@@ -32,8 +29,6 @@ module.exports = {
 
         })
         return promise;
-        
-
 
     },
     /*upload policy*/
