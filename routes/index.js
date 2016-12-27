@@ -1,5 +1,8 @@
 var crypto = require('crypto');
 var marked = require('marked');
+var qiniu = require("qiniu");
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 //引入数据库模块
 var UserModel = require('../models/user.js');
@@ -412,6 +415,46 @@ module.exports = function (app) {
                 });
             })
     });
+    app.post("/upload",multipartMiddleware,function (req, res){
+        qiniu.conf.ACCESS_KEY = 'TpziYLoGsAsk4krKqqpztKvfnPJGrlrLHMbUicOa';
+        qiniu.conf.SECRET_KEY = 'O26kXctAMZCvzkxjjihgE21vJZcz_WEuAthDWC8_';
+        bucket = 'demyblog';
+
+        var filePath = req.files.file.path;
+        //上传到七牛后保存的文件名
+        key = 'my-nodejs-logo.png';
+
+        //构建上传策略函数
+        function uptoken(bucket, key) {
+            var putPolicy = new qiniu.rs.PutPolicy(bucket+":"+key);
+            return putPolicy.token();
+        }
+
+        //生成上传 Token
+        token = uptoken(bucket, key);
+
+        //要上传文件的本地路径
+
+        //构造上传函数
+        function uploadFile(uptoken, key, localFile) {
+            var extra = new qiniu.io.PutExtra();
+            qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
+                if(!err) {
+                    // 上传成功， 处理返回值
+                    console.log(ret);
+                } else {
+                    // 上传失败， 处理返回代码
+                    console.log(err);
+                }
+            });
+        }
+
+        //调用uploadFile上传
+        uploadFile(token, key, filePath);
+
+            //上传&回调
+
+    })
 
 
 };
