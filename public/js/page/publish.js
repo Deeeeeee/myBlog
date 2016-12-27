@@ -11,9 +11,8 @@ define(["jquery"], function ($) {
         },
         bindEvents: function () {
             this.onSubmit();
+            this.uploadFile();
         },
-
-
         onSubmit: function () {
             $("#submit").on("click",function(){
                 submitArticle("/publish")
@@ -80,6 +79,11 @@ define(["jquery"], function ($) {
                     return str;
                 }
             }
+        },
+        uploadFile: function () {
+            $(".J_uploadContainer input").on("change",function () {
+                console.log($(this).val())
+            })
         }
     };
     page.init();
