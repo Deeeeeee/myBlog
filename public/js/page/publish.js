@@ -83,7 +83,24 @@ define(["jquery"], function ($) {
         uploadFile: function () {
             $(".J_uploadContainer input").on("change",function () {
                 console.log($(this).val())
-            })
+            });
+
+            function uploadfiles(){
+                var fileObj = document.getElementById("file").files[0]; // 获取文件对象
+                console.log(fileObj);
+                var FileController = "/upload";     // 接收上传文件的后台地址
+                var xhr = new XMLHttpRequest();
+                var formData = new FormData();
+                formData.append("file", fileObj)
+                //监听事件
+                // xhr.upload.addEventListener("progress", onprogress, false);
+                // xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数
+                xhr.open("POST", FileController);
+                //记得加入上传数据formData
+                xhr.send(formData);
+            }
+
+
         }
     };
     page.init();
