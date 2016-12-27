@@ -9,17 +9,36 @@
     .article-box {
         h4.title {
             margin-top: 30px;
-            font-size: 20px;
+            font-size: 26px;
+            font-weight: 700;
             color: $mainTitle;
         }
         h5.sub-title {
+            p{
+                em{
+                    display: inline-block;
+                    padding: 0 5px;
+                    border: 1px solid $baseRed;
+                    color: $baseRed;
+                    font-size: 12px;
+                    border-radius: 4px;
+                    margin-right: 5px;
+                }
+                .time{
+                    float: right;
+                    color: $minTitle;
+                }
+            }
+            p.control{
+                float: right;
+                a{
+                    margin-left:10px;
+                }
+            }
             font-size: 14px;
             margin: 10px 0 20px;
             padding-bottom: 20px;
             border-bottom: 1px solid $borderColor;
-        }
-        p {
-
         }
     }
 
@@ -50,6 +69,9 @@
 
                     }
                 }
+                &>.body{
+                    margin-top: 10px;
+                }
                 .footer {
                     overflow: hidden;
                     zoom: 1;
@@ -77,12 +99,22 @@
 
 .pub-comment,
 .pub-replay{
+    label{
+        font-weight: 700;
+        margin-top: 10px;
+    }
     textarea {
         border: 1px solid #ccc;
         padding: 10px;
         width: 100%;
         height: 150px;
     }
+    a{
+        margin-top: 10px;
+    }
+}
+.pub-comment{
+    margin-top: 50px;
 }
 .pub-replay{
     padding: 0 10px;
