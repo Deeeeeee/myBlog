@@ -6,7 +6,8 @@ module.exports = {
         maxAge: 2592000000
     },
 
-    //mongodb: 'mongodb://192.168.0.185:27017/blog'
-    mongodb: 'mongodb://127.0.0.1:27017/blog'
+
+    mongodb: 'mongodb://192.168.0.101:27017/blog'
+
     // mongodb: 'mongodb://dee:admin000@ds133358.mlab.com:33358/deeblog'
 };

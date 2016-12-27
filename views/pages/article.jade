@@ -8,17 +8,16 @@ block content
             .article-layout
                 .article-box
                     - var art = article;
-                    h4.title( data-articleId="#{art._id}" data-authorId="#{art.authorId}" )
-                        a #{art.title}
+                    h4.title( data-articleId="#{art._id}" data-authorId="#{art.authorId}" ) #{art.title}
                     h5.sub-title
-                        | #{art.createTime}
-                        p 作者:
+                        p
+                            em 作者
                             span.author #{art.author}
+                            span.time #{art.createTime}
                         if(user && user.username == art.author)
-
-                            a(href="/publish?articleId=#{art._id}") 编辑
-                            |  ||
-                            a.J_delArticle(href="javascript:;" ) 删除
+                            p.control
+                                a(href="/publish?articleId=#{art._id}") 编辑
+                                a.J_delArticle(href="javascript:;" ) 删除
                     .markdown
                         p !{art.content}
                 if(comments && comments.length)
