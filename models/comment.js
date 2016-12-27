@@ -1,5 +1,5 @@
 var Comment = require('../lib/mongo').Comment;
-
+var Notifactions = require('../lib/mongo').Notifications;
 module.exports = {
     // 创建一个评论
     create: function create(comment) {
@@ -46,8 +46,7 @@ module.exports = {
     },
 
     addReplay: function (commentId,replay){
-        console.log(commentId);
-        console.log(replay);
+
         return Comment
             .update({ _id:commentId},{$push:replay})
             .exec();

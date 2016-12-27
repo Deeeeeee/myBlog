@@ -1,11 +1,15 @@
 var crypto = require('crypto');
 var marked = require('marked');
 
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+
 //引入数据库模块
 var UserModel = require('../models/user.js');
 var ArticleModel = require('../models/article.js');
 var CommentModel = require('../models/comment.js');
 var ReplayModel = require('../models/replay.js');
+var StorgeModel = require('../models/storge.js')
 
 // 加载自定义中间件
 var checkLogin = require('../middlewares/check').checkLogin;
@@ -412,6 +416,23 @@ module.exports = function (app) {
                 });
             })
     });
+    //demo  upload
+    app.post("/upload",multipartMiddleware,function (req, res){
+
+        var localFilePath = req.files.file.path;//本地地址
+        //上传到七牛后保存的文件名
+        remoteFileName  = 'o.png';//
+        StorgeModel.upload(localFilePath,remoteFileName).then(function(remoteFileUri){
+            console.log(remoteFileUri);
+        },function(error){
+            console.log(error);
+        });
+        
+        //构建上传策略函数
+
+
+
+    })
 
 
 };
