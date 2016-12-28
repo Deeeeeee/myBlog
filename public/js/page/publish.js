@@ -85,7 +85,8 @@ define(["jquery"], function ($) {
                 var _this = $(this);
                 var url = '/upload';
                 uploadFiles(url,function (response) {
-                    _this.parents(".uploadBtnWarp").before('<>')
+                    _this.parents(".uploadBtnWarp")
+                        .before('<li><div class="img-box"><img src="'+response.remoteFileUri+'" alt=""></div><input type="text" value="'+response.remoteFileUri+'" readonly></li>')
                 })
             });
 

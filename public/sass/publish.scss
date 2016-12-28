@@ -21,7 +21,9 @@ form{
         overflow: hidden;
         zoom: 1;
         position: relative;
+        margin-bottom: 10px;
         &.uploadBtnWarp{
+            margin: 0;
             position: relative;
             width: $uploadBtnWidth;
             height: $uploadBtnHeight;
@@ -71,6 +73,7 @@ form{
             zoom: 1;
             overflow: hidden;
             img{
+                object-fit: cover;
                 width: $uploadBtnWidth;
                 height: $uploadBtnHeight;
             }
