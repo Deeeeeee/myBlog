@@ -91,9 +91,8 @@ define(["jquery"], function ($) {
                 console.log(promises);
                 Promise.all(promises).then(function (res) {
                     $.each(res,function (i, v) {
-                        console.log(v)
-                        _this.parents(".uploadBtnWarp")
-                            .before('<li><div class="img-box"><img src="'+v.remoteFileUri+'" alt=""></div><input type="text" value="'+v.remoteFileUri+'" readonly></li>')
+                        _this.parents(".uploadBtnWarp").before('<li><div class="img-box"><img src="'+v.remoteFileUri+'" alt=""></div><input type="text" value="'+v.remoteFileUri+'" readonly></li>');
+                        $("#content").val($("#content").val() + "\n![image]("+ v.remoteFileUri +")\n")
                     })
 
                 },function (err) {
