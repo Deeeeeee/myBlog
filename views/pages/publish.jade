@@ -10,12 +10,19 @@ block content
             form.pure-form.pure-form-stacked
                 label(for="title") 标题
                 input#title(type="text"  placeholder="title" value="#{article ? article.title : ''}")
-
                 label(for="type") 分类
                 select#type
                     option(value="HTML") HTML
                     option(value="CSS") CSS
                     option(value="JS") JS
+                label 图片
+                ul.uploadWarp
+                    li
+                        .img-box
+                            img(src="")
+                        input(type="text" value='http://woia.asd.waa/1234324234.png')
+                    li.uploadBtnWarp
+                        input.uploadBtn(type="file",multiple="true")
                 label 正文
                 //div#content #{article ? article.content : ''}
                 textarea#content #{art ? art.content : ''}
@@ -25,9 +32,7 @@ block content
                     a#update.pure-button.pure-button-primary(href="javascript:;" data-id="#{ art._id }" data-authorId="#{art.authorId}") 提交修改
                 else
                     a#submit.pure-button.pure-button-primary(href="javascript:;") 发布
-            ul.J_uploadContainer
-                li
-                    input#file(type="file",multiple="true")
+
 
 block scripts
     script.

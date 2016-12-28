@@ -81,17 +81,21 @@ define(["jquery"], function ($) {
             }
         },
         uploadFile: function () {
-            $(".J_uploadContainer input").on("change",function () {
+            $(".uploadBtn").on("change",function () {
+                var _this = $(this);
                 var url = '/upload';
-                uploadFiles(url)
+                uploadFiles(url,function (response) {
+                    _this.parents(".uploadBtnWarp").before('<>')
+                })
             });
 
             /**
              * 上传文件到 七牛
              * @param url 上传接口地址
+             * @param cb
              */
-            function uploadFiles(url){
-                var fileObj = document.getElementById("file").files[0]; // 获取文件对象
+            function uploadFiles(url,cb){
+                var fileObj = document.querySelector(".uploadBtn").files[0]; // 获取文件对象
                 var formData = new FormData();
                 formData.append("file", fileObj);
                 var xhr = new XMLHttpRequest();
@@ -105,7 +109,8 @@ define(["jquery"], function ($) {
                     if(xhr.readyState == 4){
                         if(xhr.status == 200) {
                             var response = JSON.parse(xhr.response);
-                            console.log(response.fileUrl)
+                            console.log(response);
+                            cb(response);
                         }else{
                             alert('图片上传失败');
                         }

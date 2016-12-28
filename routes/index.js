@@ -428,9 +428,7 @@ module.exports = function (app) {
         var remoteFileName  = stamp + fileType;
         StorgeModel.upload(localFilePath,remoteFileName).then(function(remoteFileUri){
             console.log(remoteFileUri);
-            res.json({
-                fileUrl: remoteFileUri
-            })
+            res.json(remoteFileUri)
         },function(error){
             console.log(error);
         });
