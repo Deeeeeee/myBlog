@@ -420,10 +420,17 @@ module.exports = function (app) {
     app.post("/upload",multipartMiddleware,function (req, res){
 
         var localFilePath = req.files.file.path;//本地地址
-        //上传到七牛后保存的文件名
-        remoteFileName  = 'o.png';//
+        var fileName = req.files.file.name;
+        var fileType = fileName.substr(fileName.lastIndexOf('.'));
+        var stamp = (new Date()).getTime();
+        //上传到七牛后保存的文件名 用时间戳防止文件名重复
+        // TODO 多用户下还要拼接用户ID
+        var remoteFileName  = stamp + fileType;
         StorgeModel.upload(localFilePath,remoteFileName).then(function(remoteFileUri){
             console.log(remoteFileUri);
+            res.json({
+                fileUrl: remoteFileUri
+            })
         },function(error){
             console.log(error);
         });

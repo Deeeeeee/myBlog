@@ -82,22 +82,35 @@ define(["jquery"], function ($) {
         },
         uploadFile: function () {
             $(".J_uploadContainer input").on("change",function () {
-                console.log($(this).val())
+                var url = '/upload';
+                uploadFiles(url)
             });
 
-            function uploadfiles(){
+            /**
+             * 上传文件到 七牛
+             * @param url 上传接口地址
+             */
+            function uploadFiles(url){
                 var fileObj = document.getElementById("file").files[0]; // 获取文件对象
-                console.log(fileObj);
-                var FileController = "/upload";     // 接收上传文件的后台地址
-                var xhr = new XMLHttpRequest();
                 var formData = new FormData();
-                formData.append("file", fileObj)
+                formData.append("file", fileObj);
+                var xhr = new XMLHttpRequest();
                 //监听事件
                 // xhr.upload.addEventListener("progress", onprogress, false);
                 // xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数
-                xhr.open("POST", FileController);
+                xhr.open("POST", url);
                 //记得加入上传数据formData
                 xhr.send(formData);
+                xhr.onreadystatechange = function (e) {
+                    if(xhr.readyState == 4){
+                        if(xhr.status == 200) {
+                            var response = JSON.parse(xhr.response);
+                            console.log(response.fileUrl)
+                        }else{
+                            alert('图片上传失败');
+                        }
+                    }
+                }
             }
 
 
