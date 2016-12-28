@@ -67,11 +67,25 @@ form{
             }
         }
         .img-box{
+            position: relative;
             float: left;
-            width: 20%;
+            width: $uploadBtnWidth;
             min-width: $uploadBtnWidth;
             zoom: 1;
             overflow: hidden;
+            .loading{
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0,0,0,.5);
+                &::before{
+                    content: '';
+                    display: block;
+                    @include loadIcon($color:#fff);
+                }
+            }
             img{
                 object-fit: cover;
                 width: $uploadBtnWidth;

@@ -4,6 +4,33 @@ $prefix-for-microsoft: false !default;
 $prefix-for-opera: false !default;
 $prefix-for-spec: true !default; // required for keyframe mixin
 
+@mixin loadIcon($size: 40px, $color: #3498db, $borderSize: 3px, $dur: 1.5s) {
+	position: relative;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    margin-left: -$size / 2;
+    margin-top: -$size / 2;
+	width: $size;
+	height: $size;
+	border: $borderSize solid $color;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	animation: load $dur linear infinite;
+	-webkit-animation: load $dur linear infinite;
+	@keyframes load
+	{
+		from {transform: rotate(0);}
+		to {transform: rotate(360deg);}
+	}
+
+	@-webkit-keyframes load /* Safari 与 Chrome */
+	{
+		from {transform: rotate(0);}
+		to {transform: rotate(360deg);}
+	}
+}
+
 @mixin radiusImg($rectWidth: 50px, $left: 0, $top: 0){
 	width: $rectWidth;
 	height: $rectWidth;

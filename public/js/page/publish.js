@@ -85,15 +85,39 @@ define(["jquery"], function ($) {
                 var _this = $(this);
                 var url = '/upload';
                 var promises =[];
-                $.each(_this[0].files,function (i) {
+                var urlArr = [];
+                $.each(_this[0].files,function (i,v) {
+                    var file = v;
+                    var fileReader = new FileReader();
+                    fileReader.onloadend = function () {
+                        if (fileReader.readyState == fileReader.DONE) {
+                            // document.getElementById('img').setAttribute('src', fileReader.result);
+                            var html = '<li><div class="img-box"><div class="loading"></div><img src="'+fileReader.result+'" alt=""></div><input type="text" value="" readonly></li>';
+                            _this.parents(".uploadBtnWarp").before(html);
+                        }
+                    };
+                    fileReader.readAsDataURL(file);
+
+                    // 将promise存入数组，顺序调用
                     promises.push(uploadFiles(url,i))
                 });
+
                 console.log(promises);
                 Promise.all(promises).then(function (res) {
                     $.each(res,function (i, v) {
-                        _this.parents(".uploadBtnWarp").before('<li><div class="img-box"><img src="'+v.remoteFileUri+'" alt=""></div><input type="text" value="'+v.remoteFileUri+'" readonly></li>');
-                        $("#content").val($("#content").val() + "\n![image]("+ v.remoteFileUri +")\n")
-                    })
+                        urlArr.push(v.remoteFileUri);
+
+
+
+                        $("#content").val($("#content").val() + "\n![image]("+ v.remoteFileUri +")\n");
+                    });
+                    // 文件地址赋值
+                    _this.parents('.uploadBtnWarp').siblings('li').each(function (i, v) {
+                        $(this).find('input').val(urlArr[i]);
+                        $(this).find('.loading').fadeOut();
+                    });
+
+
 
                 },function (err) {
                     console.log(err)
