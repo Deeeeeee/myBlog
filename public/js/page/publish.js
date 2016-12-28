@@ -84,39 +84,56 @@ define(["jquery"], function ($) {
             $(".uploadBtn").on("change",function () {
                 var _this = $(this);
                 var url = '/upload';
-                uploadFiles(url,function (response) {
-                    _this.parents(".uploadBtnWarp")
-                        .before('<li><div class="img-box"><img src="'+response.remoteFileUri+'" alt=""></div><input type="text" value="'+response.remoteFileUri+'" readonly></li>')
+                var promises =[];
+                $.each(_this[0].files,function (i) {
+                    promises.push(uploadFiles(url,i))
+                });
+                console.log(promises);
+                Promise.all(promises).then(function (res) {
+                    $.each(res,function (i, v) {
+                        console.log(v)
+                        _this.parents(".uploadBtnWarp")
+                            .before('<li><div class="img-box"><img src="'+v.remoteFileUri+'" alt=""></div><input type="text" value="'+v.remoteFileUri+'" readonly></li>')
+                    })
+
+                },function (err) {
+                    console.log(err)
                 })
             });
 
             /**
              * 上传文件到 七牛
              * @param url 上传接口地址
-             * @param cb
              */
-            function uploadFiles(url,cb){
-                var fileObj = document.querySelector(".uploadBtn").files[0]; // 获取文件对象
-                var formData = new FormData();
-                formData.append("file", fileObj);
-                var xhr = new XMLHttpRequest();
-                //监听事件
-                // xhr.upload.addEventListener("progress", onprogress, false);
-                // xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数
-                xhr.open("POST", url);
-                //记得加入上传数据formData
-                xhr.send(formData);
-                xhr.onreadystatechange = function (e) {
-                    if(xhr.readyState == 4){
-                        if(xhr.status == 200) {
-                            var response = JSON.parse(xhr.response);
-                            console.log(response);
-                            cb(response);
-                        }else{
-                            alert('图片上传失败');
+            function uploadFiles(url, i){
+
+                var promise = new Promise(function (resolve, reject) {
+                    var fileObj = document.querySelector(".uploadBtn").files; // 获取文件对象
+                    console.log(fileObj);
+                    var formData = new FormData();
+                    formData.append("file", fileObj[i]);
+                    var xhr = new XMLHttpRequest();
+                    //监听事件
+                    // xhr.upload.addEventListener("progress", onprogress, false);
+                    // xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数
+                    xhr.open("POST", url);
+                    //记得加入上传数据formData
+                    xhr.send(formData);
+                    xhr.onreadystatechange = function (e) {
+                        if(xhr.readyState == 4){
+                            if(xhr.status == 200) {
+                                var response = JSON.parse(xhr.response);
+                                resolve(response);
+                            }else{
+                                reject(new Error(xhr.statusText));
+                            }
                         }
                     }
-                }
+                });
+                return promise;
+
+
+
             }
 
 
