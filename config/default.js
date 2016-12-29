@@ -6,7 +6,7 @@ module.exports = {
         maxAge: 2592000000
     },
 
-    mongodb: 'mongodb://192.168.0.41:27017/blog',
+    mongodb: 'mongodb://192.168.0.47:27017/blog',
 
 
 

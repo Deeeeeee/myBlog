@@ -16,6 +16,10 @@ body{
 }
 .main{
     padding: 1em 2em;
+    .main-layout{
+        margin: 0 auto;
+        max-width: 700px;
+    }
 }
 
 

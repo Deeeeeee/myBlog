@@ -1,105 +1,104 @@
-@import
-"common/common";
+@import "common/common";
 
 $uploadBtnWidth: 80px;
 $uploadBtnHeight: 80px;
 
-
-
-form{
-    label{
-        font-weight:700;
-    }
-}
-#content{
-    height: 400px;
-    width: 100%;
-}
-
-.uploadWarp{
-    li{
-        overflow: hidden;
-        zoom: 1;
-        position: relative;
-        margin-bottom: 10px;
-        &.uploadBtnWarp{
-            margin: 0;
-            position: relative;
-            width: $uploadBtnWidth;
-            height: $uploadBtnHeight;
-            border: 1px dashed $borderColor;
-            cursor: pointer;
-            &::before{
-                content: '';
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                -webkit-transform: translate(-50%, -50%);
-                -moz-transform: translate(-50%, -50%);
-                -ms-transform: translate(-50%, -50%);
-                -o-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
-                width: 4px;
-                height: $uploadBtnHeight / 2;
-                background-color: $borderColor;
-            }
-            &::after{
-                content: '';
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                -webkit-transform: translate(-50%, -50%);
-                -moz-transform: translate(-50%, -50%);
-                -ms-transform: translate(-50%, -50%);
-                -o-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
-                width: $uploadBtnWidth / 2;
-                height: 4px;
-                background-color: $borderColor;
-            }
-            .uploadBtn{
-                position: relative;
-                z-index: 1;
-                margin: 0;
-                font-size: 100px;
-                opacity: 0;
-                cursor: pointer;
-            }
+.main-layout {
+    form {
+        label {
+            font-weight: 700;
         }
-        .img-box{
-            position: relative;
-            float: left;
-            width: $uploadBtnWidth;
-            min-width: $uploadBtnWidth;
-            zoom: 1;
+        #content {
+            height: 400px;
+            width: 100%;
+        }
+    }
+
+    .uploadWarp {
+        li {
             overflow: hidden;
-            .loading{
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: rgba(0,0,0,.5);
-                &::before{
-                    content: '';
-                    display: block;
-                    @include loadIcon($color:#fff);
-                }
-            }
-            img{
-                object-fit: cover;
+            zoom: 1;
+            position: relative;
+            margin-bottom: 10px;
+            &.uploadBtnWarp {
+                margin: 0;
+                position: relative;
                 width: $uploadBtnWidth;
                 height: $uploadBtnHeight;
+                border: 1px dashed $borderColor;
+                cursor: pointer;
+                &::before {
+                    content: '';
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    -webkit-transform: translate(-50%, -50%);
+                    -moz-transform: translate(-50%, -50%);
+                    -ms-transform: translate(-50%, -50%);
+                    -o-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
+                    width: 4px;
+                    height: $uploadBtnHeight / 2;
+                    background-color: $borderColor;
+                }
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    -webkit-transform: translate(-50%, -50%);
+                    -moz-transform: translate(-50%, -50%);
+                    -ms-transform: translate(-50%, -50%);
+                    -o-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
+                    width: $uploadBtnWidth / 2;
+                    height: 4px;
+                    background-color: $borderColor;
+                }
+                .uploadBtn {
+                    position: relative;
+                    z-index: 1;
+                    margin: 0;
+                    font-size: 100px;
+                    opacity: 0;
+                    cursor: pointer;
+                }
             }
-        }
+            .img-box {
+                position: relative;
+                float: left;
+                width: $uploadBtnWidth;
+                min-width: $uploadBtnWidth;
+                zoom: 1;
+                overflow: hidden;
+                .loading {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: rgba(0, 0, 0, .5);
+                    &::before {
+                        content: '';
+                        display: block;
+                        @include loadIcon($color: #fff);
+                    }
+                }
+                img {
+                    object-fit: cover;
+                    width: $uploadBtnWidth;
+                    height: $uploadBtnHeight;
+                }
+            }
 
-        input{
-            //position: absolute;
-            //right: 0;
-            //left: $uploadBtnWidth + 20;
-            float: left;
-            margin: 20px 0 0 10px !important;
-            width: 60%;
+            input {
+                //position: absolute;
+                //right: 0;
+                //left: $uploadBtnWidth + 20;
+                float: left;
+                margin: 20px 0 0 10px !important;
+                width: 60%;
+            }
         }
     }
 }
