@@ -103,24 +103,16 @@ define(["jquery"], function ($) {
                     promises.push(uploadFiles(url,i))
                 });
 
-                console.log(promises);
                 Promise.all(promises).then(function (res) {
                     $.each(res,function (i, v) {
                         urlArr.push(v.remoteFileUri);
-
-
-
                         $("#content").val($("#content").val() + "\n![image]("+ v.remoteFileUri +")\n");
                     });
                     // 文件地址赋值
                     _this.parents('.uploadBtnWarp').siblings('li').each(function (i, v) {
-                        console.log(urlArr);
-                        console.log(i);
                         $(this).find('input').val(urlArr[i]);
                         $(this).find('.loading').fadeOut();
                     });
-
-
 
                 },function (err) {
                     console.log(err)

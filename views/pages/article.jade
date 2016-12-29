@@ -5,7 +5,7 @@ block content
     .pure-g
         include ../includes/sidebar
         .main.pure-u-1.pure-u-md-3-4
-            .article-layout
+            .main-layout
                 .article-box
                     - var art = article;
                     h4.title( data-articleId="#{art._id}" data-authorId="#{art.authorId}" ) #{art.title}
@@ -26,6 +26,7 @@ block content
                         ul
                             each item,i in comments
                                 li.comment-item(data-commentId="#{item._id}")
+                                    a(name="#{item._id}")
                                     .head
                                         p
                                             if(art.author == item.nickname)

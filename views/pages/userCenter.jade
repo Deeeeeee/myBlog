@@ -5,22 +5,24 @@ block content
     .pure-g
         include ../includes/sidebar
         .main.pure-u-1.pure-u-md-3-4
-            .tabs-head
-                a(href="") 文章
-                a(href="")  动态
-            .tabs-body
-                .tabs-item
-                    ul.comment-list
-                        if(comments && comments.length)
-                            each item in comments
-                                li
-                                    span.nickname #{item.nickname}
-                                    span.time #{item.createTime}
-                                    p #{item.content}
-                        else
-                            li 木有新评论...
+            .main-layout
+                .tabs-head
+                    a(href="") 文章
+                    a(href="")  动态
+                .tabs-body
+                    .tabs-item
+                        ul.comment-list
+                            if(comments && comments.length)
+                                each item in comments
+                                    li
+                                        a.J_finishRead(href="#{'/article/'+item.articleId+'#'+item._id}" data-id="#{item._id}")
+                                            span.nickname #{item.nickname}
+                                            span.time #{item.createTime}
+                                            p #{item.content}
+                            else
+                                li 木有新评论...
 block scripts
     script.
         require(['main'], function () {
-            require(['page/register']);
+            require(['page/userCenter']);
         });

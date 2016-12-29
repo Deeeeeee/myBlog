@@ -149,7 +149,7 @@ module.exports = function (app) {
      * 个人中心
      */
     app.get('/userCenter/:id', function (req, res, next) {
-        CommentModel.getComments().then(function (result) {
+        CommentModel.getCommentsByReadStatus(0).then(function (result) {
             console.log(result);
             res.render('pages/userCenter', {
                 title: '个人中心',
@@ -160,9 +160,21 @@ module.exports = function (app) {
     });
 
     /**
+     * 阅读评论 个人中心
+     */
+    app.post('/readComment', checkLogin, function (req, res) {
+        var commentId = req.body.commentId;
+        // var userId = req.session.user._id;
+        // TODO 多人博客要验证当前用户是否是文章的 作者
+        CommentModel.readCommentById(commentId, {readStatus: 1}).then(function (result) {
+            res.json({code: 0, message: "屏蔽成功"});
+        });
+    });
+
+    /**
      * 发布文章
      */
-    app.get('/publish', checkLogin, function (req, res) {
+    app.get('/publish', function (req, res) {
         var articleId = req.query.articleId;
         if (articleId) {
             ArticleModel.getRawArticle(articleId).then(function (result) {
@@ -177,7 +189,7 @@ module.exports = function (app) {
             });
         }
     });
-    app.post('/publish', checkLogin, function (req, res, next) {
+    app.post('/publish', function (req, res, next) {
         var authorId = req.session.user._id;
         var author = req.session.user.username;
         var title = req.body.title;
@@ -294,7 +306,7 @@ module.exports = function (app) {
     /**
      * 发布评论
      */
-    app.post('/pubComment', function (req, res) {
+    app.post('/pubComment', checkLogin, function (req, res) {
         var nickname = req.body.nickname,
             articleAuthorId = req.body.articleAuthorId,
             blog = req.body.blog,
@@ -325,7 +337,8 @@ module.exports = function (app) {
             nickname: nickname,
             blog: blog,
             content: content,
-            status: 0
+            status: 0,
+            readStatus: 0
         };
         CommentModel.create(data)
             .then(function (result) {
@@ -340,7 +353,7 @@ module.exports = function (app) {
     /**
      * 删除评论
      */
-    app.post('/delComment', function (req, res) {
+    app.post('/delComment', checkLogin, function (req, res) {
         var commentId = req.body.commentId;
         var articleAuthorId = req.body.articleAuthorId;
         var userId = req.session.user._id;
@@ -356,7 +369,7 @@ module.exports = function (app) {
     /**
      * 屏蔽评论
      */
-    app.post('/hideComment', function (req, res) {
+    app.post('/hideComment', checkLogin, function (req, res) {
         var commentId = req.body.commentId;
         var articleAuthorId = req.body.articleAuthorId;
         var userId = req.session.user._id;
@@ -368,6 +381,8 @@ module.exports = function (app) {
             res.json({code: 0, message: "屏蔽成功"});
         });
     });
+
+
 
 
     /**
@@ -416,6 +431,7 @@ module.exports = function (app) {
                 });
             })
     });
+
     //demo  upload
     app.post("/upload",multipartMiddleware,function (req, res){
 

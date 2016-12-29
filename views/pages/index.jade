@@ -5,23 +5,24 @@ block content
     .pure-g
         include ../includes/sidebar
         .main.pure-u-1.pure-u-md-3-4
-            ul.article-list
-                each item in articles
-                    li.animated.fadeIn
-                        h4
-                            a(href="/article/#{item._id}") #{item.title}
-                        h5
-                            em 标签:
-                            span.type #{item.type}
-                            em 日期:
-                            span.time #{item.createTime}
-                        p 流量数(#{item.pv}) 评论数(#{item.commentsCount})
-                        //p !{item.content}
-            if(articles.length >= 20)
-                div.tc.mt20.mb20
-                    button#loadMore.pure-button.pure-button-primary 点击加载更多
-            else
-                .tc.mt20 没有更多了...
+            .main-layout
+                ul.article-list
+                    each item in articles
+                        li.animated.fadeIn
+                            h4
+                                a(href="/article/#{item._id}") #{item.title}
+                            h5
+                                em 标签:
+                                span.type #{item.type}
+                                em 日期:
+                                span.time #{item.createTime}
+                            p 流量数(#{item.pv}) 评论数(#{item.commentsCount})
+                            //p !{item.content}
+                if(articles.length >= 20)
+                    div.tc.mt20.mb20
+                        button#loadMore.pure-button.pure-button-primary 点击加载更多
+                else
+                    .tc.mt20 没有更多了...
 block scripts
     script.
         require(['main'], function () {
