@@ -1,5 +1,7 @@
 
 define(["jquery"], function ($) {
+    var urlArr = [];
+
     var page = {
         init: function() {
             this.render();
@@ -85,7 +87,6 @@ define(["jquery"], function ($) {
                 var _this = $(this);
                 var url = '/upload';
                 var promises =[];
-                var urlArr = [];
                 $.each(_this[0].files,function (i,v) {
                     var file = v;
                     var fileReader = new FileReader();
@@ -113,6 +114,8 @@ define(["jquery"], function ($) {
                     });
                     // 文件地址赋值
                     _this.parents('.uploadBtnWarp').siblings('li').each(function (i, v) {
+                        console.log(urlArr);
+                        console.log(i);
                         $(this).find('input').val(urlArr[i]);
                         $(this).find('.loading').fadeOut();
                     });
