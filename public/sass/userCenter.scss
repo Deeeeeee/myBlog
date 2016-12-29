@@ -5,14 +5,25 @@
     .comment-list{
         li{
             margin: 10px 0;
-            .nickname{
-                color: #00B7FF;
+            a{
+                display: block;
+                &:hover{
+                    background-color: #f8f8f8;
+                }
+                color: inherit;
+                .nickname{
+                    color: #00B7FF;
+                }
+                .time{
+                    float: right;
+                    color: $minTitle;
+                    font-size: 12px;
+                }
+                p{
+                    margin-top: 10px;
+                }
             }
-            .time{
-                float: right;
-                color: $minTitle;
-                font-size: 12px;
-            }
+
         }
     }
 }
