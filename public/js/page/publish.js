@@ -150,12 +150,11 @@ define(["jquery"], function ($) {
                 });
                 return promise;
 
-
-
             }
 
 
         }
+
     };
     page.init();
 
