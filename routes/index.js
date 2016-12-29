@@ -9,7 +9,8 @@ var UserModel = require('../models/user.js');
 var ArticleModel = require('../models/article.js');
 var CommentModel = require('../models/comment.js');
 var ReplayModel = require('../models/replay.js');
-var StorgeModel = require('../models/storge.js')
+var StorgeModel = require('../models/storge.js');
+var CategoryModel = require('../models/category.js');
 
 // 加载自定义中间件
 var checkLogin = require('../middlewares/check').checkLogin;
@@ -448,10 +449,37 @@ module.exports = function (app) {
         },function(error){
             console.log(error);
         });
-        
+
         //构建上传策略函数
+    })
+    app.get("/addCategory",function(req,res){
+
+        var categoryNickname = req.body.name;
+        var parentId = req.body.parentId;
+        var data;
+        if(parentId){/*非根目录*/
+            data = {
+                parentId:parentId,
+                categoryNickname:categoryNickname,
+            }
+
+        }else{/*根目录*/
+            data = {
+                categoryNickname:categoryNickname,
+            }
+        };
+        CategoryModel.create(data).
+            then(function(result){
+                    res.json(result);
+                }
+            );
 
 
+    })
+    app.get("/getCategory",function(req,res){
+         CategoryModel.getList().then(function (result){
+            res.json(result);
+         });
 
     })
 

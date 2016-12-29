@@ -7,7 +7,7 @@ module.exports = {
     },
 
 
-    mongodb: 'mongodb://192.168.0.47:27017/blog',
+    mongodb: 'mongodb://127.0.0.1:27017/blog',
 
 
 

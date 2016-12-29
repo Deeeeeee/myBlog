@@ -1,5 +1,4 @@
 var Comment = require('../lib/mongo').Comment;
-var Notifactions = require('../lib/mongo').Notifications;
 module.exports = {
     // 创建一个评论
     create: function create(comment) {
