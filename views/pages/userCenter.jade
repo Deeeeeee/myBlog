@@ -6,11 +6,8 @@ block content
         include ../includes/sidebar
         .main.pure-u-1.pure-u-md-3-4
             .main-layout
-                .tabs-head
-                    a(href="") 文章
-                    a(href="")  动态
-                .tabs-body
-                    .tabs-item
+                .tabs-box
+                        h5 我的消息
                         ul.comment-list
                             if(comments && comments.length)
                                 each item in comments

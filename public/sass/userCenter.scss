@@ -2,15 +2,36 @@
 "common/common";
 
 .main{
+    .tabs-box{
+        .tabs-head{
+            @extend .clearfix;
+            border-bottom: 2px solid #00B7FF;
+            a{
+                float: left;
+                padding: 0 20px;
+                color: #4c5e70;
+                line-height: 30px;
+                &.active{
+                    background-color: #00B7FF;
+                    color: #fff;
+                }
+
+            }
+        }
+        .tabs-body{
+
+        }
+    }
     .comment-list{
         li{
             margin: 10px 0;
             a{
+                padding: 10px;
                 display: block;
+                color: inherit;
                 &:hover{
                     background-color: #f8f8f8;
                 }
-                color: inherit;
                 .nickname{
                     color: #00B7FF;
                 }

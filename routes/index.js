@@ -8,8 +8,7 @@ var multipartMiddleware = multipart();
 var UserModel = require('../models/user.js');
 var ArticleModel = require('../models/article.js');
 var CommentModel = require('../models/comment.js');
-var ReplayModel = require('../models/replay.js');
-var StorgeModel = require('../models/storge.js')
+var StorageModel = require('../models/storage.js');
 
 // 加载自定义中间件
 var checkLogin = require('../middlewares/check').checkLogin;
@@ -442,7 +441,7 @@ module.exports = function (app) {
         //上传到七牛后保存的文件名 用时间戳防止文件名重复
         // TODO 多用户下还要拼接用户ID
         var remoteFileName  = stamp + fileType;
-        StorgeModel.upload(localFilePath,remoteFileName).then(function(remoteFileUri){
+        StorageModel.upload(localFilePath,remoteFileName).then(function(remoteFileUri){
             console.log(remoteFileUri);
             res.json(remoteFileUri)
         },function(error){
