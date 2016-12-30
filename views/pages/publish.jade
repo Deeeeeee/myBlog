@@ -12,10 +12,13 @@ block content
                     label(for="title") 标题
                     input#title(type="text"  placeholder="title" value="#{article ? article.title : ''}")
                     label(for="type") 分类
-                    select#type
-                        option(value="HTML") HTML
-                        option(value="CSS") CSS
-                        option(value="JS") JS
+
+                    .category-box
+                        select#type
+                            for item in category
+                                option(value="HTML") HTML
+                        a.J_addCategory 添加分类
+                        a.J_confirmAdd.hide.pure-button.pure-button-primary 确定
                     label 图片
                     ul.uploadWarp
                         //li

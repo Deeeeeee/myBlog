@@ -24,11 +24,11 @@ module.exports = {
                 }
             }
             return groupTree;
-        })
+        });
 
         return result;
 
 
-    },
+    }
 
-}
+};

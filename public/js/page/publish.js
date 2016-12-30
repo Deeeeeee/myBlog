@@ -13,6 +13,8 @@ define(["jquery"], function ($) {
         },
         bindEvents: function () {
             this.onSubmit();
+            this.onAddCategory();
+
             this.uploadFile();
         },
         onSubmit: function () {
@@ -82,6 +84,55 @@ define(["jquery"], function ($) {
                 }
             }
         },
+        /**
+         * 添加文章分类
+         */
+        onAddCategory: function () {
+            var addBtn = $('.J_addCategory');
+            var confirmBtn = $('.J_confirmAdd');
+            addBtn.on('click', function () {
+                var _this = $(this);
+                if(!_this.hasClass('cancel')){
+                    var level = _this.siblings('select').length;
+                    _this.before('<input type="text" id="newCategory" placeholder="添加'+ level +'级分类">');
+                    _this.text('取消').addClass('cancel');
+                    confirmBtn.show();
+                }else{
+                    $("#newCategory").remove();
+                    _this.text('添加分类').removeClass('cancel');
+                    confirmBtn.hide();
+                }
+            });
+            confirmBtn.on('click', function () {
+                var _this = $(this);
+                var level = _this.siblings('select').length;
+                var categoryName = $("#newCategory").text().trim();
+                var parentId = _this.siblings('select:last-child:checked');
+                console.log(parentId)
+                return
+                $.ajax({
+                    type: 'post',
+                    data: data,
+                    url: '/addCategory',
+                    success: function (data) {
+                        if(data.code === 0){
+                            console.log(data.message);
+                        }else{
+                            alert(data.message);
+                            console.log(data);
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            })
+        },
+
+        /**
+         * 上传文件
+         * TODO 文件压缩 类型判断
+         */
         uploadFile: function () {
             $(".uploadBtn").on("change",function () {
                 var _this = $(this);

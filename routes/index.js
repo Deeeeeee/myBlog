@@ -177,6 +177,17 @@ module.exports = function (app) {
     app.get('/publish', function (req, res) {
         var articleId = req.query.articleId;
         if (articleId) {
+            Promise.all([
+                ArticleModel.getRawArticle(articleId),
+                CategoryModel.getList()
+            ]).then(function (results) {
+                res.render('pages/publish', {
+                    title: '修改文章',
+                    article: results[0],
+                    category: results[1]
+                });
+            });
+
             ArticleModel.getRawArticle(articleId).then(function (result) {
                 res.render('pages/publish', {
                     title: '修改文章',
@@ -184,9 +195,13 @@ module.exports = function (app) {
                 });
             })
         } else {
-            res.render('pages/publish', {
-                title: '发布文章'
+            CategoryModel.getList().then(function (result){
+                res.render('pages/publish', {
+                    title: '发布文章',
+                    category: result
+                });
             });
+
         }
     });
     app.post('/publish', function (req, res, next) {
@@ -383,8 +398,6 @@ module.exports = function (app) {
     });
 
 
-
-
     /**
      * 发布回复
      */
@@ -450,8 +463,8 @@ module.exports = function (app) {
         });
 
         //构建上传策略函数
-    })
-    app.get("/addCategory",function(req,res){
+    });
+    app.post("/addCategory",function(req,res){
 
         var categoryNickname = req.body.name;
         var parentId = req.body.parentId;
@@ -466,15 +479,13 @@ module.exports = function (app) {
             data = {
                 categoryNickname:categoryNickname,
             }
-        };
+        }
         CategoryModel.create(data).
             then(function(result){
                     res.json(result);
                 }
             );
-
-
-    })
+    });
     app.get("/getCategory",function(req,res){
          CategoryModel.getList().then(function (result){
             res.json(result);
