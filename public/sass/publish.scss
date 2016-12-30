@@ -8,10 +8,14 @@ $uploadBtnHeight: 80px;
         label {
             font-weight: 700;
         }
+        #title{
+            width: 100%;
+        }
         .category-box{
             @extend .clearfix;
             select{
-                float: left;
+                //float: left;
+                width: 50%;
             }
             input{
                 width: 100px;

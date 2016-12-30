@@ -108,6 +108,7 @@ define(["jquery"], function ($) {
                 var level = _this.siblings('.select-box').find("select").length;
                 var categoryName = $("#newCategory").val().trim();
                 var parentId = _this.siblings('.select-box').find("select:last-child").find('option:selected').attr('data-id') || "";
+
                 var data = {
                     level: parentId ? level+1 : level,
                     name: categoryName,
@@ -142,6 +143,7 @@ define(["jquery"], function ($) {
                         // select 变化时 筛选出子分类
                         var selectBox = $(".select-box");
                         selectBox.on('change','select', function () {
+                            console.log("select change");
                             var _this = $(this);
                             var id = _this.find('option:selected').attr('data-id');
                             var categoryArr = [];
@@ -152,16 +154,15 @@ define(["jquery"], function ($) {
                                 }
                             });
                             if(categoryArr.length){
-                                _this.after('<select id="22"></select>');
+                                _this.after('<select></select>');
                                 var select = selectBox.find("select:last-child");
-                                console.log(select.attr("id"));
-                                var html = "";
+                                var html = "<option>-请选择-</option>>";
                                 $.each(categoryArr,function (i, v) {
                                     html += '<option value="'+v.categoryNickname+'" data-id="'+v._id+'">'+v.categoryNickname+'</option>';
                                 });
                                 select.html(html)
                             }else{
-                                // _this.
+                                _this.nextAll().remove()
                             }
                         })
                     }else{

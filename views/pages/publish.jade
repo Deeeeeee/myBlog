@@ -16,7 +16,7 @@ block content
                         .select-box
                             select
                                 if (category && category.length)
-                                    option 请选择分类
+                                    option -请选择-
                                     for item in category
                                         option(value="#{item.categoryNickname}" data-id="#{item._id}") #{item.categoryNickname}
                                 else
