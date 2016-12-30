@@ -195,7 +195,8 @@ module.exports = function (app) {
                 });
             })
         } else {
-            CategoryModel.getList().then(function (result){
+            CategoryModel.getCategoryByLevel("1").then(function (result) {
+                console.log(result)
                 res.render('pages/publish', {
                     title: '发布文章',
                     category: result
@@ -360,7 +361,6 @@ module.exports = function (app) {
                 res.json({
                     code: 0,
                     message: "发布成功",
-                    body: result
                 });
             })
     });
@@ -446,7 +446,7 @@ module.exports = function (app) {
     });
 
     //demo  upload
-    app.post("/upload",multipartMiddleware,function (req, res){
+    app.post("/upload", multipartMiddleware, function (req, res) {
 
         var localFilePath = req.files.file.path;//本地地址
         var fileName = req.files.file.name;
@@ -454,44 +454,54 @@ module.exports = function (app) {
         var stamp = (new Date()).getTime();
         //上传到七牛后保存的文件名 用时间戳防止文件名重复
         // TODO 多用户下还要拼接用户ID
-        var remoteFileName  = stamp + fileType;
-        StorageModel.upload(localFilePath,remoteFileName).then(function(remoteFileUri){
+        var remoteFileName = stamp + fileType;
+        StorageModel.upload(localFilePath, remoteFileName).then(function (remoteFileUri) {
             console.log(remoteFileUri);
             res.json(remoteFileUri)
-        },function(error){
+        }, function (error) {
             console.log(error);
         });
 
         //构建上传策略函数
     });
-    app.post("/addCategory",function(req,res){
 
-        var categoryNickname = req.body.name;
-        var parentId = req.body.parentId;
-        var data;
-        if(parentId){/*非根目录*/
-            data = {
-                parentId:parentId,
-                categoryNickname:categoryNickname,
-            }
-
-        }else{/*根目录*/
-            data = {
-                categoryNickname:categoryNickname,
-            }
-        }
-        CategoryModel.create(data).
-            then(function(result){
-                    res.json(result);
-                }
-            );
+    /**
+     * 获取全部分类
+     */
+    app.post("/getAllCategory", function (req, res) {
+        CategoryModel.getAllCategory().then(function (result) {
+            res.json({
+                code: 0,
+                message: '获取全部分类成功',
+                category: result
+            });
+        });
     });
-    app.get("/getCategory",function(req,res){
-         CategoryModel.getList().then(function (result){
-            res.json(result);
-         });
+    /**
+     * 添加分类
+     */
+    app.post("/addCategory", function (req, res, next) {
+        var categoryNickname = req.body.name;
+        var parentId = req.body.parentId || "";
+        var level = req.body.level;
+        var data = {
+            parentId: parentId,
+            categoryNickname: categoryNickname,
+            level: level
+        };
+        CategoryModel.create(data)
+            .then(function () {
+                res.json({
+                    code: 0,
+                    message: "添加成功"
+                });
+            })
+            .catch(function (e) {
+                console.log(e)
+            })
 
-    })
+    });
+
 
 
 };

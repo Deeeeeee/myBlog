@@ -94,7 +94,7 @@ define(["jquery"], function ($) {
                 var _this = $(this);
                 if(!_this.hasClass('cancel')){
                     var level = _this.siblings('select').length;
-                    _this.before('<input type="text" id="newCategory" placeholder="添加'+ level +'级分类">');
+                    _this.before('<input type="text" id="newCategory" placeholder="添加分类">');
                     _this.text('取消').addClass('cancel');
                     confirmBtn.show();
                 }else{
@@ -105,11 +105,15 @@ define(["jquery"], function ($) {
             });
             confirmBtn.on('click', function () {
                 var _this = $(this);
-                var level = _this.siblings('select').length;
-                var categoryName = $("#newCategory").text().trim();
-                var parentId = _this.siblings('select:last-child:checked');
-                console.log(parentId)
-                return
+                var level = _this.siblings('.select-box').find("select").length;
+                var categoryName = $("#newCategory").val().trim();
+                var parentId = _this.siblings('.select-box').find("select:last-child").find('option:selected').attr('data-id') || "";
+                var data = {
+                    level: parentId ? level+1 : level,
+                    name: categoryName,
+                    parentId: parentId
+                };
+                console.log(data);
                 $.ajax({
                     type: 'post',
                     data: data,
@@ -119,14 +123,57 @@ define(["jquery"], function ($) {
                             console.log(data.message);
                         }else{
                             alert(data.message);
-                            console.log(data);
                         }
                     },
                     error: function (err) {
                         console.log(err);
                     }
                 })
-            })
+            });
+
+            $.ajax({
+                type: 'post',
+                data: {},
+                url: '/getAllCategory',
+                success: function (data) {
+                    if(data.code === 0){
+                        console.log(data.message);
+                        var category = data.category;
+                        // select 变化时 筛选出子分类
+                        var selectBox = $(".select-box");
+                        selectBox.on('change','select', function () {
+                            var _this = $(this);
+                            var id = _this.find('option:selected').attr('data-id');
+                            var categoryArr = [];
+
+                            $.each(category,function (i,v) {
+                                if(v.parentId == id){
+                                    categoryArr.push(v)
+                                }
+                            });
+                            if(categoryArr.length){
+                                _this.after('<select id="22"></select>');
+                                var select = selectBox.find("select:last-child");
+                                console.log(select.attr("id"));
+                                var html = "";
+                                $.each(categoryArr,function (i, v) {
+                                    html += '<option value="'+v.categoryNickname+'" data-id="'+v._id+'">'+v.categoryNickname+'</option>';
+                                });
+                                select.html(html)
+                            }else{
+                                // _this.
+                            }
+                        })
+                    }else{
+                        alert(data.message);
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+
         },
 
         /**
