@@ -14,8 +14,8 @@ module.exports = {
     getCategoryByLevel: function(level){
         return Category.find({level: level}).exec();
     },
-    // 通过 parentId 获取分类
-    getCategoryByParentId: function(level){
+    // 通过 Id 删除分类
+    delCategoryById: function(level){
         return Category.find({level: level}).exec();
     }
 
