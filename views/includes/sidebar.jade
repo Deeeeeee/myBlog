@@ -6,13 +6,12 @@
     if (user)
         .control
             a.J_navToggle 三
-
-            .nav
-                a#user(href="#{'/userCenter/' + user._id}" data-username="#{user.username}") #{user.username}
-                a(href="/publish") 发布文章
-                a(href="#{'/userCenter/' + user._id}" data-username="#{user.username}") 我的消息
-                a() 账号设置
-                a#logout(href="javascript:;") 退出
+        .nav
+            a#user(href="#{'/userCenter/' + user._id}" data-username="#{user.username}") #{user.username}
+            a(href="/publish") 发布文章
+            a(href="#{'/userCenter/' + user._id}" data-username="#{user.username}") 我的消息
+            a() 账号设置
+            a#logout(href="javascript:;") 退出
     else
         a(href="/login") 登录
         a(href="/register") 注册
