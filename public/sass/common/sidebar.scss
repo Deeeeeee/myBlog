@@ -26,19 +26,42 @@ body{
         padding: 0;
         h3{
             float: left;
+            margin: 0 10px;
             font-size: 24px;
             line-height:50px;
-            margin: 0 10px;
         }
         .control{
             float: right;
-            line-height: 50px;
             margin: 0 10px;
-            #user{
-                font-size: 14px;
-            }
             a{
                 display: block;
+                margin: 10px 0;
+                width: 30px;
+                border: 1px solid $baseBlue;
+                border-radius: 4px;
+                line-height: 28px;
+            }
+        }
+        .nav{
+            clear: both;
+            background-color: #4c5e70;
+            height: 0;
+            overflow: hidden;
+            -webkit-transition: height .5s;
+            -moz-transition: height .5s;
+            -ms-transition: height .5s;
+            -o-transition: height .5s;
+            transition: height .5s;;
+            a{
+                padding: 0 10px;
+                text-align: left;
+                line-height: 40px;
+                display: block;
+                border-top: 1px solid $baseBlue;
+                &:hover,
+                &:active{
+                    background-color: $sideBgColor;
+                }
             }
         }
     }

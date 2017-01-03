@@ -33,7 +33,7 @@ define(["jquery"], function ($) {
                     articleId: articleId,
                     authorId: authorId,
                     title: $("#title").val().trim(),
-                    type: $("#type").val(),
+                    type: $("#type").val() || "HTML",
                     content: $("#content").val()
                     // info: cutStr($("#content").text(),200)
                 };
