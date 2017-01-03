@@ -1,0 +1,40 @@
+extends ../layout
+block stylesheets
+    link(rel="stylesheet", href="/css/userMessage.min.css")
+block content
+    .pure-g
+        include ../includes/sidebar
+        .main.pure-u-1.pure-u-md-3-4
+            .main-layout
+                form.pure-form.pure-form-stacked
+                    .pure-g
+                        label.pure-u-1 头像
+                        input#avatar(type="file")
+
+                        label.pure-u-1 用户名
+                        input.pure-u-1(type="text" name="username" value="#{user.username}" disabled)
+
+                        label.pure-u-1 昵称
+                        input.pure-u-1(type="text" name="nickname" value="#{user.nickname || ''}")
+
+                        label.pure-u-1 性别
+                        | 男
+                        input(type="radio" value='0' name="gender")
+                        | 女
+                        input(type="radio" value='1' name="gender")
+
+                        label.pure-u-1 年龄
+                        input.pure-u-1(type="text" name="age" value="#{user.age || ''}")
+
+                        label.pure-u-1 邮箱
+                        input.pure-u-1(type="email" name="email" value="#{user.email || ''}")
+
+                        label.pure-u-1 电话
+                        input.pure-u-1(type="text" name="phone" value="#{user.phone || ''}")
+
+                        a#submit.pure-u-1.pure-button.pure-button-primary(href="javascript:;") 修改
+block scripts
+    script.
+        require(['main'], function () {
+            require(['page/userMessage']);
+        });

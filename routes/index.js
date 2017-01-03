@@ -148,15 +148,28 @@ module.exports = function (app) {
     /**
      * 个人中心
      */
-    app.get('/userCenter/:id', function (req, res, next) {
+    app.get('/userMessage/:id', function (req, res, next) {
         CommentModel.getCommentsByReadStatus(0).then(function (result) {
             console.log(result);
-            res.render('pages/userCenter', {
-                title: '个人中心',
+            res.render('pages/userMessage', {
+                title: '我的消息',
                 comments: result
             });
         });
+    });
 
+    /**
+     * 修改资料
+     */
+    app.get('/userInfo/:id', function (req, res, next) {
+        var id = req.params.id;
+        UserModel.getUserById(id).then(function (result) {
+            console.log(result)
+            res.render('pages/userInfo', {
+                title: '个人资料',
+                user: result
+            });
+        });
     });
 
     /**
@@ -179,7 +192,7 @@ module.exports = function (app) {
         if (articleId) {
             Promise.all([
                 ArticleModel.getRawArticle(articleId),
-                CategoryModel.getList()
+                CategoryModel.getCategoryByLevel("1")
             ]).then(function (results) {
                 res.render('pages/publish', {
                     title: '修改文章',
@@ -187,16 +200,9 @@ module.exports = function (app) {
                     category: results[1]
                 });
             });
-
-            ArticleModel.getRawArticle(articleId).then(function (result) {
-                res.render('pages/publish', {
-                    title: '修改文章',
-                    article: result
-                });
-            })
         } else {
             CategoryModel.getCategoryByLevel("1").then(function (result) {
-                console.log(result)
+                console.log(result);
                 res.render('pages/publish', {
                     title: '发布文章',
                     category: result
