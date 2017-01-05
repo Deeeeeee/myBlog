@@ -1,5 +1,7 @@
 @import
 "common/common";
+$uploadBtnWidth: 80px;
+$uploadBtnHeight: 80px;
 
 .main{
     .tabs-box{
@@ -15,36 +17,90 @@
                     background-color: #00B7FF;
                     color: #fff;
                 }
-
             }
         }
         .tabs-body{
 
         }
     }
-    .comment-list{
-        li{
-            margin: 10px 0;
-            a{
-                padding: 10px;
-                display: block;
-                color: inherit;
-                &:hover{
-                    background-color: #f8f8f8;
-                }
-                .nickname{
-                    color: #00B7FF;
-                }
-                .time{
-                    float: right;
-                    color: $minTitle;
-                    font-size: 12px;
-                }
-                p{
-                    margin-top: 10px;
-                }
-            }
 
+    form{
+        em{
+            margin: 0 5px;
+            letter-spacing: 0;
         }
     }
+
+    .uploadBtnWarp {
+        margin: 0;
+        position: relative;
+        width: $uploadBtnWidth;
+        height: $uploadBtnHeight;
+        border: 1px dashed $borderColor;
+        cursor: pointer;
+        overflow: hidden;
+        &::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            width: 4px;
+            height: $uploadBtnHeight / 2;
+            background-color: $borderColor;
+        }
+        &::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            width: $uploadBtnWidth / 2;
+            height: 4px;
+            background-color: $borderColor;
+        }
+        .uploadBtn {
+            position: relative;
+            z-index: 3;
+            margin: 0;
+            font-size: 100px;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, .5);
+            &::before {
+                content: '';
+                display: block;
+                @include loadIcon($color: #fff);
+            }
+        }
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            object-fit: cover;
+            width: $uploadBtnWidth;
+            height: $uploadBtnHeight;
+        }
+    }
+
+
 }

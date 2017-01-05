@@ -4,7 +4,8 @@ requirejs.config({
     paths: {
         common: 'common',
         jquery: 'vendor/jquery',
-        notie: 'vendor/notie'
+        notie: 'vendor/notie',
+        upload: 'vendor/upload'
     },
     shim: {
 

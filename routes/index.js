@@ -159,7 +159,7 @@ module.exports = function (app) {
     });
 
     /**
-     * 修改资料
+     * 个人资料
      */
     app.get('/userInfo/:id', function (req, res, next) {
         var id = req.params.id;
@@ -168,6 +168,29 @@ module.exports = function (app) {
             res.render('pages/userInfo', {
                 title: '个人资料',
                 user: result
+            });
+        });
+    });
+
+    /**
+     * 更新资料
+     */
+    app.post('/updateUserInfo', function (req, res, next) {
+        var id = req.body.userId;
+        var data = {
+            avatar: req.body.avatar || "",
+            nickname: req.body.nickname,
+            gender: req.body.gender,
+            age: req.body.age,
+            email: req.body.email,
+            phone: req.body.phone
+        };
+
+
+        UserModel.updateUserById(id,data).then(function (result) {
+            res.json({
+                code: 0,
+                message: '更新成功'
             });
         });
     });

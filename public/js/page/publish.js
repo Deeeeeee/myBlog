@@ -1,5 +1,5 @@
 
-define(["jquery"], function ($) {
+define(["jquery","upload"], function ($,upload) {
     var urlArr = [];
 
     var page = {
@@ -199,7 +199,7 @@ define(["jquery"], function ($) {
                     fileReader.readAsDataURL(file);
 
                     // 将promise存入数组，顺序调用
-                    promises.push(uploadFiles(url,i))
+                    promises.push(upload(url,i))
                 });
 
                 Promise.all(promises).then(function (res) {
@@ -217,39 +217,6 @@ define(["jquery"], function ($) {
                     console.log(err)
                 })
             });
-
-            /**
-             * 上传文件到 七牛
-             * @param url 上传接口地址
-             */
-            function uploadFiles(url, i){
-
-                var promise = new Promise(function (resolve, reject) {
-                    var fileObj = document.querySelector(".uploadBtn").files; // 获取文件对象
-                    console.log(fileObj);
-                    var formData = new FormData();
-                    formData.append("file", fileObj[i]);
-                    var xhr = new XMLHttpRequest();
-                    //监听事件
-                    // xhr.upload.addEventListener("progress", onprogress, false);
-                    // xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数
-                    xhr.open("POST", url);
-                    //记得加入上传数据formData
-                    xhr.send(formData);
-                    xhr.onreadystatechange = function (e) {
-                        if(xhr.readyState == 4){
-                            if(xhr.status == 200) {
-                                var response = JSON.parse(xhr.response);
-                                resolve(response);
-                            }else{
-                                reject(new Error(xhr.statusText));
-                            }
-                        }
-                    }
-                });
-                return promise;
-
-            }
 
 
         }
