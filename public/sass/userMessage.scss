@@ -22,9 +22,16 @@
 
         }
     }
+    h5{
+        padding-left:10px;
+        font-size: 24px;
+        padding-bottom: 5px;
+        border-bottom: 2px solid $borderColor;
+    }
     .comment-list{
+
         li{
-            margin: 10px 0;
+            border-bottom: 1px dashed $borderColor;
             a{
                 padding: 10px;
                 display: block;

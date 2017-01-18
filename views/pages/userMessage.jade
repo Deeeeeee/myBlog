@@ -7,7 +7,7 @@ block content
         .main.pure-u-1.pure-u-md-3-4
             .main-layout
                 .tabs-box
-                    h5 我的消息
+                    h5 我的消息(#{comments && comments.length || 0}条)
                     ul.comment-list
                         if(comments && comments.length)
                             each item in comments

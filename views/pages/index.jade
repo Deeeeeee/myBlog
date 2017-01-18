@@ -8,7 +8,7 @@ block content
             .main-layout
                 ul.article-list
                     each item in articles
-                        li.animated.fadeIn
+                        li(class="#{item.indexImg ? '' : 'noImg'}")
                             h4
                                 a(href="/article/#{item._id}") #{item.title}
                             h5

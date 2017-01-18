@@ -4,25 +4,24 @@
 // article list
 ul.article-list{
     li{
+        &.noImg{
+            padding: 20px 0;
+        }
+        @extend .animated;
+        @extend .fadeIn;
         position: relative;
         padding: 20px 90px 20px 0;
         border-bottom: 1px solid $borderColor;
         transition: .2s;
-        &:hover{
-            //background-color: #fefefe;
-        }
         h4{
             font-size: 20px;
             font-weight: 700;
             line-height: 20px;
             a{
                 display: inline-block;
-                @include singleline-ellipsis();
-                color: $subTitle;
+                //@include singleline-ellipsis();
+                color: $mainTitle;
                 width: 100%;
-                &:hover{
-                    color: $mainTitle;
-                }
             }
         }
         h5{
@@ -49,7 +48,6 @@ ul.article-list{
                 font-size: 12px;
             }
             .time{
-                float: right;
                 color: #999;
             }
         }
@@ -59,6 +57,7 @@ ul.article-list{
         }
         img{
             position: absolute;
+            border-radius: 4px;
             top: 50%;
             transform: translateY(-50%);
             right: 0;
@@ -73,6 +72,9 @@ ul.article-list{
     ul.article-list{
         li{
             padding: 20px 0;
+            h4{
+                font-size: 18px;
+            }
             img{
                 display: none;
             }

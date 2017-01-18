@@ -352,7 +352,7 @@ module.exports = function (app) {
     /**
      * 发布评论
      */
-    app.post('/pubComment', checkLogin, function (req, res) {
+    app.post('/pubComment', function (req, res) {
         var nickname = req.body.nickname,
             articleAuthorId = req.body.articleAuthorId,
             blog = req.body.blog,
