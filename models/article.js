@@ -49,7 +49,7 @@ module.exports = {
     getArticleById: function (articleId) {
         return Article
             .findOne({_id: articleId})
-            .populate({path: 'author', model: 'User'})
+            // .populate({path: 'author', model: 'User'})
             .addCreatedAt()
             .addCommentsCount()
             .contentToHtml()

@@ -238,8 +238,9 @@ module.exports = function (app) {
     });
     app.post('/publish', function (req, res, next) {
         var authorId = req.session.user._id;
-        var author = req.session.user.username;
+        var author = req.session.user.nickname || req.session.user.username;
         var title = req.body.title;
+        var indexImg = req.body.indexImg;
         var content = req.body.content;
         var type = req.body.type;
         var typeColor = req.body.typeColor;
@@ -262,10 +263,10 @@ module.exports = function (app) {
             title: title,
             type: type,
             typeColor: typeColor,
+            indexImg: indexImg,
             content: content,
             pv: 0
         };
-
         ArticleModel.create(data)
             .then(function (result) {
                 // 此 post 是插入 mongodb 后的值，包含 _id
@@ -324,10 +325,7 @@ module.exports = function (app) {
         ]).then(function (result) {
             var article = result[0];
             var comments = result[1];
-
             console.log(article);
-            console.log(comments);
-
             if (!article) {
                 throw new Error('该文章不存在');
             }
@@ -336,8 +334,7 @@ module.exports = function (app) {
                 article: article,
                 comments: comments
             });
-        })
-            .catch(next);
+        }).catch(next);
     });
     app.post('/article', function (req, res) {
         var start = parseInt(req.body.start);

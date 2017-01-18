@@ -14,7 +14,7 @@ block content
                             em 作者
                             span.author #{art.author}
                             span.time #{art.createTime}
-                        if(user && user.username == art.author)
+                        if(user && user._id == art.authorId)
                             p.control
                                 a(href="/publish?articleId=#{art._id}") 编辑
                                 a.J_delArticle(href="javascript:;" ) 删除

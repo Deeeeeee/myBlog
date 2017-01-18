@@ -4,7 +4,7 @@
         .pure-g
             if (user)
                 label.pure-u-1 昵称
-                input.pure-u-1.nickname(type="text" value="#{user.username}" readonly)
+                input.pure-u-1.nickname(type="text" value="#{user.nickname || user.username}" readonly)
             else
                 label.pure-u-1 昵称
                 input.pure-u-1.nickname(type="text")

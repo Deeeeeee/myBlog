@@ -35,9 +35,15 @@ define(["jquery","upload"], function ($,upload) {
                     title: $("#title").val().trim(),
                     type: $(".marks li.current").text(),
                     typeColor: $(".marks li.current").css("background-color"),
+
+                    indexImg: $(".uploadWarp").find("input[type=text]").eq(0).val() || "",
                     content: $("#content").val()
                     // info: cutStr($("#content").text(),200)
                 };
+                if(data.type == ""){
+                    alert("请选择分类");
+                    return false
+                }
                 console.log(data);
                 $.ajax({
                     type: 'post',
@@ -115,6 +121,10 @@ define(["jquery","upload"], function ($,upload) {
                         return false
                     }
                 });
+                if(categoryColor.substring(0,1) != '#' || categoryColor.length != 7){
+                    alert("标签颜色错误");
+                    return false
+                }
                 if(markRepeat){
                     alert("标签名称重复");
                     return false
