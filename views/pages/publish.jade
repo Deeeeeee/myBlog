@@ -13,15 +13,11 @@ block content
                     input#title(type="text"  placeholder="title" value="#{article ? article.title : ''}")
                     label() 分类
                     .category-box
-                        .select-box
-                            select
-                                if (category && category.length)
-                                    option -请选择-
-                                    for item in category
-                                        option(value="#{item.categoryNickname}" data-id="#{item._id}") #{item.categoryNickname}
-                                else
-                                    option 请添加分类
-                        a.J_addCategory.pure-button 添加分类
+                        ul.marks
+                            if (category && category.length)
+                                for item in category
+                                    li(class="#{article && (article.type == item.name ? 'current' : '')}" data-id="#{item._id}" style="#{'background-color:'+item.color}") #{item.name}
+                        a.J_addCategory.pure-button 添加标签
                         a.J_confirmAdd.hide.pure-button.pure-button-primary 确定
                     label 图片
                     ul.uploadWarp

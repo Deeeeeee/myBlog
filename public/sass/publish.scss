@@ -13,6 +13,31 @@ $uploadBtnHeight: 80px;
         }
         .category-box{
             @extend .clearfix;
+            .marks{
+                @extend .clearfix;
+                li{
+                    position: relative;
+                    float: left;
+                    top: 0;
+                    padding: 0 5px;
+                    margin-right: 5px;
+                    color: #fff;
+                    border-radius: 4px;
+                    line-height: 20px;
+                    border: 1px solid transparent;
+                    cursor: pointer;
+                    -webkit-transition: top .2s;
+                    -moz-transition: top .2s;
+                    -ms-transition: top .2s;
+                    -o-transition: top .2s;
+                    transition: top .2s;
+                    &.current{
+                        border: 1px solid #FF5144;
+                        top: -5px;
+
+                    }
+                }
+            }
             select{
                 //float: left;
                 width: 50%;

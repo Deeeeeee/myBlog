@@ -22,6 +22,8 @@ module.exports = function (app) {
     app.get('/', function (req, res) {
         ArticleModel.getArticles(null, 0, 20)
             .then(function (result) {
+
+
                 res.render('pages/index', {
                     title: '首页',
                     articles: result
@@ -215,7 +217,7 @@ module.exports = function (app) {
         if (articleId) {
             Promise.all([
                 ArticleModel.getRawArticle(articleId),
-                CategoryModel.getCategoryByLevel("1")
+                CategoryModel.getAllCategory()
             ]).then(function (results) {
                 res.render('pages/publish', {
                     title: '修改文章',
@@ -224,7 +226,7 @@ module.exports = function (app) {
                 });
             });
         } else {
-            CategoryModel.getCategoryByLevel("1").then(function (result) {
+            CategoryModel.getAllCategory().then(function (result) {
                 console.log(result);
                 res.render('pages/publish', {
                     title: '发布文章',
@@ -240,6 +242,7 @@ module.exports = function (app) {
         var title = req.body.title;
         var content = req.body.content;
         var type = req.body.type;
+        var typeColor = req.body.typeColor;
         // 校验参数
         try {
             if (!title.length) {
@@ -258,6 +261,7 @@ module.exports = function (app) {
             author: author,
             title: title,
             type: type,
+            typeColor: typeColor,
             content: content,
             pv: 0
         };
@@ -510,13 +514,11 @@ module.exports = function (app) {
      * 添加分类
      */
     app.post("/addCategory", function (req, res, next) {
-        var categoryNickname = req.body.name;
-        var parentId = req.body.parentId || "";
-        var level = req.body.level;
+        var name = req.body.name;
+        var color = req.body.color;
         var data = {
-            parentId: parentId,
-            categoryNickname: categoryNickname,
-            level: level
+            name: name,
+            color: color
         };
         CategoryModel.create(data)
             .then(function () {

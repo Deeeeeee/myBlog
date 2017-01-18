@@ -30,6 +30,7 @@ define(["jquery"], function () {
                 }else{
                     _this.addClass('active');
                     var navs = nav.find('a');
+                    console.log(navs[0].offsetHeight);
                     var height = navs.length * navs[0].offsetHeight;
                     nav.css("height",height);
                 }

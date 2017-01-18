@@ -33,10 +33,12 @@ define(["jquery","upload"], function ($,upload) {
                     articleId: articleId,
                     authorId: authorId,
                     title: $("#title").val().trim(),
-                    type: $("#type").val() || "HTML",
+                    type: $(".marks li.current").text(),
+                    typeColor: $(".marks li.current").css("background-color"),
                     content: $("#content").val()
                     // info: cutStr($("#content").text(),200)
                 };
+                console.log(data);
                 $.ajax({
                     type: 'post',
                     data: data,
@@ -93,28 +95,34 @@ define(["jquery","upload"], function ($,upload) {
             addBtn.on('click', function () {
                 var _this = $(this);
                 if(!_this.hasClass('cancel')){
-                    var level = _this.siblings('select').length;
-                    _this.before('<input type="text" id="newCategory" placeholder="添加分类">');
+                    _this.before('<input type="text" id="categoryName" placeholder="添加标签"> <input type="text" id="categoryColor" placeholder="标签颜色">');
                     _this.text('取消').addClass('cancel');
                     confirmBtn.show();
                 }else{
-                    $("#newCategory").remove();
-                    _this.text('添加分类').removeClass('cancel');
+                    $("#categoryName").remove();
+                    $("#categoryColor").remove();
+                    _this.text('添加标签').removeClass('cancel');
                     confirmBtn.hide();
                 }
             });
             confirmBtn.on('click', function () {
-                var _this = $(this);
-                var level = _this.siblings('.select-box').find("select").length;
-                var categoryName = $("#newCategory").val().trim();
-                var parentId = _this.siblings('.select-box').find("select:last-child").find('option:selected').attr('data-id') || "";
-
+                var categoryName = $("#categoryName").val().trim();
+                var categoryColor = $("#categoryColor").val().trim();
+                var markRepeat = false;
+                $(".marks li").each(function (i, v) {
+                    if($(this).text() == categoryName){
+                        markRepeat = true;
+                        return false
+                    }
+                });
+                if(markRepeat){
+                    alert("标签名称重复");
+                    return false
+                }
                 var data = {
-                    level: parentId ? level+1 : level,
                     name: categoryName,
-                    parentId: parentId
+                    color: categoryColor
                 };
-                console.log(data);
                 $.ajax({
                     type: 'post',
                     data: data,
@@ -122,6 +130,9 @@ define(["jquery","upload"], function ($,upload) {
                     success: function (data) {
                         if(data.code === 0){
                             console.log(data.message);
+                            alert("标签添加成功");
+                            $(".marks").append('<li style="background-color:'+categoryColor+'">'+categoryName+'</li>');
+                            addBtn.trigger("click");
                         }else{
                             alert(data.message);
                         }
@@ -132,49 +143,9 @@ define(["jquery","upload"], function ($,upload) {
                 })
             });
 
-            $.ajax({
-                type: 'post',
-                data: {},
-                url: '/getAllCategory',
-                success: function (data) {
-                    if(data.code === 0){
-                        console.log(data.message);
-                        var category = data.category;
-                        // select 变化时 筛选出子分类
-                        var selectBox = $(".select-box");
-                        selectBox.on('change','select', function () {
-                            console.log("select change");
-                            var _this = $(this);
-                            var id = _this.find('option:selected').attr('data-id');
-                            var categoryArr = [];
-
-                            $.each(category,function (i,v) {
-                                if(v.parentId == id){
-                                    categoryArr.push(v)
-                                }
-                            });
-                            if(categoryArr.length){
-                                _this.after('<select></select>');
-                                var select = selectBox.find("select:last-child");
-                                var html = "<option>-请选择-</option>>";
-                                $.each(categoryArr,function (i, v) {
-                                    html += '<option value="'+v.categoryNickname+'" data-id="'+v._id+'">'+v.categoryNickname+'</option>';
-                                });
-                                select.html(html)
-                            }else{
-                                _this.nextAll().remove()
-                            }
-                        })
-                    }else{
-                        alert(data.message);
-                    }
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            });
-
-
+            $("body").on("click", ".marks li", function () {
+                $(this).addClass("current").siblings().removeClass("current");
+            })
         },
 
         /**
