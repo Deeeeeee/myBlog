@@ -42,6 +42,7 @@ module.exports = function (app) {
     });
     app.post('/register', function (req, res, next) {
         var username = req.body.username,
+            nickname = req.body.nickname,
             password = req.body.password,
             rePassword = req.body.rePassword;
         // 校验参数
@@ -74,6 +75,7 @@ module.exports = function (app) {
         // 待写入数据库的用户信息
         var user = {
             username: username,
+            nickname: nickname,
             password: nPassword,
             email: req.body.email
         };
@@ -238,7 +240,7 @@ module.exports = function (app) {
     });
     app.post('/publish', function (req, res, next) {
         var authorId = req.session.user._id;
-        var author = req.session.user.nickname || req.session.user.username;
+        // var author = req.session.user.nickname || req.session.user.username;
         var title = req.body.title;
         var indexImg = req.body.indexImg;
         var content = req.body.content;
@@ -259,7 +261,7 @@ module.exports = function (app) {
 
         var data = {
             authorId: authorId,
-            author: author,
+            // author: author,
             title: title,
             type: type,
             typeColor: typeColor,
@@ -329,11 +331,17 @@ module.exports = function (app) {
             if (!article) {
                 throw new Error('该文章不存在');
             }
-            res.render('pages/article', {
-                title: '文章详情',
-                article: article,
-                comments: comments
+            UserModel.getUserById(article.authorId).then(function (user) {
+                delete user.password;
+                console.log(user);
+                res.render('pages/article', {
+                    title: '文章详情',
+                    article: article,
+                    comments: comments,
+                    author: user
+                });
             });
+
         }).catch(next);
     });
     app.post('/article', function (req, res) {

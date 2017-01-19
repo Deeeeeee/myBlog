@@ -12,7 +12,7 @@ block content
                     h5.sub-title
                         p
                             em 作者
-                            span.author #{art.author}
+                            span.author #{ author.nickname }
                             span.time #{art.createTime}
                         if(user && user._id == art.authorId)
                             p.control

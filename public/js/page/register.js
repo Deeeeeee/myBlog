@@ -31,12 +31,28 @@ define(["jquery"], function ($) {
             $("#submit").on("click",function(){
                 var data = {
                     username: $("#username").val().trim(),
-                    // nickname: $("#nickname").val().trim(),
+                    nickname: $("#nickname").val().trim(),
                     // gender: $(""),
-                    password: $("#password").val().trim(),
-                    rePassword: $("#rePassword").val().trim(),
-                    email: $("#email").val().trim(),
+                    password: $("#password").val(),
+                    rePassword: $("#rePassword").val(),
+                    email: $("#email").val().trim()
                 };
+                if(data.username == ""){
+                    alert("用户名不能为空");
+                    return false
+                }else if(data.password){
+                    alert("密码不能为空");
+                    return false
+                }else if(data.rePassword){
+                    alert("重复密码不能为空");
+                    return false
+                }else if(data.password != data.rePassword){
+                    alert("两次密码不一致");
+                    return false
+                }else if(data.nickname == ""){
+                    alert("昵称不能为空");
+                    return false
+                }
                 $.ajax({
                     type: 'post',
                     data: data,

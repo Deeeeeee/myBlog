@@ -110,7 +110,6 @@ define(["jquery", "notie"], function ($, notie) {
                     success: function (data) {
                         if (data.code === 0) {
                             alert(data.message);
-
                             setUser();
                             window.location.reload()
                         } else {
