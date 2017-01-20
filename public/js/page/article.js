@@ -1,4 +1,4 @@
-define(["jquery", "notie"], function ($, notie) {
+define(["jquery", "notie"], function ($) {
     var page = {
         init: function () {
             this.render();
@@ -62,7 +62,7 @@ define(["jquery", "notie"], function ($, notie) {
                     _this.text('取消回复');
                     if (_this.parents('.replay').length) {
                         var target = _this.parent().parent().find('.nickname').text();
-                        console.log(target);
+                        // console.log(target);
                         oFooter.append('<div class="pub-replay" data-target="' + target + '">' + html + '</div>');
                     } else {
                         oFooter.append('<div class="pub-replay" >' + html + '</div>');
@@ -72,13 +72,9 @@ define(["jquery", "notie"], function ($, notie) {
                     _this.text('回复');
                 }
             });
-
-
             $("body").on("click", ".J_comment", function () {
                 var _this = $(this);
                 var parent = _this.parents('form');
-
-
                 var nickname = parent.find(".nickname").val();
                 var blog = parent.find(".blogAddress").val() || "";
                 var content = parent.find(".commentValue").val();
@@ -91,7 +87,6 @@ define(["jquery", "notie"], function ($, notie) {
                     blog: blog.trim(),
                     content: content.trim()
                 };
-
                 if (_this.parents('.pub-comment').length) {
                     targetId = $(".title").attr("data-articleId");
                     data.articleId = targetId;
@@ -101,8 +96,6 @@ define(["jquery", "notie"], function ($, notie) {
                     data.commentId = targetId;
                     url = '/pubReplay'
                 }
-
-
                 $.ajax({
                     type: 'post',
                     data: data,
@@ -189,12 +182,9 @@ define(["jquery", "notie"], function ($, notie) {
                 })
             });
         },
-
         onReplay: function () {
 
         }
     };
     page.init();
-
-
 });

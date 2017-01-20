@@ -148,7 +148,7 @@ var notie = function() {
 
 			addClass(alertOuter, 'notie-transition');
 
-            alertOuter.style.top = 80+"px";
+            alertOuter.style.top = 0+"px";
 
             alertTimeout2 = setTimeout(function() {
 

@@ -17,6 +17,16 @@ var checkLogin = require('../middlewares/check').checkLogin;
 module.exports = function (app) {
 
     /**
+     * 404页面
+     */
+    app.get('/404', function (req, res) {
+        res.render('error', {
+            title: '404',
+        });
+    });
+
+
+    /**
      * 首页
      */
     app.get('/', function (req, res) {

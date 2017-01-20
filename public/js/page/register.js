@@ -1,6 +1,6 @@
 
 
-define(["jquery"], function ($) {
+define(["jquery","notie"], function ($) {
     var page = {
         init: function() {
             this.render();
@@ -38,19 +38,19 @@ define(["jquery"], function ($) {
                     email: $("#email").val().trim()
                 };
                 if(data.username == ""){
-                    alert("用户名不能为空");
+                    notie.alert(2,"用户名不能为空",2);
                     return false
-                }else if(data.password){
-                    alert("密码不能为空");
+                }else if(data.password == ""){
+                    notie.alert(2,"密码不能为空",2);
                     return false
-                }else if(data.rePassword){
-                    alert("重复密码不能为空");
+                }else if(data.rePassword == ""){
+                    notie.alert(2,"重复密码不能为空",2);
                     return false
                 }else if(data.password != data.rePassword){
-                    alert("两次密码不一致");
+                    notie.alert(2,"两次密码不一致",2);
                     return false
                 }else if(data.nickname == ""){
-                    alert("昵称不能为空");
+                    notie.alert(2,"昵称不能为空",2);
                     return false
                 }
                 $.ajax({
@@ -75,6 +75,4 @@ define(["jquery"], function ($) {
         }
     };
     page.init();
-
-
 });

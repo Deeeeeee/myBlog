@@ -91,18 +91,22 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // res.locals.message = err.message;
+    // res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
+    console.log(err);
     res.status(err.status || 500);
-    res.render('error');
+    res.render('error',{
+        message: err.message,
+        error: req.app.get('env') === 'development' ? err : {}
+    });
 });
 
 if( module.parent ) {
     module.exports = app;
 }else{
-    const port = process.env.PORT || config.port
+    const port = process.env.PORT || config.port;
     app.listen(port, function () {
         console.log("DeeBlog listening on port "+ port)
     })
