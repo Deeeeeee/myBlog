@@ -25,7 +25,6 @@ module.exports = function (app) {
         });
     });
 
-
     /**
      * 首页
      */
@@ -543,7 +542,11 @@ module.exports = function (app) {
                 });
             })
             .catch(function (e) {
-                console.log(e)
+                if (e.message.match('E11000 duplicate key')) {
+                    res.json({code: 2, message: '分类已存在'});
+                    return
+                }
+                next(e);
             })
 
     });

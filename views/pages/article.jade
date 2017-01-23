@@ -29,7 +29,7 @@ block content
                                     a(name="#{item._id}")
                                     .head
                                         p
-                                            if(art.author == item.nickname)
+                                            if( author.nickname == item.nickname)
                                                 a.nickname.master(href="#{item.blog}") #{item.nickname}
                                             else
                                                 a.nickname(href="#{item.blog}") #{item.nickname}
@@ -50,7 +50,7 @@ block content
                                                         p
                                                             //span.time #{item.createTime}
                                                     .body
-                                                        if(art.author == child.nickname)
+                                                        if(author.nickname == child.nickname)
                                                             a.nickname.master(href="#{child.blog}") #{child.nickname}
                                                         else
                                                             a.nickname(href="#{child.blog}") #{child.nickname}

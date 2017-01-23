@@ -56,11 +56,11 @@ module.exports = {
             .exec();
     },
 
-    // 按创建时间降序获取所有用户文章或者某个特定用户的所有文章
-    getArticles: function (author, start, limit) {
+    // 按创建时间降序获取所有文章 或者某个特定类型的所有文章
+    getArticles: function (type, start, limit) {
         var query = {};
-        if (author) {
-            query.author = author;
+        if (type) {
+            query.type = type;
         }
         return Article
             .find(query)
