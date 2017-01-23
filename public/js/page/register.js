@@ -19,7 +19,7 @@ define(["jquery","notie"], function ($) {
                 url: '/checkLogin',
                 success: function (data) {
                     if(data.code === 0){
-                        alert("已经登录，即将返回首页")
+                        notie.alert(2,"已经登录，即将返回首页",2)
                     }
                 },
                 error: function (err) {
@@ -59,16 +59,17 @@ define(["jquery","notie"], function ($) {
                     url: '/register',
                     success: function (data) {
                         if(data.code === 0){
-                            alert("注册成功");
-                            window.location.href="/";
+                            notie.alert(2,"注册成功",2);
+                            setTimeout(function () {
+                                window.location.href="/";
+                            },2000);
                         }else{
-                            console.error(data);
-                            alert("code:"+ data.code + " error:" + data.message)
+                            notie.alert(2,data.message,2);
 
                         }
                     },
                     error: function (err) {
-                        console.log(err);
+                        notie.alert(3,err,2);
                     }
                 })
             });

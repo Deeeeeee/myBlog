@@ -1,5 +1,5 @@
 
-define(["jquery","upload"], function ($,upload) {
+define(["jquery","upload","notie"], function ($,upload) {
     var urlArr = [];
 
     var page = {
@@ -51,15 +51,15 @@ define(["jquery","upload"], function ($,upload) {
                     url: url,
                     success: function (data) {
                         if(data.code === 0){
-                            alert(data.message);
+                            notie.alert(1,data.message,2);
                             window.location.href = articleId ? ("/article/" + articleId) : "/";
                         }else{
-                            alert(data.message);
+                            notie.alert(2,data.message,2);
                             console.log(data);
                         }
                     },
                     error: function (err) {
-                        console.log(err);
+                        notie.alert(3,err,2);
                     }
                 })
             }
@@ -122,11 +122,11 @@ define(["jquery","upload"], function ($,upload) {
                     }
                 });
                 if(categoryColor.substring(0,1) != '#' || categoryColor.length != 7){
-                    alert("标签颜色错误");
+                    notie.alert(2,"标签颜色错误",2);
                     return false
                 }
                 if(markRepeat){
-                    alert("标签名称重复");
+                    notie.alert(2,"标签名称重复",2);
                     return false
                 }
                 var data = {
@@ -140,15 +140,15 @@ define(["jquery","upload"], function ($,upload) {
                     success: function (data) {
                         if(data.code === 0){
                             console.log(data.message);
-                            alert("标签添加成功");
+                            notie.alert(1,"标签添加成功",2);
                             $(".marks").append('<li style="background-color:'+categoryColor+'">'+categoryName+'</li>');
                             addBtn.trigger("click");
                         }else{
-                            alert(data.message);
+                            notie.alert(2,data.message,2);
                         }
                     },
                     error: function (err) {
-                        console.log(err);
+                        notie.alert(3,err,2);
                     }
                 })
             });

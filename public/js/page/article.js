@@ -12,7 +12,6 @@ define(["jquery", "notie"], function ($) {
             this.onComment();
             this.onDelComment();
             this.onHideComment();
-            this.onReplay();
 
         },
 
@@ -39,15 +38,15 @@ define(["jquery", "notie"], function ($) {
                     url: '/removeArticle',
                     success: function (data) {
                         if (data.code === 0) {
-                            alert(data.message);
+                            notie.alert(1,data.message,2);
                             window.location.href = "/";
                         } else {
                             console.log(data);
-                            alert(data.message);
+                            notie.alert(2,data.message,2);
                         }
                     },
                     error: function (err) {
-                        console.log(err);
+                        notie.alert(3,err,2);
                     }
                 })
             });
@@ -102,22 +101,23 @@ define(["jquery", "notie"], function ($) {
                     url: url,
                     success: function (data) {
                         if (data.code === 0) {
-                            alert(data.message);
+                            notie.alert(1,data.message,2);
                             setUser();
-                            window.location.reload()
+                            setTimeout(function () {
+                                window.location.reload()
+                            },2000);
                         } else {
                             console.log(data);
-                            alert(data.message);
+                            notie.alert(2,data.message,2);
                         }
                     },
                     error: function (err) {
-                        console.log(err);
+                        notie.alert(3,err,2);
                     }
                 });
                 function setUser() {
                     var localNickname = localStorage.getItem('commentNickname');
                     var localBlog = localStorage.getItem('commentBlog');
-
                     if (!localNickname || (!localBlog)) {
                         localStorage.setItem('commentNickname', nickname);
                         localStorage.setItem('commentBlog', blog);
@@ -143,14 +143,13 @@ define(["jquery", "notie"], function ($) {
                     url: '/delComment',
                     success: function (data) {
                         if (data.code === 0) {
-                            alert(data.message);
+                            notie.alert(1,data.message,2);
                         } else {
-                            console.log(data);
-                            alert(data.message);
+                            notie.alert(2,data.message,2);
                         }
                     },
                     error: function (err) {
-                        console.log(err);
+                        notie.alert(3,err,2);
                     }
                 })
             });
@@ -170,20 +169,16 @@ define(["jquery", "notie"], function ($) {
                     url: '/hideComment',
                     success: function (data) {
                         if (data.code === 0) {
-                            alert(data.message);
+                            notie.alert(1,data.message,2);
                         } else {
-                            console.log(data);
-                            alert(data.message);
+                            notie.alert(2,data.message,2);
                         }
                     },
                     error: function (err) {
-                        console.log(err);
+                        notie.alert(3,err,2);
                     }
                 })
             });
-        },
-        onReplay: function () {
-
         }
     };
     page.init();

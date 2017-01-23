@@ -1,5 +1,5 @@
 
-define(["jquery"], function ($) {
+define(["jquery","notie"], function ($) {
     var page = {
         init: function() {
             this.render();
@@ -18,7 +18,7 @@ define(["jquery"], function ($) {
                 url: '/checkLogin',
                 success: function (data) {
                     if(data.code === 0){
-                        alert("已经登录，即将返回首页")
+                        notie.alert(2,"已经登录，即将返回首页",2)
                     }
                 },
                 error: function (err) {
@@ -38,15 +38,17 @@ define(["jquery"], function ($) {
                     url: '/login',
                     success: function (data) {
                         if(data.code === 0){
-                            alert("登录成功");
-                            window.location.href="/";
+                            notie.alert(1,"登录成功",2);
+                            setTimeout(function () {
+                                window.location.href="/";
+                            },2000);
                         }else{
                             console.log("code:"+ data.code + " error:" + data.message);
-                            alert(data.message);
+                            notie.alert(2,data.message,2);
                         }
                     },
                     error: function (err) {
-                        console.log(err);
+                        notie.alert(2,err,2);
                     }
                 })
             });

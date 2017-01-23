@@ -15,6 +15,7 @@ define(["jquery"], function () {
     var vendor = {
         init: function () {
             this.navControl();
+            this.logout();
         },
 
         /**
@@ -35,6 +36,31 @@ define(["jquery"], function () {
                     nav.css("height",height);
                 }
             })
+        },
+        /**
+         * 退出登录
+         */
+        logout: function () {
+            $("#logout").on("click", function () {
+                $.ajax({
+                    type: 'post',
+                    data: "",
+                    url: '/logout',
+                    success: function (data) {
+                        if (data.code === 0) {
+                            notie.alert(1,"退出成功",2);
+                            setTimeout(function () {
+                                window.location.href = "/";
+                            },2000);
+                        } else {
+                            notie.alert(2,data.text,2);
+                        }
+                    },
+                    error: function (err) {
+                        notie.alert(3,err,2);
+                    }
+                })
+            });
         }
     };
     vendor.init();

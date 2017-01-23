@@ -38,14 +38,14 @@ define(["jquery", "notie", "upload"], function ($, notie, upload) {
                     url: '/updateUserInfo',
                     success: function (data) {
                         if(data.code === 0){
-                            alert(data.message);
+                            notie.alert(1,data.message,2);
 
                         }else{
-                            alert(data.message);
+                            notie.alert(2,data.message,2);
                         }
                     },
                     error: function (err) {
-                        console.log(err);
+                        notie.alert(3,err,2);
                     }
                 });
             })

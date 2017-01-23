@@ -1,24 +1,6 @@
-define(["jquery"], function ($) {
+define(["jquery","notie"], function ($) {
 
-    $("#logout").on("click", function () {
-        $.ajax({
-            type: 'post',
-            data: "",
-            url: '/logout',
-            success: function (data) {
-                if (data.code === 0) {
-                    alert("退出成功");
-                    window.location.href = "/";
-                } else {
-                    console.log("code:" + data.code + " error:" + data.text);
-                    alert(data.text);
-                }
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        })
-    });
+
 
 
 
@@ -71,11 +53,11 @@ define(["jquery"], function ($) {
 
                     articles.length < limit ? $this.hide().parent().text("没有更多了...") : ""
                 } else {
-                    console.log(data.message)
+                    notie.alert(2,data.message,2)
                 }
             },
             error: function (err) {
-                console.log(err);
+                notie.alert(3,err,2);
             }
         })
     })

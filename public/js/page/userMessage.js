@@ -30,7 +30,7 @@ define(["jquery", "notie"], function ($, notie) {
                         if (data.code === 0) {
                             _this.parent().hide();
                         } else {
-                            alert(data.message);
+                            notie.alert(2,data.message,3);
                         }
                     },
                     error: function (err) {
@@ -41,6 +41,4 @@ define(["jquery", "notie"], function ($, notie) {
         }
     };
     page.init();
-
-
 });
