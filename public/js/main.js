@@ -5,7 +5,9 @@ requirejs.config({
         common: 'common',
         jquery: 'vendor/jquery',
         notie: 'vendor/notie',
-        upload: 'vendor/upload'
+        exif: 'vendor/exif',
+        upload: 'vendor/upload',
+
     },
     shim: {
 
