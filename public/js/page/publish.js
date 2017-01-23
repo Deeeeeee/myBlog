@@ -169,6 +169,15 @@ define(["jquery","upload","notie"], function ($,upload) {
                 var promises =[];
                 $.each(_this[0].files,function (i,v) {
                     var file = v;
+                    console.log(file.size/1024 > 1024* 20)
+                    var ext = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
+                    if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(ext)) {
+                        notie.alert(2,"图片类型有误",2);
+                        return false;
+                    }else if(file.size / 1024 > 1024*20){
+                        notie.alert(2,"图片不能大于20MB",2);
+                        return false;
+                    }
                     var fileReader = new FileReader();
                     fileReader.onloadend = function () {
                         if (fileReader.readyState == fileReader.DONE) {
