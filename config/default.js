@@ -5,11 +5,7 @@ module.exports = {
         key: 'blog',
         maxAge: 2592000000
     },
-    mongodb: 'mongodb://192.168.0.32:27017/blog',
-
-
-
-
+    mongodb: 'mongodb://192.168.0.192:27017/blog',
 
     // mongodb: 'mongodb://dee:admin000@ds133358.mlab.com:33358/deeblog'
     storge:{

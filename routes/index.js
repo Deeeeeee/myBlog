@@ -20,8 +20,16 @@ module.exports = function (app) {
      * 404页面
      */
     app.get('/404', function (req, res) {
-        res.render('error', {
+        res.render('./error', {
             title: '404',
+        });
+    });
+    /**
+     * error页面
+     */
+    app.get('/error', function (req, res) {
+        res.render('./error', {
+            title: 'error',
         });
     });
 
