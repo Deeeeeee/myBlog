@@ -8,8 +8,6 @@ define(["jquery"], function () {
          * 导航开关
          */
         navControl: function () {
-            console.log(navs.offsetHeight)
-
             $(".J_navToggle").on("click", function () {
                 var _this = $(this);
                 var nav = $(".nav");

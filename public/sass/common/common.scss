@@ -8,18 +8,19 @@
 "sidebar";
 body{
     min-width: 320px;
+    background-color: #ececec;
 }
 @media (min-width: 48em){
     .main{
-        margin-left: 25%;
-        padding: 2em 3em;
+        margin-left: $sideBarWidth;
     }
 }
 .main{
-    padding: 1em;
     .main-layout{
+        background-color: #fff;
         margin: 0 auto;
         max-width: 700px;
+        padding: 20px;
     }
 }
 .hide{

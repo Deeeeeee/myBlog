@@ -2,9 +2,9 @@ extends ../layout
 block stylesheets
     link(rel="stylesheet", href="/css/publish.min.css")
 block content
-    .pure-g
+    .container
         include ../includes/sidebar
-        .main.pure-u-1.pure-u-md-3-4
+        .main
             .main-layout
                 h1 发布
                 - var art = article

@@ -1,4 +1,4 @@
-define(["jquery", "notie", "upload"], function ($, notie, upload) {
+define(["jquery", "upload", "notie"], function ($, upload) {
     var urlArr = [];
     var page = {
         init: function () {

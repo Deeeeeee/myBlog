@@ -2,9 +2,9 @@ extends ../layout
 block stylesheets
     link(rel="stylesheet", href="/css/article.min.css")
 block content
-    .pure-g
+    .container
         include ../includes/sidebar
-        .main.pure-u-1.pure-u-md-3-4
+        .main
             .main-layout
                 .article-box
                     - var art = article;
@@ -42,18 +42,19 @@ block content
                                         if( user && user._id == art.authorId )
                                             //a.J_delComment.del(href="javascript:;") 删除
                                             a.J_hideComment.del(href="javascript:;") 屏蔽
+                                            
                                     if item.replay && item.replay.length
                                         ul.replay
-                                            each child,i in item.replay
+                                            each child in item.replay
                                                 li
                                                     .head
                                                         p
                                                             //span.time #{item.createTime}
                                                     .body
                                                         if(author.nickname == child.nickname)
-                                                            a.nickname.master(href="#{child.blog}") #{child.nickname}
+                                                            a.nickname.master(href="#{ child.blog }") #{ author.nickname }
                                                         else
-                                                            a.nickname(href="#{child.blog}") #{child.nickname}
+                                                            a.nickname(href="#{ child.blog }") #{ child.nickname }
                                                         | :#{ child.status == 0 ? ((child.target ? ' @' + child.target : "") + ' ' + child.content) : '*该评论已被屏蔽*'}
                                                     .footer
                                                         a.J_replay(href="javascript:;") 回复

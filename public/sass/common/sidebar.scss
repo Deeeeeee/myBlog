@@ -2,6 +2,7 @@
 
 .sidebar {
     position: fixed;
+    width: $sideBarWidth;
     top: 0;
     bottom: 0;
     height: auto;
@@ -11,6 +12,7 @@
     text-align: center;
     h3{
         margin-bottom: 20px;
+        font-size: 30px;
     }
     .control{
         display: none;

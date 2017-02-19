@@ -2,9 +2,9 @@ extends ../layout
 block stylesheets
     link(rel="stylesheet", href="/css/userMessage.min.css")
 block content
-    .pure-g
+    .container
         include ../includes/sidebar
-        .main.pure-u-1.pure-u-md-3-4
+        .main
             .main-layout
                 .tabs-box
                     h5 我的消息(#{comments && comments.length || 0}条)
